@@ -22,4 +22,11 @@ Debemos extender el proyecto petclinic con:
   cada prueba debe quedar clara a través del nombre del método. Estas 
   pruebas, además, deben probar explícitamente aspectos relativos a la
   seguridad de la aplicación y la correcta aplicación de permisos a los usuarios.
-  []
+  [] Automatización en la ejecución de las pruebas utilizando Travis CI (u otro
+  sistema equivalente)
+  [] Realización de pruebas unitarias parametrizadas para probar distintos rangos
+  de valores.
+  [] Utilización en la aplicación de al menos un servicio externo a través de un API
+  REST
+  [] Realización de ejercicios extra que requieran una investigación adicional por
+  parte del estudiante. Se irán proponiendo a lo largo del curso.
