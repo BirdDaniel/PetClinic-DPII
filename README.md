@@ -7,6 +7,7 @@ Debemos extender el proyecto petclinic con:
 
   [] Al menos 5 entidades (que no sean relativas a los usuarios del sistema)
   con relaciones con otras entidades de la aplicación.
+  
   [] Al menos 20 historias de usuario (distintas de la gestión de usuarios y
   login) en las que 9 involucren al menos 2 entidades y 1 involucre más de
   2 entidades.
