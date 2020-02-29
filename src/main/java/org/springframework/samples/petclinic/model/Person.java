@@ -34,6 +34,18 @@ public class Person extends BaseEntity {
 	@Column(name = "last_name")
 	@NotEmpty
 	protected String lastName;
+	
+	@Column(name = "dni")
+	@NotEmpty
+	protected String dni;
+	
+	@Column(name = "city")
+	@NotEmpty
+	protected String city;
+	
+	@Column(name = "address")
+	@NotEmpty
+	protected String address;
 
 	public String getFirstName() {
 		return this.firstName;
@@ -49,6 +61,39 @@ public class Person extends BaseEntity {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	
+	public String getDni() {
+		return this.dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+	
+	public String getCity() {
+		return this.city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
+	public String getAddress() {
+		return this.address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	public String getCompleteAddress() {
+		return this.city + ", " + this.address;
+	}
+
+	public void setCompleteAddress(String city, String address) {
+		this.city = city;
+		this.address = address;
 	}
 
 }
