@@ -15,9 +15,12 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -68,8 +71,17 @@ public class Service extends BaseEntity {
 	private Request request;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="service")
-	private List<Payment> payments;
-
+	private Set<Payment> payments;
+	
+	private String address;
+	
+	/*private DateFormat format = new SimpleDateFormat("HH:mm");
+	*/
+	@DateTimeFormat(pattern="HH:mm")
+	private Date open;// = format.parse(new Date());
+	
+	@DateTimeFormat(pattern="HH:mm")
+	private Date close;
 	
 	public int getMax() {
 		return max;
@@ -111,19 +123,41 @@ public class Service extends BaseEntity {
 		this.request = request;
 	}
 
-	public List<Payment> getPayments() {
+	public Set<Payment> getPayments() {
 		return payments;
 	}
 
-	public void setPayments(List<Payment> payments) {
+	public void setPayments(Set<Payment> payments) {
 		this.payments = payments;
 	}
 	
 	public void addPayment(Payment payment) {
 		this.payments.add(payment);
 	}
-	
-	
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Date getOpen() {
+		return open;
+	}
+
+	public void setOpen(Date open) {
+		this.open = open;
+	}
+
+	public Date getClose() {
+		return close;
+	}
+
+	public void setClose(Date close) {
+		this.close = close;
+	}
 	
 
 }

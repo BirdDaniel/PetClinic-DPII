@@ -16,9 +16,13 @@
 package org.springframework.samples.petclinic.model;
 
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -37,16 +41,19 @@ public class Employee extends Person {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Specialty specialty;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "date", referencedColumnName="date")
-	private Request request;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
+	private Set<Request> requests;
 	
-	public Request getRequest() {
-		return this.request;
+	@ManyToOne() 
+	@JoinColumn(name="service_id")
+	private Service services;
+	
+	public Set<Request> getRequests() {
+		return this.requests;
 	}
 	
-	public void setRequest(Request request) {
-		this.request = request;
+	public void setRequest(Set<Request> requests) {
+		this.requests = requests;
 	}
 	
 	public Specialty getSpecialty() {
@@ -56,5 +63,15 @@ public class Employee extends Person {
 	public void setSpecialty(Specialty specialty) {
 		this.specialty = specialty;
 	}
+
+	public Service getServices() {
+		return services;
+	}
+
+	public void setServices(Service services) {
+		this.services = services;
+	}
+	
+	
 
 }

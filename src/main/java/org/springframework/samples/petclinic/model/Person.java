@@ -15,9 +15,16 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+
+import org.springframework.core.style.ToStringCreator;
 
 /**
  * Simple JavaBean domain object representing an person.
@@ -36,6 +43,7 @@ public class Person extends BaseEntity {
 	protected String lastName;
 	
 	@Column(name = "dni")
+	@Pattern(regexp="^\\d{8}[A-Z]$", message = "DNI doesn't have correct format")
 	@NotEmpty
 	protected String dni;
 	
@@ -46,6 +54,15 @@ public class Person extends BaseEntity {
 	@Column(name = "address")
 	@NotEmpty
 	protected String address;
+	
+	@Column(name = "telephone")
+	@NotEmpty
+	@Digits(fraction = 0, integer = 10)
+	private String telephone;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "username", referencedColumnName = "username")
+	private User user;
 
 	public String getFirstName() {
 		return this.firstName;
@@ -94,6 +111,31 @@ public class Person extends BaseEntity {
 	public void setCompleteAddress(String city, String address) {
 		this.city = city;
 		this.address = address;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	public String getTelephone() {
+		return this.telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+	
+	@Override
+	public String toString() {
+		return new ToStringCreator(this)
+
+				.append("id", this.getId()).append("new", this.isNew()).append("lastName", this.getLastName())
+				.append("firstName", this.getFirstName()).append("address", this.address).append("city", this.city)
+				.append("telephone", this.telephone).toString();
 	}
 
 }
