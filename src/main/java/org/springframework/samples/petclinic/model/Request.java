@@ -41,10 +41,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "requests")
 public class Request extends BaseEntity{
 
-	@Column(name = "date")
+	@Column(name = "date_req")
 	@Past
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate date;
+	private LocalDate date_req;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="request")
 	private Set<Service> services;
@@ -58,12 +58,12 @@ public class Request extends BaseEntity{
 	private Owner owner;
 	
 
-	public void setDate(LocalDate date) {
-		this.date = date;
+	public void setDate(LocalDate date_req) {
+		this.date_req = date_req;
 	}
 
 	public LocalDate getDate() {
-		return this.date;
+		return this.date_req;
 	}
 
 	public Set<Service> getServices() {

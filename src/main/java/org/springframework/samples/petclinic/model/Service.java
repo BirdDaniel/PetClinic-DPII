@@ -67,7 +67,7 @@ public class Service extends BaseEntity {
 	private String room;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name = "date", referencedColumnName="date")
+	@JoinColumn(name = "request_id", referencedColumnName="id")
 	private Request request;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="service")
