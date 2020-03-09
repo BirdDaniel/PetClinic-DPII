@@ -9,7 +9,7 @@
     <br/>
     <br/>
     <br/>
-    <h2>Request List</h2>
+    <h2>Request List: </h2>
 
     <table class="table table-striped">
         <c:forEach var="request" items="${owner.requests}">
@@ -18,7 +18,9 @@
                 <td valign="top">
                     <dl class="dl-horizontal">
                         <dt>Date</dt>
-                        <dd><petclinic:localDate date="${pet.birthDate}" pattern="yyyy-MM-dd"/></dd>
+                        <dd><petclinic:localDate date="${request.date}" pattern="yyyy-MM-dd"/></dd>
+                        <dt>Employee</dt>
+                        <dd><c:out value="With ${request.employee.specialty.name}: ${request.employee.firstName} ${request.employee.lastName}"/></dd>
                     </dl>
                 </td>
                 <td valign="top">
@@ -28,24 +30,17 @@
                             <th>Services</th>
                         </tr>
                         </thead>
-    
+                        <tr>
+                        	<td>Price: </td>
+                        	<td>Address: </td>
+                        	<td>Price: </td>
+                        <tr>
+                        
                         <c:forEach var="service" items="${request.services}">
                             <tr>
-                            	<td>Price: </td>
-                                <td><c:out value="${service.price}"/></td>
-                            </tr>
-                            <tr>
-                            	<td>Address: </td>
-                                <td><c:out value="${service.address}"/></td>
-                                <td><c:out value="${service.room}"/></td>
-                            </tr>
-                            <tr>
-                            	<td>Price: </td>
-                                <td><c:out value="${service.price}"/></td>
-                            </tr>
-                            <tr>
-                            	<td>Doctor: </td>
-                                <td><c:out value="${service.employee.name} ${service.employee.lastName}"/></td>
+                            	<td><c:out value="${service.price}"/></td>
+                            	<td><c:out value="${service.address}: ${service.room}"/></td>
+                            	<td><c:out value="${service.price}"/></td>
                             </tr>
                         </c:forEach>
                      </table>

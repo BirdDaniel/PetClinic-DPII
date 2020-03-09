@@ -140,5 +140,15 @@ public class OwnerController {
 		mav.addObject(this.ownerService.findOwnerById(ownerId));
 		return mav;
 	}
+	
+	
+	
+	//Controlador temporal para ver la lista de Requests
+	@GetMapping(value = "/owners/myServicesList/{ownerId}")
+	public String servicesForm(@PathVariable("ownerId") int ownerId, Model model) {
+		Owner owner = this.ownerService.findOwnerById(ownerId);
+		model.addAttribute(owner);
+		return "owners/myServicesList";
+	}
 
 }
