@@ -61,26 +61,29 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (3, 'Rosy', '2011-0
 --INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10);
 --INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 10);
 
+--INSERT INTO requests(id, date_req, employee_id, owner_id);
+INSERT INTO requests(id, date_req) VALUES (1, '2030-08-01');
+INSERT INTO requests(id, date_req) VALUES (2, '2031-08-01');
+INSERT INTO requests(id, date_req) VALUES (3, '2032-08-01');
+
+--INSERT INTO services(id, address, close, max, open, price, reception, room, request_id);
+INSERT INTO services VALUES (1, 'New Address', '2012-06-08 10:10:10', 10, '2022-06-08 12:00', 2.5, 3, 'A1-23', 1);
+INSERT INTO services VALUES (2, 'New Address 2', '2112-06-08 13:16', 4, '2015-06-08 10:15', 5.5, 3, 'C1-23', 1);
+INSERT INTO services VALUES (3, 'Hello 2', '2212-06-08 13:10', 5, '2052-06-08 16:10', 3, 2, 'B1-23', 2);
+
+--INSERT INTO employees(id, address, city, dni, first_name, last_name, telephone, username, service_id, specialty_id);
+INSERT INTO employees VALUES (1, 'Address example 1', 'Japan', '87654321A', 'Jeorge', 'Frank', '6115551023', 'vet1', 1, 2);
+INSERT INTO employees VALUES (2, 'Address example 2', 'USA', '87654721A', 'Hoes', 'Mad', '6115551023', 'vet1', 2, 1);
+INSERT INTO employees VALUES (3, 'Address example 3', 'UK', '87654341A', 'No Hoes', 'Mad', '6145556023', 'vet1', 3, 3);
+
 --INSERT INTO payments(id, credit_card, pay, date_pay, owner_id, service_id);
 INSERT INTO payments VALUES (1, '1234 1234 1234 1234', 0.5, '2012-06-08', 1, 1);
 INSERT INTO payments VALUES (2, '4234 1234 1234 5234', 1, '2012-06-08', 1, 1);
 INSERT INTO payments VALUES (3, '3234 1234 1234 6234', 2, '2012-06-08', 1, 2);
 
---INSERT INTO services(id, address, close, max, open, price, reception, room, request_id);
-INSERT INTO services VALUES (1, 'New Address', '10:10', 10, '12:00', 2.5, 3, 'A1-23', 1);
-INSERT INTO services VALUES (2, 'New Address 2', '13:16', 4, '10:15', 5.5, 3, 'C1-23', 1);
-INSERT INTO services VALUES (3, 'Hello 2', '13:10', 5, '16:10' 3, 2, 'B1-23', 2);
-
---INSERT INTO requests(id, date_req, employee_id, owner_id);
-INSERT INTO requests VALUES (1, '2030-08-01' 2, 1);
-INSERT INTO requests VALUES (2, '2031-08-01', 1, 1);
-INSERT INTO requests VALUES (3, '2032-08-01', 1, 2);
-
---INSERT INTO employees(id, address, city, dni, first_name, last_name, telephone, username, service_id, specialty_id);
-INSERT INTO employees VALUES (1, 'Address example 1', 'Japan', '87654321A', 'Jeorge', 'Frank', '6115551023', 'vet1'1, 2);
-INSERT INTO employees VALUES (2, 'Address example 2', 'USA', '87654721A', 'Jeo', 'Frand', 'Hoes', 'Mad', '6115551023', 'vet1', 2, 1);
-INSERT INTO employees VALUES (3, 'Address example 3', 'UK', '87654341A', 'Orge', 'Fran', 'No Hoes', 'Mad', '6145556023', 'vet1', 3, 3);
-
+UPDATE requests SET employee_id = 1  WHERE (id = 1); UPDATE requests SET owner_id = 1  WHERE (id = 1);
+UPDATE requests SET employee_id = 2  WHERE (id = 2); UPDATE requests SET owner_id = 1  WHERE (id = 2);
+UPDATE requests SET employee_id = 2  WHERE (id = 3); UPDATE requests SET owner_id = 3  WHERE (id = 3);
 
 --INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
 --INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');

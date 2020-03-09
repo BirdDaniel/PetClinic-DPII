@@ -44,7 +44,7 @@ public class Request extends BaseEntity{
 	@Column(name = "date_req")
 	@Past
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate date_req;
+	private LocalDate date;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="request")
 	private Set<Service> services;
@@ -58,12 +58,12 @@ public class Request extends BaseEntity{
 	private Owner owner;
 	
 
-	public void setDate(LocalDate date_req) {
-		this.date_req = date_req;
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
 	public LocalDate getDate() {
-		return this.date_req;
+		return this.date;
 	}
 
 	public Set<Service> getServices() {

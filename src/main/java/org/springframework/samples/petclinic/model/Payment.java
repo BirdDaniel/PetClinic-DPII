@@ -16,30 +16,16 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
-import javax.xml.bind.annotation.XmlElement;
 
 import org.hibernate.validator.constraints.Range;
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -50,7 +36,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Payment extends BaseEntity {
 	
 	@Pattern(regexp="^\\d{4} \\d{4} \\d{4} \\d{4}$", message= "Credit card doesn't have a correct format")
-	private int creditCard;
+	private String creditCard;
 	
 	@Range(min=(long)0.1)
 	private double pay;
@@ -66,11 +52,11 @@ public class Payment extends BaseEntity {
 	@DateTimeFormat(pattern="YYYY/mm/dd")
 	private LocalDate payDate;
 
-	public int getCreditCard() {
+	public String getCreditCard() {
 		return creditCard;
 	}
 
-	public void setCreditCard(int creditCard) {
+	public void setCreditCard(String creditCard) {
 		this.creditCard = creditCard;
 	}
 
