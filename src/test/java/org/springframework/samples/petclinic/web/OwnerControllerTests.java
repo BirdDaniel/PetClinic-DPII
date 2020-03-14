@@ -65,8 +65,8 @@ class OwnerControllerTests {
 		george.setId(TEST_OWNER_ID);
 		george.setFirstName("George");
 		george.setLastName("Franklin");
-		george.setAddress("110 W. Liberty St.");
-		george.setCity("Madison");
+		//george.setAddress("110 W. Liberty St.");
+		//george.setCity("Madison");
 		george.setTelephone("6085551023");
 		given(this.clinicService.findOwnerById(TEST_OWNER_ID)).willReturn(george);
 

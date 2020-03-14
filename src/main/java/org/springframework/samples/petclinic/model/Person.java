@@ -42,19 +42,6 @@ public class Person extends BaseEntity {
 	@NotEmpty
 	protected String lastName;
 	
-	@Column(name = "dni")
-	@Pattern(regexp="^\\d{8}[A-Z]$", message = "DNI doesn't have correct format")
-	@NotEmpty
-	protected String dni;
-	
-	@Column(name = "city")
-	@NotEmpty
-	protected String city;
-	
-	@Column(name = "address")
-	@NotEmpty
-	protected String address;
-	
 	@Column(name = "telephone")
 	@NotEmpty
 	@Digits(fraction = 0, integer = 10)
@@ -79,40 +66,7 @@ public class Person extends BaseEntity {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
-	public String getDni() {
-		return this.dni;
-	}
 
-	public void setDni(String dni) {
-		this.dni = dni;
-	}
-	
-	public String getCity() {
-		return this.city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-	
-	public String getAddress() {
-		return this.address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	
-	public String getCompleteAddress() {
-		return this.city + ", " + this.address;
-	}
-
-	public void setCompleteAddress(String city, String address) {
-		this.city = city;
-		this.address = address;
-	}
-	
 	public User getUser() {
 		return user;
 	}
@@ -134,7 +88,7 @@ public class Person extends BaseEntity {
 		return new ToStringCreator(this)
 
 				.append("id", this.getId()).append("new", this.isNew()).append("lastName", this.getLastName())
-				.append("firstName", this.getFirstName()).append("address", this.address).append("city", this.city)
+				.append("firstName", this.getFirstName())
 				.append("telephone", this.telephone).toString();
 	}
 

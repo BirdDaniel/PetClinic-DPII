@@ -22,9 +22,11 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
@@ -41,6 +43,10 @@ import org.springframework.beans.support.PropertyComparator;
 @Table(name = "owners")
 public class Owner extends Person {
 
+
+	@Column(name = "address")
+	@NotEmpty
+	protected String address;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private Set<Pet> pets;

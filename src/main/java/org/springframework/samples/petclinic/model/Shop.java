@@ -32,7 +32,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -51,46 +50,12 @@ import org.springframework.format.annotation.DateTimeFormat;
  The services of the clinic
  */
 @Entity
-@Table(name = "services")
-public class Service extends BaseClinic {
+@Table(name = "shops")
+public class Shop extends BaseClinic {
 
-	@Range(min = 1)
-	private int max;
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<Item> items;
 	
-	@Range(min = (long)0.1)
-	private double price;
-	
-	@ManyToOne() 
-	@JoinColumn(name="request_id")
-	private Request request;
-	
-	@NotEmpty
-	@Column(length = 2024)
-	private String description;
-	
-	public int getMax() {
-		return max;
-	}
-
-	public void setMax(int max) {
-		this.max = max;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public Request getRequest() {
-		return request;
-	}
-
-	public void setRequest(Request request) {
-		this.request = request;
-	}
 	
 
 }

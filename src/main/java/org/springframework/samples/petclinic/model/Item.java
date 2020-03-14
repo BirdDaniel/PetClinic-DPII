@@ -51,46 +51,26 @@ import org.springframework.format.annotation.DateTimeFormat;
  The services of the clinic
  */
 @Entity
-@Table(name = "services")
-public class Service extends BaseClinic {
+@Table(name = "items")
+public class Item extends BaseEntity {
 
-	@Range(min = 1)
-	private int max;
-	
-	@Range(min = (long)0.1)
+	@Range(min= (long) 0.1)
 	private double price;
-	
-	@ManyToOne() 
-	@JoinColumn(name="request_id")
-	private Request request;
+
+	@Range(min= (long) 0.1, max =1)
+	private double sale;
 	
 	@NotEmpty
-	@Column(length = 2024)
+	@Column(length=1024)
 	private String description;
 	
-	public int getMax() {
-		return max;
-	}
-
-	public void setMax(int max) {
-		this.max = max;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public Request getRequest() {
-		return request;
-	}
-
-	public void setRequest(Request request) {
-		this.request = request;
-	}
+	@Range(min= 0)
+	private int stock;
+	
+	@ManyToOne() 
+	@JoinColumn(name="shop_id")
+	private Shop shop;
+	
 	
 
 }

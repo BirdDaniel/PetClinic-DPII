@@ -15,49 +15,19 @@
  */
 package org.springframework.samples.petclinic.model;
 
-
-import java.util.Set;
-
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 
 /**
- * Simple JavaBean domain object representing a veterinarian.
- *
- * @author Ken Krebs
- * @author Juergen Hoeller
- * @author Sam Brannen
- * @author Arjen Poutsma
+ * @author Juergen Hoeller Can be Cat, Dog, Hamster...
  */
 @Entity
-@Table(name = "employees")
-public class Employee extends Person {
+@Table(name = "clinics")
+public class Clinic extends Service {
 	
-	@ManyToOne() 
-	@JoinColumn(name="service_id")
-	private BaseClinic service;
-
-	@Column(name = "dni")
-	@Pattern(regexp="^\\d{8}[A-Z]$", message = "DNI doesn't have correct format")
-	@NotEmpty
-	protected String dni;
-
-	public BaseClinic getServices() {
-		return service;
-	}
-
-	public void setServices(BaseClinic service) {
-		this.service = service;
-	}
-	
-	
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	private ClinicType type;
 
 }
