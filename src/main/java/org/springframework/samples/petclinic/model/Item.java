@@ -67,7 +67,7 @@ public class Item extends BaseEntity {
 	@Range(min= 0)
 	private int stock;
 	
-	@ManyToOne() 
+	@ManyToOne
 	@JoinColumn(name="shop_id")
 	private Shop shop;
 	

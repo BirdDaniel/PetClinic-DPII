@@ -16,12 +16,16 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.VetService;
@@ -140,5 +144,14 @@ public class OwnerController {
 		mav.addObject(this.ownerService.findOwnerById(ownerId));
 		return mav;
 	}
+	
+	/**Obtain a Request list of a Owner*/
+	@GetMapping(value = "/owners/myServicesList/{ownerId}")
+	public String servicesForm(@PathVariable("ownerId") int ownerId, Model model) {
+		Owner owner = this.ownerService.findOwnerById(ownerId);
+		model.addAttribute(owner);
+		return "owners/myServicesList";
+	}
+
 
 }

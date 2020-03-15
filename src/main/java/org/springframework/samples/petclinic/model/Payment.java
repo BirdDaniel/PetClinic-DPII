@@ -59,8 +59,8 @@ public class Payment extends BaseEntity {
 	@JoinColumn(name="owner_id")
 	private Owner owner;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	private Service service;
+	//@ManyToOne(cascade = CascadeType.ALL)
+	//private Service service;
 	
 	@Column(name = "date_pay") 
 	@DateTimeFormat(pattern="YYYY/mm/dd")
@@ -90,13 +90,13 @@ public class Payment extends BaseEntity {
 		this.owner = owner;
 	}
 
-	public Service getService() {
-		return service;
-	}
-
-	public void setService(Service service) {
-		this.service = service;
-	}
+//	public Service getService() {
+//		return service;
+//	}
+//
+//	public void setService(Service service) {
+//		this.service = service;
+//	}
 
 	public LocalDate getPayDate() {
 		return payDate;

@@ -22,8 +22,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -33,18 +35,19 @@ import org.springframework.format.annotation.DateTimeFormat;
 /**
  The services of the clinic
  */
-@Entity
+@MappedSuperclass
 public class BaseClinic extends BaseEntity {
 	
 	@Range(min = 0, max = 5)
 	private int rating;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="service")
-	private Set<Payment> payments;
-	
+//	@OneToMany(cascade=CascadeType.ALL, mappedBy="service")
+//	private Set<Payment> payments;
+//	
 	private String address;
 	
 	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="service_id")
 	private Set<Employee> employees;
 	
 	/*private DateFormat format = new SimpleDateFormat("HH:mm");
@@ -63,17 +66,17 @@ public class BaseClinic extends BaseEntity {
 		this.rating = rating;
 	}
 
-	public Set<Payment> getPayments() {
-		return payments;
-	}
-
-	public void setPayments(Set<Payment> payments) {
-		this.payments = payments;
-	}
-	
-	public void addPayment(Payment payment) {
-		this.payments.add(payment);
-	}
+//	public Set<Payment> getPayments() {
+//		return payments;
+//	}
+//
+//	public void setPayments(Set<Payment> payments) {
+//		this.payments = payments;
+//	}
+//	
+//	public void addPayment(Payment payment) {
+//		this.payments.add(payment);
+//	}
 
 	public String getAddress() {
 		return address;

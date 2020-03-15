@@ -33,6 +33,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -50,8 +51,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 /**
  The services of the clinic
  */
-@Entity
-@Table(name = "services")
+@MappedSuperclass
 public class Service extends BaseClinic {
 
 	@Range(min = 1)
