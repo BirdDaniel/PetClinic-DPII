@@ -41,7 +41,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "requests")
 public class Request extends BaseEntity{
 
-	@Column(name = "date")
+	@Column(name = "date_req")
 	@Past
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate date;
