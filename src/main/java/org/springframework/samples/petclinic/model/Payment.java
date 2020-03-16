@@ -50,7 +50,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Payment extends BaseEntity {
 	
 	@Pattern(regexp="^\\d{4} \\d{4} \\d{4} \\d{4}$", message= "Credit card doesn't have a correct format")
-	private int creditCard;
+	private String creditCard;
 	
 	@Range(min=(long)0.1)
 	private double pay;
@@ -66,11 +66,11 @@ public class Payment extends BaseEntity {
 	@DateTimeFormat(pattern="YYYY/mm/dd")
 	private LocalDate payDate;
 
-	public int getCreditCard() {
+	public String getCreditCard() {
 		return creditCard;
 	}
 
-	public void setCreditCard(int creditCard) {
+	public void setCreditCard(String creditCard) {
 		this.creditCard = creditCard;
 	}
 

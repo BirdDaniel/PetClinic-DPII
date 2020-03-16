@@ -49,6 +49,9 @@ public class Employee extends Person {
 	@Pattern(regexp="^\\d{8}[A-Z]$", message = "DNI doesn't have correct format")
 	@NotEmpty
 	protected String dni;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<Request> requests;
 
 //	public BaseClinic getServices() {
 //		return service;

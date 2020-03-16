@@ -47,8 +47,12 @@ public class BaseClinic extends BaseEntity {
 	private String address;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="service_id")
+	//@JoinColumn(name = "service_id", referencedColumnName = "id")
 	private Set<Employee> employees;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	//@JoinColumn(name = "service_id", referencedColumnName = "id")
+	private Set<Payment> payments;
 	
 	/*private DateFormat format = new SimpleDateFormat("HH:mm");
 	*/

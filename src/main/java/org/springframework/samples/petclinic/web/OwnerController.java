@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -26,8 +27,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Request;
+import org.springframework.samples.petclinic.model.Shop;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.OwnerService;
+import org.springframework.samples.petclinic.service.ResidenceService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -49,10 +53,14 @@ public class OwnerController {
 	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
 	private final OwnerService ownerService;
+	private final ClinicService clinicService;
+	private final ResidenceService residenceService;
 
 	@Autowired
-	public OwnerController(OwnerService ownerService, UserService userService, AuthoritiesService authoritiesService) {
+	public OwnerController(OwnerService ownerService, ClinicService clinicService, ResidenceService residenceService, UserService userService, AuthoritiesService authoritiesService) {
 		this.ownerService = ownerService;
+		this.clinicService = clinicService;
+		this.residenceService = residenceService;
 	}
 
 	@InitBinder
@@ -146,11 +154,17 @@ public class OwnerController {
 	}
 	
 	/**Obtain a Request list of a Owner*/
-	@GetMapping(value = "/owners/myServicesList/{ownerId}")
+	@GetMapping(value = "/owners/myRequestList/{ownerId}")
 	public String servicesForm(@PathVariable("ownerId") int ownerId, Model model) {
 		Owner owner = this.ownerService.findOwnerById(ownerId);
+		Collection<Collection<Clinic>> clinics = new ArrayList<>();
+		Collection<Collection<Shop>> shops = new ArrayList<>();
+		for(Request r: owner.getRequests()) {
+			clinics.add(this.clinicService.findClinicByRequestId(r.getId()));
+		}
 		model.addAttribute(owner);
-		return "owners/myServicesList";
+		model.addAttribute(clinics);
+		return "owners/myRequestList";
 	}
 
 

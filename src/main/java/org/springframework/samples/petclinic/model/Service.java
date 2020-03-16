@@ -60,12 +60,16 @@ public class Service extends BaseClinic {
 	@Range(min = (long)0.1)
 	private double price;
 	
-	@ManyToOne() 
-	@JoinColumn(name="request_id")
-	private Request request;
+//	@ManyToOne() 
+//	@JoinColumn(name="request_id")
+//	private Request request;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	//@JoinColumn(name = "service_id", referencedColumnName = "id")
+	private Set<Request> requests;
 	
 	@NotEmpty
-	@Column(length = 2024)
+	@Column(length = 1024)
 	private String description;
 	
 	public int getMax() {
@@ -84,12 +88,12 @@ public class Service extends BaseClinic {
 		this.price = price;
 	}
 
-	public Request getRequest() {
-		return request;
+	public Set<Request> getRequests() {
+		return requests;
 	}
 
-	public void setRequest(Request request) {
-		this.request = request;
+	public void setRequest(Set<Request> requests) {
+		this.requests = requests;
 	}
 	
 
