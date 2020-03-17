@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Residence;
+import org.springframework.samples.petclinic.model.Vet;
 
 /*
  * Copyright 2002-2013 the original author or authors.
@@ -25,15 +26,8 @@ import org.springframework.dao.DataAccessException;
  */
 public interface ResidenceRepository {
 
-	/**
-	 * Retrieve <code>Owner</code>s from the data store by last name, returning all owners
-	 * whose last name <i>starts</i> with the given name.
-	 * @param lastName Value to search for
-	 * @return a <code>Collection</code> of matching <code>Owner</code>s (or an empty
-	 * <code>Collection</code> if none found)
-	 */
-	Collection<Residence> findByRequestId(int request_id) throws DataAccessException;
-
+	Collection<Residence> findAll() throws DataAccessException;
+	
 	/**
 	 * Retrieve an <code>Owner</code> from the data store by id.
 	 * @param id the id to search for
@@ -47,6 +41,6 @@ public interface ResidenceRepository {
 	 * @param owner the <code>Owner</code> to save
 	 * @see BaseEntity#isNew
 	 */
-	void save(Residence owner) throws DataAccessException;
+	void save(Residence residence) throws DataAccessException;
 
 }

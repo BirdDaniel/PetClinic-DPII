@@ -55,7 +55,7 @@ public class Payment extends BaseEntity {
 	@Range(min=(long)0.1)
 	private double pay;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="owner_id")
 	private Owner owner;
 	

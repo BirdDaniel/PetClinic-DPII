@@ -11,41 +11,43 @@
 	<br/>
 	
 	<h2>Request List: </h2>
-	
 	<table class="table table-striped">
-		<c:forEach var="request" items="${owner.requests}">
-			<tr>
-				<td valign="top">
-					<dl class="dl-horizontal">
-						<dt>Date</dt>
+        <c:forEach var="request" items="${owner.requests}">
+
+            <tr>
+                <td valign="top">
+                    <dl class="dl-horizontal">
+                        <dt>Date</dt>
 						<dd><petclinic:localDate date="${request.date}" pattern="yyyy-MM-dd"/></dd>
 						<dt>Employee</dt>
-						<dd><c:out value="With ${request.employee.specialty.name}: ${request.employee.firstName} ${request.employee.lastName}"/></dd>
-					</dl>
-				</td>
-				<td valign="top">
-					<table class="table-condensed">
-						<thead>
-							<tr>
-								<th>Services</th>
-							</tr>
-						</thead>
-						<tr>
-							<td>Price: </td>
-							<td>Address: </td>
-							<tr>
-								<c:forEach var="service" items="${request.services}">
-									<tr>
-										<td><c:out value="${service.address}: ${service.room}"/></td>
-										<td><c:out value="${service.price}"/></td>
-									</tr>
-								</c:forEach>
-					</table>
-				</td>
-			</tr>
-		</c:forEach>
-	</table>
-	
+						<dd><c:out value="With: ${request.employee.firstName} ${request.employee.lastName}"/></dd>
+						<dt>Status</dt>
+						<dd>
+							<c:choose>
+								<c:when test="${status==null}">
+									<c:out value="pendding"></c:out>
+								</c:when>
+								<c:when test="${status==true }">
+									<c:out value="accepted"></c:out>
+								</c:when>
+								<c:otherwise>
+									<c:out value="accepted"></c:out>
+								</c:otherwise>
+							</c:choose>
+						</dd>
+                    </dl>
+                </td>
+                <td valign="top">
+                    <spring:url value="/owners/myRequestList/{ownerId}/details/{requestId}" var="serviceUrl">
+                    	<spring:param name="ownerId" value="${owner.id}"/>
+                    	<spring:param name="requestId" value="${request.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(serviceUrl)}" class="btn btn-default">Show Service</a>
+                </td>
+            </tr>
+
+        </c:forEach>
+    </table>	
 	
 	
 </petclinic:layout>

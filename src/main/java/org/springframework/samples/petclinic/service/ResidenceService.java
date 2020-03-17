@@ -15,11 +15,14 @@
  */
 package org.springframework.samples.petclinic.service;
 
+import java.security.acl.Owner;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Clinic;
+import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.repository.ResidenceRepository;
 import org.springframework.stereotype.Service;
@@ -48,8 +51,12 @@ public class ResidenceService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Collection<Residence> findResidenceByRequestId(int id) throws DataAccessException {
-		return residenceRepository.findByRequestId(id);
+	public Residence findResidenceByRequest(Request request) throws DataAccessException {
+		Collection<Residence> residences = this.residenceRepository.findAll();
+		for(Residence r: residences) {
+			if(r.getRequestById(request.getId())!= null) return r;
+		}
+		return null;
 	}
 
 }
