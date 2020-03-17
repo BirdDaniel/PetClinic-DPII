@@ -46,12 +46,9 @@ public class Request extends BaseEntity{
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate date;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="request")
-	private Set<Service> services;
-	
-	@ManyToOne 
-	@JoinColumn(name="employee_id")
-	private Employee employee;
+//	@OneToMany(cascade = CascadeType.ALL)
+//	@JoinColumn(name="services_id")
+//	private Set<Service> services;
 	
 	@ManyToOne
 	@JoinColumn(name="owner_id")
@@ -66,21 +63,13 @@ public class Request extends BaseEntity{
 		return this.date;
 	}
 
-	public Set<Service> getServices() {
-		return services;
-	}
+//	public Set<Service> getServices() {
+//		return services;
+//	}
 
-	public void setServices(Set<Service> services) {
-		this.services = services;
-	}
-
-	public Employee getEmployee() {
-		return employee;
-	}
-
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
+//	public void setServices(Set<Service> services) {
+//		this.services = services;
+//	}
 
 	public Owner getOwner() {
 		return owner;
