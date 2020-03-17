@@ -13,42 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.Future;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-/**
- * Simple JavaBean domain object representing a veterinarian.
- *
- * @author Ken Krebs
- * @author Juergen Hoeller
- * @author Sam Brannen
- * @author Arjen Poutsma
- */
+
 @Entity
 @Table(name = "requests")
 public class Request extends BaseEntity{
 
-	@Column(name = "date")
-	@Past
+	@Column(name = "date_req")
+	@Future
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate date;
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="services_id")
-	private Set<Service> services;
 	
 	@ManyToOne
 	@JoinColumn(name="owner_id")
@@ -61,14 +48,6 @@ public class Request extends BaseEntity{
 
 	public LocalDate getDate() {
 		return this.date;
-	}
-
-	public Set<Service> getServices() {
-		return services;
-	}
-
-	public void setServices(Set<Service> services) {
-		this.services = services;
 	}
 
 	public Owner getOwner() {
