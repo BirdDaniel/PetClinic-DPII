@@ -21,6 +21,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -45,12 +46,11 @@ public class Employee extends Person {
 	//@JoinColumn(name="service_id")
 	//private BaseClinic service;
 
-	@Column(name = "dni")
 	@Pattern(regexp="^\\d{8}[A-Z]$", message = "DNI doesn't have correct format")
 	@NotEmpty
 	protected String dni;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "employee")
 	private Set<Request> requests;
 
 //	public BaseClinic getServices() {

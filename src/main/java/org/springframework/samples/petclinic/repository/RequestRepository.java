@@ -18,12 +18,11 @@ package org.springframework.samples.petclinic.repository;
 import java.util.Collection;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.BaseEntity;
-import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Request;
-import org.springframework.samples.petclinic.model.Shop;
-import org.springframework.samples.petclinic.model.Vet;
 
 /**
  * Repository class for <code>Owner</code> domain objects All method names are compliant
@@ -36,24 +35,21 @@ import org.springframework.samples.petclinic.model.Vet;
  * @author Sam Brannen
  * @author Michael Isvy
  */
-public interface ShopRepository {
+public interface RequestRepository {
 
-
-	Collection<Shop> findAll() throws DataAccessException;
-	
 	/**
 	 * Retrieve an <code>Owner</code> from the data store by id.
 	 * @param id the id to search for
 	 * @return the <code>Owner</code> if found
 	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
 	 */
-	Shop findById(int id) throws DataAccessException;
+	Request findById(int id) throws DataAccessException;
 
 	/**
 	 * Save an <code>Owner</code> to the data store, either inserting or updating it.
 	 * @param owner the <code>Owner</code> to save
 	 * @see BaseEntity#isNew
 	 */
-	void save(Shop shop) throws DataAccessException;
+	void save(Request request) throws DataAccessException;
 
 }

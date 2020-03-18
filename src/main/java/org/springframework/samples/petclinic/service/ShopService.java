@@ -46,10 +46,5 @@ public class ShopService {
 	public Shop findClinicById(int id) throws DataAccessException {
 		return shopRepository.findById(id);
 	}
-	
-	@Transactional(readOnly = true)
-	public Collection<Shop> findClinicByRequestId(int id) throws DataAccessException {
-		return shopRepository.findByRequestId(id);
-	}
 
 }

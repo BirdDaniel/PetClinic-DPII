@@ -20,6 +20,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -40,18 +41,13 @@ public class BaseClinic extends BaseEntity {
 	
 	@Range(min = 0, max = 5)
 	private int rating;
-	
-//	@OneToMany(cascade=CascadeType.ALL, mappedBy="service")
-//	private Set<Payment> payments;
-//	
+
 	private String address;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	//@JoinColumn(name = "service_id", referencedColumnName = "id")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Employee> employees;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	//@JoinColumn(name = "service_id", referencedColumnName = "id")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Payment> payments;
 	
 	/*private DateFormat format = new SimpleDateFormat("HH:mm");
@@ -70,17 +66,17 @@ public class BaseClinic extends BaseEntity {
 		this.rating = rating;
 	}
 
-//	public Set<Payment> getPayments() {
-//		return payments;
-//	}
-//
-//	public void setPayments(Set<Payment> payments) {
-//		this.payments = payments;
-//	}
-//	
-//	public void addPayment(Payment payment) {
-//		this.payments.add(payment);
-//	}
+	public Set<Payment> getPayments() {
+		return payments;
+	}
+
+	public void setPayments(Set<Payment> payments) {
+		this.payments = payments;
+	}
+	
+	public void addPayment(Payment payment) {
+		this.payments.add(payment);
+	}
 
 	public String getAddress() {
 		return address;
@@ -105,6 +101,16 @@ public class BaseClinic extends BaseEntity {
 	public void setClose(Date close) {
 		this.close = close;
 	}
+
+	public Set<Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(Set<Employee> employees) {
+		this.employees = employees;
+	}
+	
+	
 	
 
 }
