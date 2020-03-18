@@ -19,10 +19,6 @@
             <td><c:out value="${owner.address}"/></td>
         </tr>
         <tr>
-            <th>City</th>
-            <td><c:out value="${owner.city}"/></td>
-        </tr>
-        <tr>
             <th>Telephone</th>
             <td><c:out value="${owner.telephone}"/></td>
         </tr>
@@ -65,12 +61,6 @@
                             <th>Description</th>
                         </tr>
                         </thead>
-                        <c:forEach var="visit" items="${pet.visits}">
-                            <tr>
-                                <td><petclinic:localDate date="${visit.date}" pattern="yyyy-MM-dd"/></td>
-                                <td><c:out value="${visit.description}"/></td>
-                            </tr>
-                        </c:forEach>
                         <tr>
                             <td>
                                 <spring:url value="/owners/{ownerId}/pets/{petId}/edit" var="petUrl">

@@ -47,10 +47,10 @@ public class ClinicService {
 
 	private ClinicRepository clinicRepository;
 
-	@Autowired
-	public ClinicService(ClinicRepository clinicRepository) {
-		this.clinicRepository = clinicRepository;
-	}	
+//	@Autowired
+//	public ClinicService(ClinicRepository clinicRepository) {
+//		this.clinicRepository = clinicRepository;
+//	}	
 	
 	@Transactional(readOnly = true)
 	public Clinic findClinicById(int id) throws DataAccessException {

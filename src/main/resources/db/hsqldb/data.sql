@@ -38,9 +38,9 @@ INSERT INTO types VALUES (5, 'bird');
 INSERT INTO types VALUES (6, 'hamster');
 
 --INSERT INTO clinic_types VALUES (id, name);
-INSERT INTO clinic_types VALUES (1, 'Peluquería');
-INSERT INTO clinic_types VALUES (2, 'Operaciones');
-INSERT INTO clinic_types VALUES (3, 'Chalé');
+--INSERT INTO clinic_types VALUES (1, 'Peluquería');
+--INSERT INTO clinic_types VALUES (2, 'Operaciones');
+--INSERT INTO clinic_types VALUES (3, 'Chalé');
     
 --INSERT INTO owners VALUES (id, firstName, LastName, telephone, address, username);
 INSERT INTO owners VALUES (1, 'George', 'Franklin', '6085551023', '110 W. Liberty St., Madison', 'owner1');
@@ -71,14 +71,14 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (3, 'Rosy', '2011-0
 --INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 10);
 
 --INSERT INTO requests(id, date_req, owner_id);
-INSERT INTO requests(id, date_req, owner_id) VALUES (1, '2030-08-01', 1);
-INSERT INTO requests(id, date_req, owner_id) VALUES (2, '2031-08-01', 1);
-INSERT INTO requests(id, date_req, owner_id) VALUES (3, '2032-08-01', 2);
+--INSERT INTO requests(id, date_req, owner_id) VALUES (1, '2030-08-01', 1);
+--INSERT INTO requests(id, date_req, owner_id) VALUES (2, '2031-08-01', 1);
+--INSERT INTO requests(id, date_req, owner_id) VALUES (3, '2032-08-01', 2);
 
 --INSERT INTO clinics(id, address, close, open, rating, description, max, price, request_id, type_id);
-INSERT INTO clinics VALUES (1, 'New Address', '2012-06-08 10:10:10', '2022-06-08 12:00', 3, 'Description 1', 10, 2.5, 1, 1);
-INSERT INTO clinics VALUES (2, 'New Address 2', '2012-06-08 10:10:10', '2022-06-08 12:00', 4, 'Description 2', 20, 3.5, 2, 2);
-INSERT INTO clinics VALUES (3, 'New Address 3', '2012-01-01 10:00:00', '2022-06-08 13:00', 5, 'Description 3', 30, 4.5, 1, 3);
+--INSERT INTO clinics VALUES (1, 'New Address', '2012-06-08 10:10:10', '2022-06-08 12:00', 3, 'Description 1', 10, 2.5, 1, 1);
+--INSERT INTO clinics VALUES (2, 'New Address 2', '2012-06-08 10:10:10', '2022-06-08 12:00', 4, 'Description 2', 20, 3.5, 2, 2);
+--INSERT INTO clinics VALUES (3, 'New Address 3', '2012-01-01 10:00:00', '2022-06-08 13:00', 5, 'Description 3', 30, 4.5, 1, 3);
 
 --INSERT INTO services(id, address, close, max, open, price, reception, room, request_id);
 --INSERT INTO services VALUES (1, 'New Address', '2012-06-08 10:10:10', 10, '2022-06-08 12:00', 2.5, 3, 'A1-23', 1);
@@ -86,19 +86,19 @@ INSERT INTO clinics VALUES (3, 'New Address 3', '2012-01-01 10:00:00', '2022-06-
 --INSERT INTO services VALUES (3, 'Hello 2', '2212-06-08 13:10', 5, '2052-06-08 16:10', 3, 2, 'B1-23', 2);
 
 --INSERT INTO employees(id, first_name, last_name, telephone, dni, username);
-INSERT INTO employees VALUES (1, 'Jeorge', 'Frank', '6115551023', '87654321A', 'vet1');
-INSERT INTO employees VALUES (2, 'Hoes', 'Mad', '6115551023', '87654721A', 'vet1');
-INSERT INTO employees VALUES (3, 'No Hoes', 'Mad', '6145556023', '87654341A', 'vet1');
+--INSERT INTO employees VALUES (1, 'Jeorge', 'Frank', '6115551023', '87654321A', 'vet1');
+--INSERT INTO employees VALUES (2, 'Hoes', 'Mad', '6115551023', '87654721A', 'vet1');
+--INSERT INTO employees VALUES (3, 'No Hoes', 'Mad', '6145556023', '87654341A', 'vet1');
 
 --INSERT INTO payments(id, credit_card, pay, date_pay, owner_id);
-INSERT INTO payments VALUES (1, '1234 1234 1234 1234', 0.5, '2012-06-08', 1);
-INSERT INTO payments VALUES (2, '4234 1234 1234 5234', 1, '2012-06-08', 1);
-INSERT INTO payments VALUES (3, '3234 1234 1234 6234', 2, '2012-06-08', 1);
+--INSERT INTO payments VALUES (1, '1234 1234 1234 1234', 0.5, '2012-06-08', 1);
+--INSERT INTO payments VALUES (2, '4234 1234 1234 5234', 1, '2012-06-08', 1);
+--INSERT INTO payments VALUES (3, '3234 1234 1234 6234', 2, '2012-06-08', 1);
 
 --INSERT INTO clinics_employees(clinic_id, employees_id);
-INSERT INTO clinics_employees VALUES (1, 1);
-INSERT INTO clinics_employees VALUES (2, 2);
-INSERT INTO clinics_employees VALUES (2, 3);
+--INSERT INTO clinics_employees VALUES (1, 1);
+--INSERT INTO clinics_employees VALUES (2, 2);
+--INSERT INTO clinics_employees VALUES (2, 3);
 
 --UPDATE requests SET employee_id = 1  WHERE (id = 1); UPDATE requests SET owner_id = 1  WHERE (id = 1);
 --UPDATE requests SET employee_id = 2  WHERE (id = 2); UPDATE requests SET owner_id = 1  WHERE (id = 2);

@@ -5,41 +5,49 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="owners">
-    <h2>Owners</h2>
+<petclinic:layout pageName="pets">
+    <h2>Pets</h2>
 
-    <table id="ownersTable" class="table table-striped">
+    <table id="petsTable" class="table table-striped">
         <thead>
         <tr>
             <th style="width: 150px;">Name</th>
-            <th style="width: 200px;">Address</th>
-            <th style="width: 120px">Telephone</th>
-            <th>Pets</th>
+            <th>Birth_date</th>
+            <th>Type</th>
+            <th>Owner</th>
+            <th>Telephone</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${selections}" var="owner">
+        <c:forEach items="${owner.pets}" var="pet">
             <tr>
                 <td>
-                    <spring:url value="/owners/{ownerId}" var="ownerUrl">
+               <!--       <spring:url value="/owners/{ownerId}" var="ownerUrl">
                         <spring:param name="ownerId" value="${owner.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(ownerUrl)}"><c:out value="${owner.firstName} ${owner.lastName}"/></a>
+                    <a href="${fn:escapeXml(ownerUrl)}"></a> -->
+                    <c:out value="${pet.name}"/>
                 </td>
                 <td>
-                    <c:out value="${owner.address}"/>
+                    <c:out value="${pet.birthDate}"/>
                 </td>
                 <td>
-                    <c:out value="${owner.telephone}"/>
+                    <c:out value="${pet.type}"/>
                 </td>
                 <td>
-                    <c:forEach var="pet" items="${owner.pets}">
+                    <c:out value="${pet.owner.firstName} ${pet.owner.lastName}"/>
+                </td>
+                <td>
+                 <c:out value="${pet.owner.telephone}"/>
+                 </td>
+                <td>
+   <!--                 <c:forEach var="pet" items="${owner.pets}">
                         <c:out value="${pet.name} "/>
                     </c:forEach>
                 </td>
                 
       
-<!--
+
                 <td> 
                     <c:out value="${owner.user.username}"/> 
                 </td>
@@ -53,3 +61,4 @@
         </tbody>
     </table>
 </petclinic:layout>
+

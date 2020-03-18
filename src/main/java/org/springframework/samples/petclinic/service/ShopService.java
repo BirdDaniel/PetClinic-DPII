@@ -37,10 +37,10 @@ public class ShopService {
 
 	private ShopRepository shopRepository;
 
-	@Autowired
-	public ShopService(ShopRepository shopRepository) {
-		this.shopRepository = shopRepository;
-	}	
+//	@Autowired
+//	public ShopService(ShopRepository shopRepository) {
+//		this.shopRepository = shopRepository;
+//	}	
 	
 	@Transactional(readOnly = true)
 	public Shop findClinicById(int id) throws DataAccessException {

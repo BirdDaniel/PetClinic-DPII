@@ -53,14 +53,14 @@ public class OwnerController {
 	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
 	private final OwnerService ownerService;
-	private final ClinicService clinicService;
-	private final ResidenceService residenceService;
+//	private final ClinicService clinicService;
+//	private final ResidenceService residenceService;
 
 	@Autowired
-	public OwnerController(OwnerService ownerService, ClinicService clinicService, ResidenceService residenceService, UserService userService, AuthoritiesService authoritiesService) {
+	public OwnerController(OwnerService ownerService, UserService userService, AuthoritiesService authoritiesService) {
 		this.ownerService = ownerService;
-		this.clinicService = clinicService;
-		this.residenceService = residenceService;
+//		this.clinicService = clinicService;
+//		this.residenceService = residenceService;
 	}
 
 	@InitBinder
@@ -154,18 +154,26 @@ public class OwnerController {
 	}
 	
 	/**Obtain a Request list of a Owner*/
-	@GetMapping(value = "/owners/myRequestList/{ownerId}")
-	public String servicesForm(@PathVariable("ownerId") int ownerId, Model model) {
+//	@GetMapping(value = "/owners/myRequestList/{ownerId}")
+//	public String servicesForm(@PathVariable("ownerId") int ownerId, Model model) {
+//		Owner owner = this.ownerService.findOwnerById(ownerId);
+//		Collection<Collection<Clinic>> clinics = new ArrayList<>();
+//		Collection<Collection<Shop>> shops = new ArrayList<>();
+//		for(Request r: owner.getRequests()) {
+//			clinics.add(this.clinicService.findClinicByRequestId(r.getId()));
+//		}
+//		model.addAttribute(owner);
+//		model.addAttribute(clinics);
+//		return "owners/myRequestList";
+//	}
+//	
+	@GetMapping(value = "/owners/myPetList/{ownerId}")
+	public String petList(@PathVariable("ownerId") int ownerId, Model model) {
 		Owner owner = this.ownerService.findOwnerById(ownerId);
-		Collection<Collection<Clinic>> clinics = new ArrayList<>();
-		Collection<Collection<Shop>> shops = new ArrayList<>();
-		for(Request r: owner.getRequests()) {
-			clinics.add(this.clinicService.findClinicByRequestId(r.getId()));
-		}
 		model.addAttribute(owner);
-		model.addAttribute(clinics);
-		return "owners/myRequestList";
+		return "owners/myPetList";
 	}
+
 
 
 }
