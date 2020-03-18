@@ -16,6 +16,7 @@
         <h2>
             <c:if test="${pet['new']}">New </c:if> Pet
         </h2>
+        <c:out value="${pet.owner.firstName} ${pet.owner.lastName}"/>
         <form:form modelAttribute="pet"
                    class="form-horizontal">
             <input type="hidden" name="id" value="${pet.id}"/>

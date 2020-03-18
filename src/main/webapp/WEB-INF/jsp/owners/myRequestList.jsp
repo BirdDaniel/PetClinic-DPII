@@ -24,14 +24,14 @@
 						<dt>Status</dt>
 						<dd>
 							<c:choose>
-								<c:when test="${status==null}">
+								<c:when test="${request.status==null}">
 									<c:out value="pendding"></c:out>
 								</c:when>
-								<c:when test="${status==true }">
+								<c:when test="${request.status==true }">
 									<c:out value="accepted"></c:out>
 								</c:when>
 								<c:otherwise>
-									<c:out value="accepted"></c:out>
+									<c:out value="rejected"></c:out>
 								</c:otherwise>
 							</c:choose>
 						</dd>

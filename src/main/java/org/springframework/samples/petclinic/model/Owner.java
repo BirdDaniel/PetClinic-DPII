@@ -139,6 +139,20 @@ public class Owner extends Person {
 	public void setRequests(Set<Request> requests) {
 		this.requests = requests;
 	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setPets(Set<Pet> pets) {
+		this.pets = pets;
+	}
+	
+	
 	
 
 }
