@@ -50,6 +50,14 @@ public class Employee extends Person {
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Request> requests;
 
+	public String getDni(){
+		return this.dni;
+	}
+
+	public void setDni(String dni){
+		this.dni = dni;
+	}
+
 //	public BaseClinic getServices() {
 //		return service;
 //	}

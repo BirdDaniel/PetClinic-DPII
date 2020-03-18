@@ -20,9 +20,11 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Person;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.samples.petclinic.service.UserService;
@@ -41,12 +43,15 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
 	private static final String VIEWS_OWNER_CREATE_FORM = "users/createOwnerForm";
+	private static final String VIEWS_EMPLOYEE_CREATE_FORM = "users/createEmployeeForm";
 
 	private final OwnerService ownerService;
+	private final EmployeeService employeeService;
 
 	@Autowired
-	public UserController(OwnerService clinicService) {
-		this.ownerService = clinicService;
+	public UserController(OwnerService ownerService, EmployeeService employeeService) {
+		this.ownerService = ownerService;
+		this.employeeService = employeeService;
 	}
 
 	@InitBinder
@@ -54,21 +59,41 @@ public class UserController {
 		dataBinder.setDisallowedFields("id");
 	}
 
-	@GetMapping(value = "/users/new")
-	public String initCreationForm(Map<String, Object> model) {
-		Person person = new Person();
-		model.put("person", person);
+	@GetMapping(value = "/users/newOwner")
+	public String initCreationFormOwner(Map<String, Object> model) {
+		Owner owner = new Owner();
+		model.put("owner", owner);
 		return VIEWS_OWNER_CREATE_FORM;
 	}
 
-	@PostMapping(value = "/users/new")
-	public String processCreationForm(@Valid Owner owner, BindingResult result) {
+	@GetMapping(value = "/users/newEmployee")
+	public String initCreationFormEmployee(Map<String, Object> model) {
+		Employee employee = new Employee();
+		model.put("employee", employee);
+		return VIEWS_EMPLOYEE_CREATE_FORM;
+	}
+
+	@PostMapping(value = "/users/newOwner")
+	public String processCreationFormOwner(@Valid Owner owner, BindingResult result) {
 		if (result.hasErrors()) {
-			return VIEWS_OWNER_CREATE_FORM;
+			return VIEWS_EMPLOYEE_CREATE_FORM;
 		}
 		else {
 			//creating owner, user, and authority
 			this.ownerService.saveOwner(owner);
+			return "redirect:/";
+		}
+	}
+
+	@PostMapping(value = "/users/newEmployee")
+	public String processCreationFormEmployee(@Valid Employee employee, BindingResult result) {
+		if (result.hasErrors()) {
+			System.out.println(result.getAllErrors().toString());
+			return VIEWS_EMPLOYEE_CREATE_FORM;
+		}
+		else {
+			//creating Employee, user, and authority
+			this.employeeService.saveEmployee(employee);
 			return "redirect:/";
 		}
 	}

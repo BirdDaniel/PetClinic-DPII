@@ -6,10 +6,10 @@ INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
 INSERT INTO authorities VALUES ('owner1','owner');
 -- One vet user, named vet1 with passwor v3t
 INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
-INSERT INTO authorities VALUES ('vet1','veterinarian');
+INSERT INTO authorities VALUES ('vet1','employee');
 
 
---INSERT INTO vets VALUES (1, 'James', 'Carter');
+INSERT INTO employees VALUES (1, 'Marta', 'Carter','65847525H','679845125','vet1');
 --INSERT INTO vets VALUES (2, 'Helen', 'Leary');
 --INSERT INTO vets VALUES (3, 'Linda', 'Douglas');
 --INSERT INTO vets VALUES (4, 'Rafael', 'Ortega');

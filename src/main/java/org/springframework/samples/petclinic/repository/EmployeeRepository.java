@@ -16,10 +16,12 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Request;
 
 /**
  * Repository class for <code>Owner</code> domain objects All method names are compliant
@@ -50,6 +52,8 @@ public interface EmployeeRepository {
 	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
 	 */
 	Employee findById(int id) throws DataAccessException;
+
+	Set<Request> getRequests(int id) throws DataAccessException;
 
 	/**
 	 * Save an <code>Employee</code> to the data store, either inserting or updating it.

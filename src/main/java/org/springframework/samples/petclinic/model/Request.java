@@ -41,6 +41,9 @@ public class Request extends BaseEntity{
 	@JoinColumn(name="owner_id")
 	private Owner owner;
 	
+	@ManyToOne
+	@JoinColumn(name="employee_id")
+	private Employee employee;
 
 	public void setDate(LocalDate date) {
 		this.date = date;
@@ -58,6 +61,13 @@ public class Request extends BaseEntity{
 		this.owner = owner;
 	}
 	
+	public Employee getEmployee() {
+		return this.employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
 	
 
 }

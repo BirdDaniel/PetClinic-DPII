@@ -1,11 +1,13 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.repository.EmployeeRepository;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,11 @@ public class EmployeeService {
 	}
 
 	@Transactional(readOnly = true)
+	public Set<Request> getRequests(int id){
+		return this.employeeRepository.getRequests(id);
+	}
+
+	@Transactional(readOnly = true)
 	public Collection<Employee> findEmployeeByLastName(String lastName) throws DataAccessException {
 		return employeeRepository.findByLastName(lastName);
 	}
@@ -50,7 +57,7 @@ public class EmployeeService {
 		//creating user
 		userService.saveUser(employee.getUser());
 		//creating authorities
-		authoritiesService.saveAuthorities(employee.getUser().getUsername(), "owner");
+		authoritiesService.saveAuthorities(employee.getUser().getUsername(), "employee");
 	}		
 
 }
