@@ -39,17 +39,12 @@ INSERT INTO owners VALUES (7, 'Carlos', 'Estaban', '2335 Independence La.', '608
 
 --INSERT INTO requests(id, date_req, employee_id, owner_id);
 INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (1, '2030-08-01',1,1);
-INSERT INTO EMPLOYEES_REQUESTS VALUES(1,1);
 INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (2, '2021-02-01',1,4);
-INSERT INTO EMPLOYEES_REQUESTS VALUES(1,2);
 INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (3, '2022-05-01',1,7);
-INSERT INTO EMPLOYEES_REQUESTS VALUES(1,3);
 INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (4, '2020-08-07',1,2);
-INSERT INTO EMPLOYEES_REQUESTS VALUES(1,4);
 INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (5, '2031-04-11',1,1);
-INSERT INTO EMPLOYEES_REQUESTS VALUES(1,5);
 INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (6, '2026-09-10',1,4);
-INSERT INTO EMPLOYEES_REQUESTS VALUES(1,6);
+
 
 INSERT INTO types VALUES (1, 'cat');
 INSERT INTO types VALUES (2, 'dog');
