@@ -202,6 +202,4 @@ public class OwnerController {
 			return "owners/myRequestList";
 		}
 	}
-
-
 }

@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.model;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -154,14 +155,13 @@ public class Owner extends Person {
 	public void setPets(Set<Pet> pets) {
 		this.pets = pets;
 	}
-	
-	public Set<Request> getAcceptedRequests(){
+  
+  public Set<Request> getAcceptedRequests(){
 		SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getDate));
 		for(Request req : this.requests){
 			if(req.getStatus()!=null) if(req.getStatus()==true) res.add(req);
 		}
 		return res;
 	}
-	
-
+  
 }
