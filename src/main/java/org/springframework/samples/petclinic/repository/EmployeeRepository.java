@@ -15,15 +15,17 @@
  */
 package org.springframework.samples.petclinic.repository;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Set;
+import java.util.SortedSet;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.BaseEntity;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Request;
 
 /**
- * Repository class for <code>Pet</code> domain objects All method names are compliant
+ * Repository class for <code>Owner</code> domain objects All method names are compliant
  * with Spring Data naming conventions so this interface can easily be extended for Spring
  * Data See here:
  * http://static.springsource.org/spring-data/jpa/docs/current/reference/html/jpa.repositories.html#jpa.query-methods.query-creation
@@ -33,29 +35,31 @@ import org.springframework.samples.petclinic.model.PetType;
  * @author Sam Brannen
  * @author Michael Isvy
  */
-public interface PetRepository {
+public interface EmployeeRepository {
 
 	/**
-	 * Retrieve all <code>PetType</code>s from the data store.
-	 * @return a <code>Collection</code> of <code>PetType</code>s
+	 * Retrieve <code>Employee</code>s from the data store by last name, returning all owners
+	 * whose last name <i>starts</i> with the given name.
+	 * @param lastName Value to search for
+	 * @return a <code>Collection</code> of matching <code>Owner</code>s (or an empty
+	 * <code>Collection</code> if none found)
 	 */
-	List<PetType> findPetTypes() throws DataAccessException;
+	Collection<Employee> findByLastName(String lastName) throws DataAccessException;
 
 	/**
-	 * Retrieve a <code>Pet</code> from the data store by id.
+	 * Retrieve an <code>Employee</code> from the data store by id.
 	 * @param id the id to search for
-	 * @return the <code>Pet</code> if found
+	 * @return the <code>Owner</code> if found
 	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
 	 */
-	Pet findById(int id) throws DataAccessException;
+	Employee findById(int id) throws DataAccessException;
 
+	Set<Request> getRequests(int id) throws DataAccessException;
 	/**
-	 * Save a <code>Pet</code> to the data store, either inserting or updating it.
-	 * @param pet the <code>Pet</code> to save
+	 * Save an <code>Employee</code> to the data store, either inserting or updating it.
+	 * @param Employee the <code>Employee</code> to save
 	 * @see BaseEntity#isNew
 	 */
-	void save(Pet pet) throws DataAccessException;
-	
-	void deletePet(int id) throws DataAccessException;
+	void save(Employee employee) throws DataAccessException;
 
 }

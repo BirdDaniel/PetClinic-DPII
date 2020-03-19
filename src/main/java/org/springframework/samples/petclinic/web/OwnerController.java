@@ -63,7 +63,6 @@ public class OwnerController {
 
 	private final ResidenceService residenceService;
 
-
 	
 	@Autowired
 	public OwnerController(OwnerService ownerService, 
@@ -75,7 +74,6 @@ public class OwnerController {
 		this.requestService = requestService;
 		this.clinicService = clinicService;
 		this.residenceService = residenceService;
-
 	}
 
 	@InitBinder
@@ -168,28 +166,29 @@ public class OwnerController {
 		return mav;
 	}
 	
-	
-	@GetMapping(value = "/owners/myPetList/{ownerId}")
-	public String petList(@PathVariable("ownerId") int ownerId, Model model) {
-		Owner owner = this.ownerService.findOwnerById(ownerId);
-		model.addAttribute(owner);
-		return "owners/myPetList";
-	}
-
 	/**Obtain a Request list of a Owner*/
-	@GetMapping(value = "/owners/myRequestList/{ownerId}")
+	@GetMapping(value = "/owners/{ownerId}/myRequestList")
 	public String requestListForm(@PathVariable("ownerId") int ownerId, Model model) {
 		Owner owner = this.ownerService.findOwnerById(ownerId);
-		model.addAttribute(owner);
+		Set<Request> requests = owner.getRequests();
+		model.addAttribute("requests", requests);
 		return "owners/myRequestList";
-
+	}
+	
+	/**Obtain a Request list of a Owner only accepted*/
+	@GetMapping(value = "/owners/{ownerId}/myRequestAccepted")
+	public String requestAcceptedForm(@PathVariable("ownerId") int ownerId, Model model) {
+		Owner owner = this.ownerService.findOwnerById(ownerId);
+		Set<Request> requests = owner.getAcceptedRequests();
+		model.addAttribute("requests", requests);
+		return "owners/myRequestList";
 	}
 	
 	/**Obtain a Service of a Owner*/
-	@GetMapping(value = "/owners/myRequestList/{ownerId}/details/{requestId}")
+	@GetMapping(value = "/owners/{ownerId}/myRequestList/{requestId}/details")
 	public String servicesForm(@PathVariable("requestId") int requestId, Model model) {
 		
-		Request req = this.requestService.findRequestById(requestId);
+		Request req = this.requestService.findById(requestId);
 		
 		if(this.clinicService.findClinicByRequest(req)!= null) {
 			Clinic clinic = this.clinicService.findClinicByRequest(req);
@@ -204,6 +203,11 @@ public class OwnerController {
 		}
 	}
 
-
-
+	@GetMapping(value = "/owners/myPetList/{ownerId}")
+	public String petList(@PathVariable("ownerId") int ownerId, Model model) {
+		Owner owner = this.ownerService.findOwnerById(ownerId);
+		model.addAttribute(owner);
+		return "owners/myPetList";
+	}
 }
+
