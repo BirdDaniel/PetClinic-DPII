@@ -15,8 +15,6 @@ public interface RequestRepository {
 
 	Request findById(int id);
 
-	void save(Request request);
-
 	void save(Request request) throws DataAccessException;
 
 

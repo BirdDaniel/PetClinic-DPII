@@ -178,7 +178,7 @@ public class OwnerController {
 	@GetMapping(value = "/owners/myRequestList/{ownerId}/details/{requestId}")
 	public String servicesForm(@PathVariable("requestId") int requestId, Model model) {
 		
-		Request req = this.requestService.findRequestById(requestId);
+		Request req = this.requestService.findById(requestId);
 		
 		if(this.clinicService.findClinicByRequest(req)!= null) {
 			Clinic clinic = this.clinicService.findClinicByRequest(req);
