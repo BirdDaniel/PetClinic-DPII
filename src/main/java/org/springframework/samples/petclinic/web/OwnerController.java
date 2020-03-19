@@ -169,12 +169,12 @@ public class OwnerController {
 	}
 	
 	
-	
 	@GetMapping(value = "/owners/myPetList/{ownerId}")
 	public String petList(@PathVariable("ownerId") int ownerId, Model model) {
 		Owner owner = this.ownerService.findOwnerById(ownerId);
 		model.addAttribute(owner);
 		return "owners/myPetList";
+	}
 
 	/**Obtain a Request list of a Owner*/
 	@GetMapping(value = "/owners/myRequestList/{ownerId}")
