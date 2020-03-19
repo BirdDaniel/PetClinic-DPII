@@ -21,6 +21,9 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -38,17 +41,13 @@ import javax.validation.constraints.Pattern;
 @Table(name = "employees")
 public class Employee extends Person {
 	
-	//@ManyToOne()
-	//@JoinColumn(name="service_id")
-	//private BaseClinic service;
-
-	@Column(name = "dni")
 	@Pattern(regexp="^\\d{8}[A-Z]$", message = "DNI doesn't have correct format")
 	@NotEmpty
 	protected String dni;
-	
-	@OneToMany(cascade = CascadeType.ALL)
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "employee")
 	private Set<Request> requests;
+
 
 	public String getDni(){
 		return this.dni;
@@ -58,14 +57,6 @@ public class Employee extends Person {
 		this.dni = dni;
 	}
 
-//	public BaseClinic getServices() {
-//		return service;
-//	}
-//
-//	public void setServices(BaseClinic service) {
-//		this.service = service;
-//	}
-	
 	
 
 }

@@ -36,16 +36,16 @@ public class Request extends BaseEntity{
 	@Future
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate date;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="employee_id")
+	private Employee employee;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="owner_id")
 	private Owner owner;
 
 	private Boolean status = null;
-	
-	@ManyToOne
-	@JoinColumn(name="employee_id")
-	private Employee employee;
 
 	public void setDate(LocalDate date) {
 		this.date = date;

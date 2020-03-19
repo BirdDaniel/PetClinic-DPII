@@ -15,15 +15,26 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Request;
+import org.springframework.samples.petclinic.model.Residence;
+import org.springframework.samples.petclinic.model.Shop;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.OwnerService;
+import org.springframework.samples.petclinic.service.RequestService;
+import org.springframework.samples.petclinic.service.ResidenceService;
+import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,11 +54,26 @@ public class OwnerController {
 
 	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
+	
 	private final OwnerService ownerService;
+	
+	private final RequestService requestService;
+	
+	private final ClinicService clinicService;
 
+	private final ResidenceService residenceService;
+
+	
 	@Autowired
-	public OwnerController(OwnerService ownerService, UserService userService, AuthoritiesService authoritiesService) {
+	public OwnerController(OwnerService ownerService, 
+			ClinicService clinicService, 
+			RequestService requestService, 
+			ResidenceService residenceService,
+			UserService userService, AuthoritiesService authoritiesService) {
 		this.ownerService = ownerService;
+		this.requestService = requestService;
+		this.clinicService = clinicService;
+		this.residenceService = residenceService;
 	}
 
 	@InitBinder
@@ -139,5 +165,33 @@ public class OwnerController {
 		mav.addObject(this.ownerService.findOwnerById(ownerId));
 		return mav;
 	}
+	
+	/**Obtain a Request list of a Owner*/
+	@GetMapping(value = "/owners/myRequestList/{ownerId}")
+	public String requestListForm(@PathVariable("ownerId") int ownerId, Model model) {
+		Owner owner = this.ownerService.findOwnerById(ownerId);
+		model.addAttribute(owner);
+		return "owners/myRequestList";
+	}
+	
+	/**Obtain a Service of a Owner*/
+	@GetMapping(value = "/owners/myRequestList/{ownerId}/details/{requestId}")
+	public String servicesForm(@PathVariable("requestId") int requestId, Model model) {
+		
+		Request req = this.requestService.findRequestById(requestId);
+		
+		if(this.clinicService.findClinicByRequest(req)!= null) {
+			Clinic clinic = this.clinicService.findClinicByRequest(req);
+			model.addAttribute("clinic", clinic);
+			return "services/clinicServiceDetails";
+		}else if(this.residenceService.findResidenceByRequest(req)!= null) {
+			Residence residence = this.residenceService.findResidenceByRequest(req);
+			model.addAttribute("residence", residence);
+			return "services/residenceServiceDetails";
+		}else {
+			return "owners/myRequestList";
+		}
+	}
+
 
 }
