@@ -13,47 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.Future;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-/**
- * Simple JavaBean domain object representing a veterinarian.
- *
- * @author Ken Krebs
- * @author Juergen Hoeller
- * @author Sam Brannen
- * @author Arjen Poutsma
- */
+
 @Entity
 @Table(name = "requests")
 public class Request extends BaseEntity{
 
 	@Column(name = "date_req")
-	@Past
+	@Future
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate date;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="employee_id")
+	private Employee employee;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="services_id")
-	private Set<Service> services;
-	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="owner_id")
 	private Owner owner;
-	
+
+	private Boolean status = null;
 
 	public void setDate(LocalDate date) {
 		this.date = date;
@@ -63,12 +56,12 @@ public class Request extends BaseEntity{
 		return this.date;
 	}
 
-	public Set<Service> getServices() {
-		return services;
+	public Boolean getStatus() {
+		return status;
 	}
 
-	public void setServices(Set<Service> services) {
-		this.services = services;
+	public void setStatus(Boolean status) {
+		this.status = status;
 	}
 
 	public Owner getOwner() {
@@ -79,6 +72,13 @@ public class Request extends BaseEntity{
 		this.owner = owner;
 	}
 	
+	public Employee getEmployee() {
+		return this.employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
 	
 
 }

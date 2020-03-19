@@ -15,55 +15,48 @@
  */
 package org.springframework.samples.petclinic.service;
 
+import java.security.acl.Owner;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.repository.OwnerRepository;
+import org.springframework.samples.petclinic.model.Clinic;
+import org.springframework.samples.petclinic.model.Request;
+import org.springframework.samples.petclinic.model.Residence;
+import org.springframework.samples.petclinic.repository.ResidenceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
- * Mostly used as a facade for all Petclinic controllers Also a placeholder
+ * Mostly used as a facade for all Petresidence controllers Also a placeholder
  * for @Transactional and @Cacheable annotations
  *
  * @author Michael Isvy
  */
 @Service
-public class OwnerService {
+public class ResidenceService {
 
-	private OwnerRepository ownerRepository;	
-	
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private AuthoritiesService authoritiesService;
+	private ResidenceRepository residenceRepository;
 
 	@Autowired
-	public OwnerService(OwnerRepository ownerRepository) {
-		this.ownerRepository = ownerRepository;
+	public ResidenceService(ResidenceRepository residenceRepository) {
+		this.residenceRepository = residenceRepository;
 	}	
-
+	
 	@Transactional(readOnly = true)
-	public Owner findOwnerById(int id) throws DataAccessException {
-		return ownerRepository.findById(id);
+	public Residence findResidenceById(int id) throws DataAccessException {
+		return residenceRepository.findById(id);
 	}
-
+	
 	@Transactional(readOnly = true)
-	public Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException {
-		return ownerRepository.findByLastName(lastName);
+	public Residence findResidenceByRequest(Request request) throws DataAccessException {
+		Collection<Residence> residences = this.residenceRepository.findAll();
+		for(Residence r: residences) {
+			if(r.getRequestById(request.getId())!= null) return r;
+		}
+		return null;
 	}
-
-	@Transactional
-	public void saveOwner(Owner owner) throws DataAccessException {
-		//creating owner
-		ownerRepository.save(owner);		
-		//creating user
-		userService.saveUser(owner.getUser());
-		//creating authorities
-		authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
-	}		
 
 }

@@ -30,4 +30,14 @@ public class Clinic extends Service {
 	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	private ClinicType type;
 
+	public ClinicType getType() {
+		return type;
+	}
+
+	public void setType(ClinicType type) {
+		this.type = type;
+	}
+	
+	
+
 }

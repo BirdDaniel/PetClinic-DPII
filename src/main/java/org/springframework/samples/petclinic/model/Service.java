@@ -23,6 +23,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -32,8 +33,7 @@ import org.hibernate.validator.constraints.Range;
 /**
  The services of the clinic
  */
-@Entity
-@Table(name = "services")
+@MappedSuperclass
 public class Service extends BaseClinic {
 
 	@Range(min = 1)
@@ -42,12 +42,11 @@ public class Service extends BaseClinic {
 	@Range(min = (long)0.1)
 	private double price;
 	
-	@ManyToOne() 
-	@JoinColumn(name="request_id")
-	private Request request;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Request> requests;
 	
 	@NotEmpty
-	@Column(length = 2024)
+	@Column(length = 1024)
 	private String description;
 	
 	public int getMax() {
@@ -66,13 +65,30 @@ public class Service extends BaseClinic {
 		this.price = price;
 	}
 
-	public Request getRequest() {
-		return request;
+	public Set<Request> getRequests() {
+		return requests;
 	}
 
-	public void setRequest(Request request) {
-		this.request = request;
+	public void setRequests(Set<Request> requests) {
+		this.requests = requests;
 	}
 	
+	public String getDescription() {
+		return description;
+	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Request getRequestById(int requestId) {
+		Request request = null;
+		for(Request r: this.requests) {
+			if(r.getId()==requestId) {
+				request = r;
+				break;
+			}
+		}
+		return request;
+	}
 }

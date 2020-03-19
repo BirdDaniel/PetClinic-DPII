@@ -18,52 +18,33 @@ package org.springframework.samples.petclinic.service;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.repository.OwnerRepository;
+import org.springframework.samples.petclinic.model.Shop;
+import org.springframework.samples.petclinic.repository.ShopRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
- * Mostly used as a facade for all Petclinic controllers Also a placeholder
+ * Mostly used as a facade for all Petshop controllers Also a placeholder
  * for @Transactional and @Cacheable annotations
  *
  * @author Michael Isvy
  */
 @Service
-public class OwnerService {
+public class ShopService {
 
-	private OwnerRepository ownerRepository;	
-	
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private AuthoritiesService authoritiesService;
+	private ShopRepository shopRepository;
 
 	@Autowired
-	public OwnerService(OwnerRepository ownerRepository) {
-		this.ownerRepository = ownerRepository;
+	public ShopService(ShopRepository shopRepository) {
+		this.shopRepository = shopRepository;
 	}	
-
+	
 	@Transactional(readOnly = true)
-	public Owner findOwnerById(int id) throws DataAccessException {
-		return ownerRepository.findById(id);
+	public Shop findClinicById(int id) throws DataAccessException {
+		return shopRepository.findById(id);
 	}
-
-	@Transactional(readOnly = true)
-	public Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException {
-		return ownerRepository.findByLastName(lastName);
-	}
-
-	@Transactional
-	public void saveOwner(Owner owner) throws DataAccessException {
-		//creating owner
-		ownerRepository.save(owner);		
-		//creating user
-		userService.saveUser(owner.getUser());
-		//creating authorities
-		authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
-	}		
 
 }

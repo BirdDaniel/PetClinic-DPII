@@ -53,7 +53,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "shops")
 public class Shop extends BaseClinic {
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "shop", fetch = FetchType.EAGER)
 	private Set<Item> items;
 	
 	

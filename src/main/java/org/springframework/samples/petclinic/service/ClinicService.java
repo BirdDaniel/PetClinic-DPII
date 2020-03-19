@@ -15,14 +15,18 @@
  */
 package org.springframework.samples.petclinic.service;
 
+import java.security.acl.Owner;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.repository.OwnerRepository;
+import org.springframework.samples.petclinic.model.Clinic;
+import org.springframework.samples.petclinic.model.Request;
+import org.springframework.samples.petclinic.repository.ClinicRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
  * Mostly used as a facade for all Petclinic controllers Also a placeholder
@@ -31,39 +35,27 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Michael Isvy
  */
 @Service
-public class OwnerService {
+public class ClinicService {
 
-	private OwnerRepository ownerRepository;	
-	
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private AuthoritiesService authoritiesService;
+	private ClinicRepository clinicRepository;
 
 	@Autowired
-	public OwnerService(OwnerRepository ownerRepository) {
-		this.ownerRepository = ownerRepository;
+	public ClinicService(ClinicRepository clinicRepository) {
+		this.clinicRepository = clinicRepository;
 	}	
-
+	
 	@Transactional(readOnly = true)
-	public Owner findOwnerById(int id) throws DataAccessException {
-		return ownerRepository.findById(id);
+	public Clinic findClinicById(int id) throws DataAccessException {
+		return clinicRepository.findById(id);
 	}
-
+	
 	@Transactional(readOnly = true)
-	public Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException {
-		return ownerRepository.findByLastName(lastName);
+	public Clinic findClinicByRequest(Request request) throws DataAccessException {
+		Collection<Clinic> clinics = this.clinicRepository.findAll();
+		for(Clinic c: clinics) {
+			if(c.getRequestById(request.getId())!= null) return c;
+		}
+		return null;
 	}
-
-	@Transactional
-	public void saveOwner(Owner owner) throws DataAccessException {
-		//creating owner
-		ownerRepository.save(owner);		
-		//creating user
-		userService.saveUser(owner.getUser());
-		//creating authorities
-		authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
-	}		
 
 }
