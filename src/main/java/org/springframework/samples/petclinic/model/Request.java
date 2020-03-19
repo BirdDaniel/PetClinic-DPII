@@ -46,10 +46,6 @@ public class Request extends BaseEntity{
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate date;
 	
-//	@OneToMany(cascade = CascadeType.ALL)
-//	@JoinColumn(name="services_id")
-//	private Set<Service> services;
-	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="employee_id")
 	private Employee employee;

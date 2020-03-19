@@ -67,6 +67,11 @@ public class RequestService {
 	public Request findRequestById(int id) throws DataAccessException {
 		return requestRepository.findById(id);
 	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Request> findAcceptedRequests() throws DataAccessException {
+		return requestRepository.findAcceptedAll();
+	}
 
 	@Transactional
 	public void saveRequest(Request request) throws DataAccessException {

@@ -15,6 +15,8 @@
  */
 package org.springframework.samples.petclinic.repository.springdatajpa;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -32,4 +34,8 @@ import org.springframework.samples.petclinic.repository.VetRepository;
  */
 public interface SpringDataRequestRepository extends RequestRepository, Repository<Request, Integer> {
 
+	@Override
+	@Query("SELECT request FROM Request request WHERE request.status = true")
+	public Collection<Request> findAcceptedAll();
+	
 }

@@ -17,9 +17,12 @@ package org.springframework.samples.petclinic.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -152,7 +155,13 @@ public class Owner extends Person {
 		this.pets = pets;
 	}
 	
-	
+	public Set<Request> getAcceptedRequests(){
+		SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getDate));
+		for(Request req : this.requests){
+			if(req.getStatus()!=null) if(req.getStatus()==true) res.add(req);
+		}
+		return res;
+	}
 	
 
 }
