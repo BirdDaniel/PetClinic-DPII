@@ -19,10 +19,6 @@
             <td><c:out value="${owner.address}"/></td>
         </tr>
         <tr>
-            <th>City</th>
-            <td><c:out value="${owner.city}"/></td>
-        </tr>
-        <tr>
             <th>Telephone</th>
             <td><c:out value="${owner.telephone}"/></td>
         </tr>

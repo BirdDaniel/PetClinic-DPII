@@ -41,18 +41,24 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "requests")
 public class Request extends BaseEntity{
 
-	@Column(name = "date")
+	@Column(name = "date_req")
 	@Past
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate date;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="services_id")
-	private Set<Service> services;
+//	@OneToMany(cascade = CascadeType.ALL)
+//	@JoinColumn(name="services_id")
+//	private Set<Service> services;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="employee_id")
+	private Employee employee;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="owner_id")
 	private Owner owner;
+	
+	private Boolean status = null;
 	
 
 	public void setDate(LocalDate date) {
@@ -63,12 +69,20 @@ public class Request extends BaseEntity{
 		return this.date;
 	}
 
-	public Set<Service> getServices() {
-		return services;
+	public Employee getEmployee() {
+		return employee;
 	}
 
-	public void setServices(Set<Service> services) {
-		this.services = services;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
 	}
 
 	public Owner getOwner() {

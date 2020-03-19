@@ -20,10 +20,13 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -33,19 +36,19 @@ import org.springframework.format.annotation.DateTimeFormat;
 /**
  The services of the clinic
  */
-@Entity
+@MappedSuperclass
 public class BaseClinic extends BaseEntity {
 	
 	@Range(min = 0, max = 5)
 	private int rating;
-	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="service")
-	private Set<Payment> payments;
-	
+
 	private String address;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Employee> employees;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Payment> payments;
 	
 	/*private DateFormat format = new SimpleDateFormat("HH:mm");
 	*/
@@ -98,6 +101,16 @@ public class BaseClinic extends BaseEntity {
 	public void setClose(Date close) {
 		this.close = close;
 	}
+
+	public Set<Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(Set<Employee> employees) {
+		this.employees = employees;
+	}
+	
+	
 	
 
 }
