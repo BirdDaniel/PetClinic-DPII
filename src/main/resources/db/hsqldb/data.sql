@@ -4,6 +4,19 @@ INSERT INTO authorities VALUES ('admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r
 INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
 INSERT INTO authorities VALUES ('owner1','owner');
+
+INSERT INTO users(username,password,enabled) VALUES ('owner2','0wn3r',TRUE);
+INSERT INTO authorities VALUES ('owner2','owner');
+INSERT INTO users(username,password,enabled) VALUES ('owner3','0wn3r',TRUE);
+INSERT INTO authorities VALUES ('owner3','owner');
+INSERT INTO users(username,password,enabled) VALUES ('owner4','0wn3r',TRUE);
+INSERT INTO authorities VALUES ('owner4','owner');
+INSERT INTO users(username,password,enabled) VALUES ('owner5','0wn3r',TRUE);
+INSERT INTO authorities VALUES ('owner5','owner');
+INSERT INTO users(username,password,enabled) VALUES ('owner6','0wn3r',TRUE);
+INSERT INTO authorities VALUES ('owner6','owner');
+INSERT INTO users(username,password,enabled) VALUES ('owner7','0wn3r',TRUE);
+INSERT INTO authorities VALUES ('owner7','owner');
 -- One vet user, named vet1 with passwor v3t
 INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
 INSERT INTO authorities VALUES ('vet1','employee');
@@ -15,6 +28,35 @@ INSERT INTO employees VALUES (1, 'Marta', 'Carter','65847525H','679845125','vet1
 --INSERT INTO vets VALUES (4, 'Rafael', 'Ortega');
 --INSERT INTO vets VALUES (5, 'Henry', 'Stevens');
 --INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins');
+
+INSERT INTO owners VALUES (1, 'David', 'Schroeder', '2749 Blackhawk Trail','6085559435', 'owner1');
+INSERT INTO owners VALUES (2, 'Peter', 'McTavish', '2387 S. Fair Way',  '6085552765', 'owner2');
+INSERT INTO owners VALUES (3, 'Jean', 'Coleman', '105 N. Lake St.', '6085552654', 'owner3');
+INSERT INTO owners VALUES (4, 'Jeff', 'Black', '1450 Oak Blvd.', '6085555387', 'owner4');
+INSERT INTO owners VALUES (5, 'Maria', 'Escobito', '345 Maple St.',  '6085557683', 'owner5');
+INSERT INTO owners VALUES (6, 'David', 'Schroeder', '2749 Blackhawk Trail',  '6085559435', 'owner6');
+INSERT INTO owners VALUES (7, 'Carlos', 'Estaban', '2335 Independence La.', '6085555487', 'owner7');
+
+--INSERT INTO requests(id, date_req, employee_id, owner_id);
+INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (1, '2030-08-01',1,1);
+INSERT INTO EMPLOYEES_REQUESTS VALUES(1,1);
+INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (2, '2021-02-01',1,4);
+INSERT INTO EMPLOYEES_REQUESTS VALUES(1,2);
+INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (3, '2022-05-01',1,7);
+INSERT INTO EMPLOYEES_REQUESTS VALUES(1,3);
+INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (4, '2020-08-07',1,2);
+INSERT INTO EMPLOYEES_REQUESTS VALUES(1,4);
+INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (5, '2031-04-11',1,1);
+INSERT INTO EMPLOYEES_REQUESTS VALUES(1,5);
+INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (6, '2026-09-10',1,4);
+INSERT INTO EMPLOYEES_REQUESTS VALUES(1,6);
+
+INSERT INTO types VALUES (1, 'cat');
+INSERT INTO types VALUES (2, 'dog');
+INSERT INTO types VALUES (3, 'lizard');
+INSERT INTO types VALUES (4, 'snake');
+INSERT INTO types VALUES (5, 'bird');
+INSERT INTO types VALUES (6, 'hamster');
 
 
 --INSERT INTO specialties VALUES (1, 'radiology');
@@ -29,12 +71,7 @@ INSERT INTO employees VALUES (1, 'Marta', 'Carter','65847525H','679845125','vet1
 --INSERT INTO vet_specialties VALUES (5, 1);
 
 /*
-INSERT INTO types VALUES (1, 'cat');
-INSERT INTO types VALUES (2, 'dog');
-INSERT INTO types VALUES (3, 'lizard');
-INSERT INTO types VALUES (4, 'snake');
-INSERT INTO types VALUES (5, 'bird');
-INSERT INTO types VALUES (6, 'hamster');
+
 
 INSERT INTO owners VALUES (1, '110 W. Liberty St.', 'Madison', '12345678Z', 'George', 'Franklin', '6085551023', 'owner1');
 INSERT INTO owners VALUES (2, '638 Cardinal Ave.', 'Sun Prairie', '52365678Y', 'Betty', 'Davis', '6085551749', 'admin1');
@@ -62,7 +99,6 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (3, 'Rosy', '2011-0
 --INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 10);
 
 --INSERT INTO requests(id, date_req, employee_id, owner_id);
-INSERT INTO requests(id, date_req) VALUES (1, '2030-08-01');
 INSERT INTO requests(id, date_req) VALUES (2, '2031-08-01');
 INSERT INTO requests(id, date_req) VALUES (3, '2032-08-01');
 

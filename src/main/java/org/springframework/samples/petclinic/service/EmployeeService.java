@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.SortedSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

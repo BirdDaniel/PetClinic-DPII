@@ -14,6 +14,10 @@ public interface RequestRepository {
 	Request findByOwnerId(int id);
 
 	List<Request> findRequestsByEmployeeId(int id);
+
+	Request findById(int id);
+
+	void save(Request request);
 	/**
 	 * Save an <code>Owner</code> to the data store, either inserting or updating it.
 	 * @param owner the <code>Owner</code> to save

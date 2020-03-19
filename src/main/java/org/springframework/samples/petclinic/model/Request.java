@@ -40,6 +40,8 @@ public class Request extends BaseEntity{
 	@ManyToOne
 	@JoinColumn(name="owner_id")
 	private Owner owner;
+
+	private Boolean status = null;
 	
 	@ManyToOne
 	@JoinColumn(name="employee_id")
@@ -51,6 +53,14 @@ public class Request extends BaseEntity{
 
 	public LocalDate getDate() {
 		return this.date;
+	}
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
 	}
 
 	public Owner getOwner() {

@@ -11,11 +11,10 @@
         <tr>
             <th style="width: 150px;">Date</th>
             <th style="width: 200px;">Owner</th>
-            <th style="width: 180px">Accept or Decline</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${requests}" var="request">
+        <c:forEach items="${appointments}" var="request">
             <tr>
                 <td>
                     <c:out value="${request.date}"/>
@@ -25,28 +24,6 @@
                         <spring:param name="ownerId" value="${request.owner.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(ownerUrl)}"><c:out value="${request.owner.firstName} ${request.owner.lastName}"/></a>
-                </td>
-                <td>
-                    <c:if test="${request.status == null}">
-                        <spring:url value="/employees/{employeeId}/requests/{requestId}/accept" var="acceptUrl">
-                            <spring:param name="requestId" value="${request.id}"/>
-                            <spring:param name="employeeId" value="${request.employee.id}"/>
-                        </spring:url>
-                        <spring:url value="/employees/{employeeId}/requests/{requestId}/decline" var="declineUrl">
-                            <spring:param name="requestId" value="${request.id}"/>
-                            <spring:param name="employeeId" value="${request.employee.id}"/>
-                        </spring:url>
-                        <c:out value="Pending..."/> |
-                        <a href="${fn:escapeXml(acceptUrl)}" class="btn btn-success">Accept</a>
-                        <a href="${fn:escapeXml(declineUrl)}" class="btn btn-danger">Decline</a>
-                    </c:if>
-                    <c:if test="${request.status == true}">
-                        <c:out value="Accepted"/>
-                    </c:if>
-                    <c:if test="${request.status == false}">
-                        <c:out value="Declined"/>
-                    </c:if>
-                    
                 </td>
       
 <!--
