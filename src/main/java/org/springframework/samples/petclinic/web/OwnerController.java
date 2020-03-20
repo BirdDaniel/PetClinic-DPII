@@ -199,7 +199,8 @@ public class OwnerController {
 			model.addAttribute("residence", residence);
 			return "services/residenceServiceDetails";
 		}else {
-			return "owners/myRequestList";
+			model.addAttribute(req.getOwner());
+			return "owners/ownerDetails";
 		}
 	}
 

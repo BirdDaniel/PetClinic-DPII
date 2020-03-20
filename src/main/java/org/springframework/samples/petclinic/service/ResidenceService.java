@@ -40,10 +40,10 @@ public class ResidenceService {
 
 	private ResidenceRepository residenceRepository;
 
-//	@Autowired
-//	public ResidenceService(ResidenceRepository residenceRepository) {
-//		this.residenceRepository = residenceRepository;
-//	}	
+	@Autowired
+	public ResidenceService(ResidenceRepository residenceRepository) {
+		this.residenceRepository = residenceRepository;
+	}	
 	
 	@Transactional(readOnly = true)
 	public Residence findResidenceById(int id) throws DataAccessException {
