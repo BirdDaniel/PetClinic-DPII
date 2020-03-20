@@ -15,9 +15,7 @@
  */
 package org.springframework.samples.petclinic.web;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,13 +26,11 @@ import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
-import org.springframework.samples.petclinic.model.Shop;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ResidenceService;
-import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -188,7 +184,7 @@ public class OwnerController {
 	@GetMapping(value = "/owners/{ownerId}/myRequestList/{requestId}/details")
 	public String servicesForm(@PathVariable("requestId") int requestId, Model model) {
 		
-		Request req = this.requestService.findRequestById(requestId);
+		Request req = this.requestService.findById(requestId);
 		
 		if(this.clinicService.findClinicByRequest(req)!= null) {
 			Clinic clinic = this.clinicService.findClinicByRequest(req);

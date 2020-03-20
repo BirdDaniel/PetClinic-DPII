@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.Request;
 
 public interface RequestRepository {
@@ -14,8 +13,6 @@ public interface RequestRepository {
 	List<Request> findRequestsByEmployeeId(int id);
 
 	Request findById(int id);
-
-	void save(Request request);
 
 	void save(Request request) throws DataAccessException;
 
