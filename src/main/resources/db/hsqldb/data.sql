@@ -29,21 +29,22 @@ INSERT INTO employees VALUES (1, 'Marta', 'Carter','65847525H','679845125','vet1
 --INSERT INTO vets VALUES (5, 'Henry', 'Stevens');
 --INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins');
 
-INSERT INTO owners VALUES (1, 'David', 'Schroeder', '2749 Blackhawk Trail','6085559435', 'owner1');
-INSERT INTO owners VALUES (2, 'Peter', 'McTavish', '2387 S. Fair Way',  '6085552765', 'owner2');
-INSERT INTO owners VALUES (3, 'Jean', 'Coleman', '105 N. Lake St.', '6085552654', 'owner3');
-INSERT INTO owners VALUES (4, 'Jeff', 'Black', '1450 Oak Blvd.', '6085555387', 'owner4');
-INSERT INTO owners VALUES (5, 'Maria', 'Escobito', '345 Maple St.',  '6085557683', 'owner5');
-INSERT INTO owners VALUES (6, 'David', 'Schroeder', '2749 Blackhawk Trail',  '6085559435', 'owner6');
-INSERT INTO owners VALUES (7, 'Carlos', 'Estaban', '2335 Independence La.', '6085555487', 'owner7');
+--INSERT INTO owners VALUES (id, firstName, LastName, telephone, address, username);
+INSERT INTO owners VALUES (1, 'David', 'Schroeder','6085559435' , '2749 Blackhawk Trail', 'owner1');
+INSERT INTO owners VALUES (2, 'Peter', 'McTavish','6085552765' , '2387 S. Fair Way', 'owner2');
+INSERT INTO owners VALUES (3, 'Jean', 'Coleman', '6085552654' , '105 N. Lake St.', 'owner3');
+INSERT INTO owners VALUES (4, 'Jeff', 'Black','6085555387' , '1450 Oak Blvd.', 'owner4');
+INSERT INTO owners VALUES (5, 'Maria', 'Escobito', '6085557683' , '345 Maple St.', 'owner5');
+INSERT INTO owners VALUES (6, 'David', 'Schroeder','6085559435' ,'2749 Blackhawk Trail', 'owner6');
+INSERT INTO owners VALUES (7, 'Carlos', 'Estaban', '6085555487', '2335 Independence La.', 'owner7');
 
 --INSERT INTO requests(id, date_req, employee_id, owner_id);
-INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (1, '2030-08-01',1,1);
-INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (2, '2021-02-01',1,4);
-INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (3, '2022-05-01',1,7);
-INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (4, '2020-08-07',1,2);
-INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (5, '2031-04-11',1,1);
-INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (6, '2026-09-10',1,4);
+--INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (1, '2030-08-01',1,1);
+--INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (2, '2021-02-01',1,4);
+--INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (3, '2022-05-01',1,7);
+--INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (4, '2020-08-07',1,2);
+--INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (5, '2031-04-11',1,1);
+--INSERT INTO requests(id, date_req,employee_id,owner_id) VALUES (6, '2026-09-10',1,4);
 
 
 INSERT INTO types VALUES (1, 'cat');
@@ -73,11 +74,11 @@ INSERT INTO types VALUES (6, 'hamster');
 --INSERT INTO clinic_types VALUES (1, 'Peluquería');
 --INSERT INTO clinic_types VALUES (2, 'Operaciones');
 --INSERT INTO clinic_types VALUES (3, 'Chalé');
-    
+    */
 --INSERT INTO owners VALUES (id, firstName, LastName, telephone, address, username);
-INSERT INTO owners VALUES (1, 'George', 'Franklin', '6085551023', '110 W. Liberty St., Madison', 'owner1');
-INSERT INTO owners VALUES (2, 'Betty', 'Davis', '6085551749', '638 Cardinal Ave., Sun Prairie', 'admin1');
-INSERT INTO owners VALUES (3, 'Eduardo', 'Rodriquez', '6085558763', '2693 Commerce St., McFarland', 'owner1');
+--INSERT INTO owners VALUES (1, 'George', 'Franklin', '6085551023', '110 W. Liberty St., Madison', 'owner1');
+--INSERT INTO owners VALUES (2, 'Betty', 'Davis', '6085551749', '638 Cardinal Ave., Sun Prairie', 'admin1');
+--INSERT INTO owners VALUES (3, 'Eduardo', 'Rodriquez', '6085558763', '2693 Commerce St., McFarland', 'owner1');
 
 --INSERT INTO owners VALUES (4, 'Harold', 'Davis', '563 Friendly St.', 'Windsor', '6085553198', 'owner1');
 --INSERT INTO owners VALUES (5, 'Peter', 'McTavish', '2387 S. Fair Way', 'Madison', '6085552765', 'owner1');
@@ -115,9 +116,8 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (3, 'Rosy', '2011-0
 
 
 --INSERT INTO requests(id, date_req, employee_id, owner_id);
-INSERT INTO requests(id, date_req) VALUES (2, '2031-08-01');
-INSERT INTO requests(id, date_req) VALUES (3, '2032-08-01');
-
+--INSERT INTO requests(id, date_req) VALUES (2, '2031-08-01');
+--INSERT INTO requests(id, date_req) VALUES (3, '2032-08-01');
 
 --INSERT INTO services(id, address, close, max, open, price, reception, room, request_id);
 --INSERT INTO services VALUES (1, 'New Address', '2012-06-08 10:10:10', 10, '2022-06-08 12:00', 2.5, 3, 'A1-23', 1);
@@ -130,10 +130,11 @@ INSERT INTO requests(id, date_req) VALUES (3, '2032-08-01');
 --INSERT INTO employees VALUES (3, 'No Hoes', 'Mad', '6145556023', '87654341A', 'vet1');
 
 --INSERT INTO requests(id, date_req, status, employee_id, owner_id);
---INSERT INTO requests VALUES (1, '2030-08-01', null, 1, 1);
+INSERT INTO requests VALUES (1, '2030-08-01', null, 1, 1);
 --INSERT INTO requests VALUES (2, '2031-08-01', true, 2, 1);
 --INSERT INTO requests VALUES (3, '2032-08-01', false, 2, 2);
---INSERT INTO requests VALUES (4, '2035-08-05', null, 1, 1);
+INSERT INTO requests VALUES (4, '2035-08-05', null, 1, 2);
+INSERT INTO requests VALUES (7, '2037-08-05', false, 1, 2);
 --INSERT INTO requests VALUES (5, '2031-08-01', true, 3, 3);
 --INSERT INTO requests VALUES (6, '2032-08-01', false, 3, 3);
 

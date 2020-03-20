@@ -11,7 +11,7 @@
         <tr>
             <th style="width: 150px;">Date</th>
             <th style="width: 200px;">Owner</th>
-            <th style="width: 180px">Accept or Decline</th>
+            <th style="width: 250px">Accept or Decline</th>
         </tr>
         </thead>
         <tbody>
@@ -27,7 +27,7 @@
                     <a href="${fn:escapeXml(ownerUrl)}"><c:out value="${request.owner.firstName} ${request.owner.lastName}"/></a>
                 </td>
                 <td>
-                    <c:if test="${request.status == null}">
+                    
                         <spring:url value="/employees/{employeeId}/requests/{requestId}/accept" var="acceptUrl">
                             <spring:param name="requestId" value="${request.id}"/>
                             <spring:param name="employeeId" value="${request.employee.id}"/>
@@ -36,9 +36,16 @@
                             <spring:param name="requestId" value="${request.id}"/>
                             <spring:param name="employeeId" value="${request.employee.id}"/>
                         </spring:url>
-                        <c:out value="Pending..."/> |
+                       
+                        
+                        <c:if test="${request.status != true}">
                         <a href="${fn:escapeXml(acceptUrl)}" class="btn btn-success">Accept</a>
+                         </c:if>
+                          <c:if test="${request.status != false}">
                         <a href="${fn:escapeXml(declineUrl)}" class="btn btn-danger">Decline</a>
+                        </c:if>
+                        <c:if test="${request.status == null}">
+                         <c:out value="Pending..."/> 
                     </c:if>
                     <c:if test="${request.status == true}">
                         <c:out value="Accepted"/>
@@ -48,7 +55,14 @@
                     </c:if>
                     
                 </td>
-      
+        <%-- 		       <td>
+                                <spring:url value="/employees/{employeeId}/requests/{requestId}/edit" var="requestUrl">
+                                    <spring:param name="employeeId" value="${request.employee.id}"/>
+                                    <spring:param name="requestId" value="${request.id}"/>
+                                </spring:url>
+                                <a href="${fn:escapeXml(requestUrl)}">Edit Request</a>
+                            </td>
+     	 --%>	
 <!--
                 <td> 
                     <c:out value="${owner.user.username}"/> 
