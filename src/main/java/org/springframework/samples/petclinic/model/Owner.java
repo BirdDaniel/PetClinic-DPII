@@ -157,7 +157,7 @@ public class Owner extends Person {
 	}
   
   public Set<Request> getAcceptedRequests(){
-		SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getDate));
+		SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getRequestDate));
 		for(Request req : this.requests){
 			if(req.getStatus()!=null) if(req.getStatus()==true) res.add(req);
 		}

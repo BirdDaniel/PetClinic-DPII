@@ -51,7 +51,7 @@ public class EmployeeController {
 
 	@GetMapping("/requests")
 	public String myRequests(Employee employee, Map<String, Object> model){
-		SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getDate));
+		SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getRequestDate));
 		Set<Request> requests = this.employeeService.getRequests(employee.getId());
 		res.addAll(requests);
 		model.put("requests", res);
@@ -61,7 +61,7 @@ public class EmployeeController {
 	@GetMapping("/appointments")
 	public String allAppointments(Employee employee, Map<String, Object> model){
 		Set<Request> appointments = this.employeeService.getRequests(employee.getId());
-		SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getDate));
+		SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getRequestDate));
 		for(Request req : appointments){
 			if(req.getStatus()!=null)
 				if(req.getStatus()==true) 

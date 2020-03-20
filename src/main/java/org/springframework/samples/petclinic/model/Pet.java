@@ -20,11 +20,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * Simple business object representing a pet.
@@ -51,10 +54,23 @@ public class Pet extends NamedEntity {
 
 	//@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	//private Set<Visit> visits;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet",fetch = FetchType.EAGER)
+	private Set<Request> requests;
 
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
+	
+	public Set<Request> getRequests() {
+		return requests;
+	}
+
+
+	public void setRequests(Set<Request> requests) {
+		this.requests = requests;
+	}
+
 
 	public LocalDate getBirthDate() {
 		return this.birthDate;

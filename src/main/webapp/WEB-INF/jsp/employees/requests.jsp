@@ -4,12 +4,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <petclinic:layout pageName="requests">
     <table id="requestsTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 150px;">Date</th>
+            <th style="width: 150px;">Request Date</th>
+            <th style="width: 150px;">Service Date</th>
+            <th style="width: 200px;">Pet</th>
             <th style="width: 200px;">Owner</th>
             <th style="width: 250px">Accept or Decline</th>
         </tr>
@@ -17,8 +20,15 @@
         <tbody>
         <c:forEach items="${requests}" var="request">
             <tr>
+            <td><fmt:formatDate value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></td>
+            
+            <td><fmt:formatDate value="${request.serviceDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></td>
+                 
                 <td>
-                    <c:out value="${request.date}"/>
+                    <spring:url value="/pets/{petId}" var="petUrl">
+                        <spring:param name="petId" value="${request.pet.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(petUrl)}"><c:out value="${request.pet.name}"/></a>
                 </td>
                 <td>
                     <spring:url value="/owners/{ownerId}" var="ownerUrl">
