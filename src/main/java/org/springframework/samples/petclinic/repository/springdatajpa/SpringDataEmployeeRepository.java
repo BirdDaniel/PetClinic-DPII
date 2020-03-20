@@ -15,31 +15,28 @@
  */
 package org.springframework.samples.petclinic.repository.springdatajpa;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Set;
+import java.util.SortedSet;
 
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
-import org.springframework.samples.petclinic.repository.PetRepository;
+import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Request;
+import org.springframework.samples.petclinic.repository.EmployeeRepository;
 
-/**
- * Spring Data JPA specialization of the {@link PetRepository} interface
- *
- * @author Michael Isvy
- * @since 15.1.2013
- */
-public interface SpringDataPetRepository extends PetRepository, Repository<Pet, Integer> {
+public interface SpringDataEmployeeRepository extends EmployeeRepository, Repository<Employee, Integer> {
 
 	@Override
-	@Query("SELECT ptype FROM PetType ptype ORDER BY ptype.name")
-	List<PetType> findPetTypes() throws DataAccessException;
+    @Query("SELECT DISTINCT employee FROM Employee employee WHERE employee.lastName LIKE :lastName%")
+	public Collection<Employee> findByLastName(@Param("lastName") String lastName);
 
-	@Modifying
-	@Query("DELETE FROM Pet pet WHERE pet.id=:id")
-	public void deletePet(@Param("id") int id);
+	@Override
+	@Query("SELECT employee FROM Employee employee WHERE employee.id =:id")
+	public Employee findById(@Param("id") int id);
+
+	@Query("SELECT employee.requests FROM Employee employee WHERE employee.id=:id")
+	public Set<Request> getRequests(@Param("id") int id);
 
 }
