@@ -46,7 +46,12 @@
 					<span>Requests</span>
 				</petclinic:menuItem>
 				</sec:authorize>
-
+				
+				<petclinic:menuItem active="${name eq 'residences'}" url="/residence/findAll"
+					title="residences">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					<span>Residences</span>
+				</petclinic:menuItem>
 
 			</ul>
 
