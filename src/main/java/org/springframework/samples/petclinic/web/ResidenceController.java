@@ -18,10 +18,11 @@ package org.springframework.samples.petclinic.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-
-
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.samples.petclinic.service.ResidenceService;
 
 /**
@@ -35,6 +36,11 @@ public class ResidenceController {
 
 	private final ResidenceService residenceService;
 
+	@InitBinder
+	public void setAllowedFields(WebDataBinder dataBinder) {
+		dataBinder.setDisallowedFields("id");
+	}
+
 	@Autowired
 	public ResidenceController(ResidenceService residenceService) {
 		this.residenceService = residenceService;
@@ -45,6 +51,16 @@ public class ResidenceController {
 		Iterable<Residence> residences= this.residenceService.findAll();
 		model.addAttribute("residences", residences);
 		return "services/residences";
+	}
+
+
+	@GetMapping("/{residenceId}")
+	public String showResidence(@PathVariable("residenceId") int residenceId,Model model) {
+		
+		//String mav = new String("services/residenceServiceDetails");
+		Residence residence=this.residenceService.findResidenceById(residenceId);
+		model.addAttribute("residence",residence);
+		return "services/residenceServiceDetails";
 	}
 
 }

@@ -15,11 +15,6 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import java.util.Date;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -29,8 +24,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Range;
-import org.springframework.data.util.Pair;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  The services of the clinic
@@ -41,6 +34,14 @@ public class Residence extends Service {
 	
 	@Range(min = 1)
 	private int days;
+
+	public int getDays() {
+		return days;
+	}
+
+	public void setDays(int days) {
+		this.days = days;
+	}
 	
 
 }
