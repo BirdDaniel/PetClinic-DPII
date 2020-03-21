@@ -3,6 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <petclinic:layout pageName="requests">
 	
@@ -17,8 +18,10 @@
             <tr>
                 <td valign="top">
                     <dl class="dl-horizontal">
-                        <dt>Date</dt>
-						<dd><petclinic:localDate date="${request.date}" pattern="yyyy-MM-dd"/></dd>
+                        <dt>Request Date</dt>
+						<dd><fmt:formatDate value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></dd>
+						<dt>Service Date</dt>
+						<dd><fmt:formatDate value="${request.serviceDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></dd>
 						<dt>Employee</dt>
 						<dd><c:out value="With: ${request.employee.firstName} ${request.employee.lastName}"/></dd>
 						<dt>Status</dt>

@@ -194,7 +194,7 @@ class PetServiceTests {
 			petService.savePet(anotherPet);
 		});		
 	}
-
+/*
 	@Test
 	@Transactional
 	public void shouldAddNewVisitForPet() {
@@ -214,7 +214,7 @@ class PetServiceTests {
 		assertThat(pet7.getVisits().size()).isEqualTo(found + 1);
 		assertThat(visit.getId()).isNotNull();
 	}
-
+*/
 	@Test
 	void shouldFindVisitsByPetId() throws Exception {
 		Collection<Visit> visits = this.petService.findVisitsByPetId(7);

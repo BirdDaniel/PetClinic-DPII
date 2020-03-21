@@ -199,7 +199,16 @@ public class OwnerController {
 			model.addAttribute("residence", residence);
 			return "services/residenceServiceDetails";
 		}else {
-			return "owners/myRequestList";
+			model.addAttribute(req.getOwner());
+			return "owners/ownerDetails";
 		}
 	}
+
+	@GetMapping(value = "/owners/myPetList/{ownerId}")
+	public String petList(@PathVariable("ownerId") int ownerId, Model model) {
+		Owner owner = this.ownerService.findOwnerById(ownerId);
+		model.addAttribute(owner);
+		return "owners/myPetList";
+	}
 }
+
