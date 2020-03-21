@@ -16,13 +16,15 @@
 package org.springframework.samples.petclinic.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Residence;
+import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 
-import org.springframework.samples.petclinic.service.ResidenceService;
+
+
+import org.springframework.samples.petclinic.service.ClinicService;
 
 /**
  * @author Juergen Hoeller
@@ -30,21 +32,21 @@ import org.springframework.samples.petclinic.service.ResidenceService;
  * @author Arjen Poutsma
  */
 @Controller
-@RequestMapping("/residence")
-public class ResidenceController {
+@RequestMapping("/clinic")
+public class ClinicController {
 
-	private final ResidenceService residenceService;
+	private final ClinicService clinicService;
 
 	@Autowired
-	public ResidenceController(ResidenceService residenceService) {
-		this.residenceService = residenceService;
+	public ClinicController(ClinicService clinicService) {
+		this.clinicService = clinicService;
 	}
 
 	@GetMapping(value = "/findAll")
-	public String residences(ModelMap model) {
-		Iterable<Residence> residences= this.residenceService.findAll();
-		model.addAttribute("residences", residences);
-		return "services/residences";
+	public String clinics(ModelMap model) {
+		Iterable<Clinic> clinics= this.clinicService.findAll();
+		model.addAttribute("clinics", clinics);
+		return "services/clinics";
 	}
 
 }

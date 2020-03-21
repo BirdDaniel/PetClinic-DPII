@@ -46,13 +46,22 @@
 					<span>Requests</span>
 				</petclinic:menuItem>
 				</sec:authorize>
-				
+				<sec:authorize access="hasAuthority('owner')">
 				<petclinic:menuItem active="${name eq 'residences'}" url="/residence/findAll"
 					title="residences">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Residences</span>
 				</petclinic:menuItem>
-
+				</sec:authorize>
+				
+				<sec:authorize access="hasAuthority('owner')">
+				<petclinic:menuItem active="${name eq 'clinics'}" url="/clinic/findAll"
+					title="clinics">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					<span>Clinics</span>
+				</petclinic:menuItem>
+				</sec:authorize>
+				
 			</ul>
 
 

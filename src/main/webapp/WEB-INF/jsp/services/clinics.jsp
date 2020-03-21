@@ -5,16 +5,17 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<petclinic:layout pageName="residences">
+<petclinic:layout pageName="clinics">
 	
 	<br/>
 	<br/>
 	<br/>
 	
-	<h2>Residences: </h2>
-	<table id="residenceTable" class="table table-striped">
+	<h2>Clinics: </h2>
+	<table id="clinicTable" class="table table-striped">
         <thead>
         <tr>
+        	<th>Type</th>
             <th>Address</th>
             <th>Price</th>
             <th>Rating</th>
@@ -24,30 +25,33 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${residences}" var="residence">
+        <c:forEach items="${clinics}" var="clinic">
             <tr>
+             	<td>
+                    <c:out value="${clinic.type}"/>
+                </td>
                 <td>
-               <!--       <spring:url value="/owners/{ownerId}" var="ownerUrl">
+                    <c:out value="${clinic.address}"/>
+                </td>
+                <td>
+                    <c:out value="${clinic.price}"/>
+                </td>
+                <td>
+                    <c:out value="${clinic.rating}"/>
+                </td>
+                <td>
+                    <c:out value="${clinic.open}"/>
+                </td>
+                <td>
+                 <c:out value="${clinic.close}"/>
+                 </td>
+                 <td>
+                 <c:out value="${clinic.max}"/>
+                 </td>     
+                  <!--       <spring:url value="/owners/{ownerId}" var="ownerUrl">
                         <spring:param name="ownerId" value="${owner.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(ownerUrl)}"></a> -->
-                    <c:out value="${residence.address}"/>
-                </td>
-                <td>
-                    <c:out value="${residence.price}"/>
-                </td>
-                <td>
-                    <c:out value="${residence.rating}"/>
-                </td>
-                <td>
-                    <c:out value="${residence.open}"/>
-                </td>
-                <td>
-                 <c:out value="${residence.close}"/>
-                 </td>
-                 <td>
-                 <c:out value="${residence.max}"/>
-                 </td>     
             </tr>
         </c:forEach>
         </tbody>
