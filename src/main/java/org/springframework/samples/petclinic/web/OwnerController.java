@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.web;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -202,15 +203,31 @@ public class OwnerController {
 			return "services/residenceServiceDetails";
 		}else {
 			model.addAttribute(req.getOwner());
-			return "owners/ownerDetails";
+			return "redirect:/owners/" + req.getOwner().getId();
 		}
 	}
 
-	@GetMapping(value = "/owners/myPetList/{ownerId}")
+	@GetMapping(value = "/owners/{ownerId}/myPetList")
 	public String petList(@PathVariable("ownerId") int ownerId, Model model) {
 		Owner owner = this.ownerService.findOwnerById(ownerId);
 		model.addAttribute(owner);
 		return "owners/myPetList";
+	}
+	
+	@GetMapping(value = "/owners/{ownerId}/myPetList/residence")
+	public String requestPetResidence(@PathVariable("ownerId") int ownerId, Model model) {
+		List <Request>  reqs = new ArrayList<>(this.requestService.findAcceptedByOwnerId(ownerId));
+		int i = reqs.size()-1;
+		//Usamos while porque al usar un buble for nos salta ConcurrentModificationException que suele
+		//pasar al borrar/modificar una lista de la base de datos.
+		while(i>=0) {
+			if(this.residenceService.findResidenceByRequest(reqs.get(i))== null) {
+				reqs.remove(reqs.get(i));
+			}
+			i--;			
+		}
+			model.addAttribute("requests", reqs);
+			return "owners/myPetResidence";
 	}
 }
 
