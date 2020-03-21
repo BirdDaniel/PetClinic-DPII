@@ -121,8 +121,8 @@ INSERT INTO requests VALUES (2, '2019-08-01 18:00', '2030-08-06 19:00', true, 2,
 INSERT INTO requests VALUES (3, '2019-08-01 17:30', '2030-08-06 18:00', false, 2, 2, 2);
 INSERT INTO requests VALUES (4, '2019-08-05 16:00', '2030-08-06 20:00', null, 1, 2, 1);
 INSERT INTO requests VALUES (5, '2019-08-01 15:30', '2030-08-06 14:00', true, 3, 3, 3);
-INSERT INTO requests VALUES (6, '2019-08-01 14:30', '2030-08-06 15:00', false, 3, 3, 2);
-INSERT INTO requests VALUES (7, '2019-08-05 19:00', '2030-08-08 17:00', false, 1, 2, 2);
+INSERT INTO requests VALUES (6, '2019-08-01 14:30', '2030-08-06 15:00', true, 3, 3, 2);
+INSERT INTO requests VALUES (7, '2019-08-05 19:00', '2030-08-08 17:00', true, 1, 2, 2);
 
 --INSERT INTO payments(id, credit_card, pay, date_pay, owner_id);
 INSERT INTO payments VALUES (1, '1234 1234 1234 1234', 0.5, '2012-06-08', 1);

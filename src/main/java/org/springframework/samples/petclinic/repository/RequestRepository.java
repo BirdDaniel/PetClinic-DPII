@@ -18,5 +18,7 @@ public interface RequestRepository {
 	void save(Request request) throws DataAccessException;
 
 	Collection<Request> findAcceptedAll();
+	
+	Collection<Request> findAcceptedByOwnerId(int ownerId);
 
 }
