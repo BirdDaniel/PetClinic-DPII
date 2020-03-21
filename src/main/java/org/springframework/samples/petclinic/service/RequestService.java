@@ -10,6 +10,7 @@ import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.samples.petclinic.repository.RequestRepository;
+import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RequestService {
 
-    private RequestRepository requestRepository;	
+  private RequestRepository requestRepository;	
 	
+  @Autowired
+	private ClinicService clinicService;
+	
+	@Autowired
+	private ResidenceService residenceService;
+
 
 	@Autowired
 	public RequestService(RequestRepository requestRepository) {
@@ -28,6 +35,11 @@ public class RequestService {
 	@Transactional(readOnly = true)
 	public Request findById(int id) throws DataAccessException {
 		return requestRepository.findById(id);
+	}
+  
+  @Transactional(readOnly = true)
+	public Collection<Request> findAcceptedRequests() throws DataAccessException {
+		return requestRepository.findAcceptedAll();
 	}
 	
 	@Transactional

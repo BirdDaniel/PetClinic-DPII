@@ -3,6 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <petclinic:layout pageName="requests">
 	
@@ -12,13 +13,15 @@
 	
 	<h2>Request List: </h2>
 	<table class="table table-striped">
-        <c:forEach var="request" items="${owner.requests}">
+        <c:forEach var="request" items="${requests}">
 
             <tr>
                 <td valign="top">
                     <dl class="dl-horizontal">
-                        <dt>Date</dt>
-						<dd><petclinic:localDate date="${request.date}" pattern="yyyy-MM-dd"/></dd>
+                        <dt>Request Date</dt>
+						<dd><fmt:formatDate value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></dd>
+						<dt>Service Date</dt>
+						<dd><fmt:formatDate value="${request.serviceDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></dd>
 						<dt>Employee</dt>
 						<dd><c:out value="With: ${request.employee.firstName} ${request.employee.lastName}"/></dd>
 						<dt>Status</dt>
@@ -38,8 +41,8 @@
                     </dl>
                 </td>
                 <td valign="top">
-                    <spring:url value="/owners/myRequestList/{ownerId}/details/{requestId}" var="serviceUrl">
-                    	<spring:param name="ownerId" value="${owner.id}"/>
+                    <spring:url value="/owners/{ownerId}/myRequestList/{requestId}/details" var="serviceUrl">
+                    	<spring:param name="ownerId" value="${request.owner.id}"/>
                     	<spring:param name="requestId" value="${request.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(serviceUrl)}" class="btn btn-default">Show Service</a>
