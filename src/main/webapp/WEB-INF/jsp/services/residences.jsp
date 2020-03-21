@@ -25,13 +25,18 @@
         </thead>
         <tbody>
         <c:forEach items="${residences}" var="residence">
-            <tr>
-                <td>
+            <tr> <td>
+                     
+                     <spring:url value="/residence/{residenceId}" var="residenceUrl">
+                         <spring:param name="residenceId" value="${residence.id}"/>
+                     </spring:url>
+                
                <!--       <spring:url value="/owners/{ownerId}" var="ownerUrl">
                         <spring:param name="ownerId" value="${owner.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(ownerUrl)}"></a> -->
-                    <c:out value="${residence.address}"/>
+                     <a href="${fn:escapeXml(residenceUrl)}"><c:out value=" ${residence.address}"/></a>
+                   <!-- <c:out value="${residence.address}"/> --> 
                 </td>
                 <td>
                     <c:out value="${residence.price}"/>

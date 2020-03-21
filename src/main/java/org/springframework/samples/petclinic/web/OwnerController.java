@@ -186,17 +186,19 @@ public class OwnerController {
 	
 	/**Obtain a Service of a Owner*/
 	@GetMapping(value = "/owners/{ownerId}/myRequestList/{requestId}/details")
-	public String servicesForm(@PathVariable("requestId") int requestId, Model model) {
+	public String servicesForm(@PathVariable("requestId") int requestId, Model model,Boolean requestD) {
 		
 		Request req = this.requestService.findById(requestId);
 		
 		if(this.clinicService.findClinicByRequest(req)!= null) {
 			Clinic clinic = this.clinicService.findClinicByRequest(req);
 			model.addAttribute("clinic", clinic);
+			//requestD=true;
 			return "services/clinicServiceDetails";
 		}else if(this.residenceService.findResidenceByRequest(req)!= null) {
 			Residence residence = this.residenceService.findResidenceByRequest(req);
 			model.addAttribute("residence", residence);
+			//requestD=false;
 			return "services/residenceServiceDetails";
 		}else {
 			model.addAttribute(req.getOwner());
