@@ -7,7 +7,10 @@
 
 <petclinic:layout pageName="pets">
     <h2>Pets</h2>
-
+             <spring:url value="myPetList/residence" var="serviceUrl">
+             </spring:url>
+             <a href="${fn:escapeXml(serviceUrl)}" class="btn btn-default">Pets in Residence</a>
+            <br>
     <table id="petsTable" class="table table-striped">
         <thead>
         <tr>
