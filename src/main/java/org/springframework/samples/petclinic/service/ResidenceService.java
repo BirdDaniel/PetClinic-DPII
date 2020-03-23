@@ -58,5 +58,10 @@ public class ResidenceService {
 		}
 		return null;
 	}
+	
+	@Transactional
+	public Iterable<Residence> findAll(){
+		return residenceRepository.findAll();
+	}
 
 }
