@@ -28,10 +28,15 @@
 					<span>Home</span>
 				</petclinic:menuItem>
 				<sec:authorize access="hasAuthority('owner')">
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
+				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/${user.id}"
+					title="My Profile">
+					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+					<span>My Profile</span>
+				</petclinic:menuItem>
+				<petclinic:menuItem active="${name eq 'requestsOwner'}" url="/owners/${user.id}/myRequestList"
+					title="Requests">
+					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+					<span>Requests</span>
 				</petclinic:menuItem>
 				</sec:authorize>
 				<sec:authorize access="hasAuthority('employee')">
@@ -40,10 +45,15 @@
 					<span class="glyphicon glyphicon-education" aria-hidden="true"></span>
 					<span>Colleagues</span>
 				</petclinic:menuItem>
-				<petclinic:menuItem active="${name eq 'requests'}" url="/requests"
+				<petclinic:menuItem active="${name eq 'requestsEmployee'}" url="/employees/${user.id}/requests"
 					title="Requests">
 					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
 					<span>Requests</span>
+				</petclinic:menuItem>
+				<petclinic:menuItem active="${name eq 'appointmentsEmployee'}" url="/employees/${user.id}/appointments"
+					title="Appointments">
+					<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+					<span>Appointments</span>
 				</petclinic:menuItem>
 				</sec:authorize>
 				<sec:authorize access="hasAuthority('owner')">

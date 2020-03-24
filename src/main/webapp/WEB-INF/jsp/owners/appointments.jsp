@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="appointmentsEmployee">
+<petclinic:layout pageName="appointmentsOwner">
     <table id="requestsTable" class="table table-striped">
         <thead>
         <tr>
@@ -17,7 +17,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${appointments}" var="request">
+        <c:forEach items="${requests}" var="request">
             <tr>
                 <td><fmt:formatDate value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></td>
             
