@@ -5,12 +5,18 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<petclinic:layout pageName="requests">
+<petclinic:layout pageName="requestsOwner">
 	
 	<br/>
 	<br/>
 	<br/>
+	<spring:url value="/owners/{ownerId}/appointments" var="appointmentsUrl">
+                    	<spring:param name="ownerId" value="${owner.id}"/>
+    </spring:url>
 	
+	<a href="${fn:escapeXml(appointmentsUrl)}" class="btn-default btn">Appointments</a>
+	<br>
+	<br>
 	<h2>Request List: </h2>
 	<table class="table table-striped">
         <c:forEach var="request" items="${requests}">

@@ -172,17 +172,18 @@ public class OwnerController {
 	public String requestListForm(@PathVariable("ownerId") int ownerId, Model model) {
 		Owner owner = this.ownerService.findOwnerById(ownerId);
 		Set<Request> requests = owner.getRequests();
+		model.addAttribute("owner", owner);
 		model.addAttribute("requests", requests);
 		return "owners/myRequestList";
 	}
 	
 	/**Obtain a Request list of a Owner only accepted*/
-	@GetMapping(value = "/owners/{ownerId}/myRequestAccepted")
+	@GetMapping(value = "/owners/{ownerId}/appointments")
 	public String requestAcceptedForm(@PathVariable("ownerId") int ownerId, Model model) {
 		Owner owner = this.ownerService.findOwnerById(ownerId);
 		Set<Request> requests = owner.getAcceptedRequests();
 		model.addAttribute("requests", requests);
-		return "owners/myRequestList";
+		return "owners/appointments";
 	}
 	
 	/**Obtain a Service of a Owner*/
@@ -229,5 +230,7 @@ public class OwnerController {
 			model.addAttribute("requests", reqs);
 			return "owners/myPetResidence";
 	}
+
+
 }
 

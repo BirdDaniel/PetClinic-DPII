@@ -41,6 +41,7 @@ public class UserService {
 		this.userRepository = userRepository;
 	}
 
+
 	@Transactional
 	public void saveUser(User user) throws DataAccessException {
 		user.setEnabled(true);
