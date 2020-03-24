@@ -147,7 +147,7 @@ public class PetController {
                         result.rejectValue("name", "duplicate", "already exists");
                         return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
                     }
-			return "redirect:/owners/{ownerId}";
+			return "redirect:/owners/{ownerId}/myPetList";
 		}
 	}
 
@@ -157,7 +157,7 @@ public class PetController {
 		if(pet!=null){
 			this.petService.deletePet(petId);
 		}
-		return "redirect:/owners/{ownerId}";
+		return "redirect:/owners/{ownerId}/myPetList";
 	}
 
 }
