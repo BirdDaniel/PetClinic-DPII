@@ -7,15 +7,20 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,7 +51,7 @@ public class EmployeeController {
 
 	@GetMapping("/requests")
 	public String myRequests(Employee employee, Map<String, Object> model){
-		SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getDate));
+		SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getRequestDate));
 		Set<Request> requests = this.employeeService.getRequests(employee.getId());
 		res.addAll(requests);
 		model.put("requests", res);
@@ -56,7 +61,7 @@ public class EmployeeController {
 	@GetMapping("/appointments")
 	public String allAppointments(Employee employee, Map<String, Object> model){
 		Set<Request> appointments = this.employeeService.getRequests(employee.getId());
-		SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getDate));
+		SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getRequestDate));
 		for(Request req : appointments){
 			if(req.getStatus()!=null)
 				if(req.getStatus()==true) 
@@ -89,5 +94,26 @@ public class EmployeeController {
 		}
 		return "redirect:/employees/{employeeId}/requests";
 	}
+	
+	/* Edit a Request */
+//	@GetMapping(value = "/employees/{employeeId}/requests/{requestId}/edit")
+//	public String initUpdateRequestForm(@PathVariable("requestId") int requestId, Model model) {
+//		Request request = this.requestService.findById(requestId);
+//		model.addAttribute(request);
+//		return "redirect:/employees/editRequest";
+//	}
+//
+//	@PostMapping(value = "/employees/{employeeId}/requests/{requestId}/edit")
+//	public String processUpdateRequestForm(@PathVariable("employeeId") int employeeId, @Valid Request request, BindingResult result,
+//			@PathVariable("requestId") int requestId) {
+//		if (result.hasErrors()) {
+//			return "redirect:/employees/editRequest";
+//		}
+//		else {
+//			request.setId(requestId);;
+//			this.requestService.save(request);;
+//			return "redirect:/employees/" + employeeId + "/requests";
+//		}
+//	}
 
 }

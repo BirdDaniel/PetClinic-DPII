@@ -23,6 +23,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Request;
+import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.repository.ClinicRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,6 +53,11 @@ public class ClinicService {
 	@Transactional(readOnly = true)
 	public Clinic findClinicByRequest(Request request) throws DataAccessException {
 		return this.clinicRepository.findByRequest(request);
+	}
+	
+	@Transactional
+	public Iterable<Clinic> findAll(){
+		return clinicRepository.findAll();
 	}
 
 

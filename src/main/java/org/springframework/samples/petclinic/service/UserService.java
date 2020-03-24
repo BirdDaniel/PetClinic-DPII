@@ -16,6 +16,8 @@
 package org.springframework.samples.petclinic.service;
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.User;
@@ -38,6 +40,7 @@ public class UserService {
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
+
 
 	@Transactional
 	public void saveUser(User user) throws DataAccessException {

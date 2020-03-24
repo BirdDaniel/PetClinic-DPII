@@ -42,13 +42,25 @@ public class EmployeeService {
 	}
 
 	@Transactional(readOnly = true)
+	public Employee findByUsername(String username) {
+		return this.employeeRepository.findByUsername(username);
+	}
+
+	@Transactional(readOnly = true)
 	public Set<Request> getRequests(int id){
 		return this.employeeRepository.getRequests(id);
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<Employee> findEmployeeByLastName(String lastName) throws DataAccessException {
+	public Collection<Employee> findEmployeesByLastName(String lastName) throws DataAccessException {
 		return employeeRepository.findByLastName(lastName);
+	}
+
+	@Transactional
+	public void saveEmployees(Set<Employee> employees){
+		for (Employee emp: employees){
+			saveEmployee(emp);
+		}
 	}
 
 	@Transactional

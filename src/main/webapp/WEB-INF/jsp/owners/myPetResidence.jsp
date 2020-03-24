@@ -5,45 +5,30 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<petclinic:layout pageName="requestsOwner">
+<petclinic:layout pageName="residences">
 	
 	<br/>
 	<br/>
 	<br/>
-	<spring:url value="/owners/{ownerId}/appointments" var="appointmentsUrl">
-                    	<spring:param name="ownerId" value="${owner.id}"/>
-    </spring:url>
 	
-	<a href="${fn:escapeXml(appointmentsUrl)}" class="btn-default btn">Appointments</a>
-	<br>
-	<br>
-	<h2>Request List: </h2>
+	<h2>Pets in Residence: </h2>
 	<table class="table table-striped">
+        <c:if test="${empty requests}">
+            <p>
+                Yo don't have any pet in a Residence!
+            </p>
+        </c:if>
         <c:forEach var="request" items="${requests}">
 
             <tr>
                 <td valign="top">
                     <dl class="dl-horizontal">
-                        <dt>Request Date</dt>
-						<dd><fmt:formatDate value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></dd>
+                        <dt>Pet Name</dt>
+						<dd><c:out value = "${request.pet.name}"></c:out></dd>
 						<dt>Service Date</dt>
 						<dd><fmt:formatDate value="${request.serviceDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></dd>
 						<dt>Employee</dt>
 						<dd><c:out value="With: ${request.employee.firstName} ${request.employee.lastName}"/></dd>
-						<dt>Status</dt>
-						<dd>
-							<c:choose>
-								<c:when test="${request.status==null}">
-									<c:out value="pendding"></c:out>
-								</c:when>
-								<c:when test="${request.status==true }">
-									<c:out value="accepted"></c:out>
-								</c:when>
-								<c:otherwise>
-									<c:out value="rejected"></c:out>
-								</c:otherwise>
-							</c:choose>
-						</dd>
                     </dl>
                 </td>
                 <td valign="top">
@@ -51,7 +36,7 @@
                     	<spring:param name="ownerId" value="${request.owner.id}"/>
                     	<spring:param name="requestId" value="${request.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(serviceUrl)}" class="btn btn-default">Show Service</a>
+                    <a href="${fn:escapeXml(serviceUrl)}" class="btn btn-default">Residence Details</a>
                 </td>
             </tr>
 

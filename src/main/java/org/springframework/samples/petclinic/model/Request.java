@@ -16,7 +16,7 @@
 
 package org.springframework.samples.petclinic.model;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,6 +25,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -32,12 +33,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "requests")
 public class Request extends BaseEntity{
-
+	
 	@Column(name = "date_req")
-	@Future
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate date;
+	@Past
+	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+	private Date requestDate;
 
+	@Column(name = "date_ser")
+	@Future
+	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+	private Date serviceDate;
+	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="employee_id")
 	private Employee employee;
@@ -47,13 +53,34 @@ public class Request extends BaseEntity{
 	private Owner owner;
 
 	private Boolean status = null;
-
-	public void setDate(LocalDate date) {
-		this.date = date;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="pet_id")
+	private Pet pet;
+	
+	
+	public Date getRequestDate() {
+		return requestDate;
 	}
 
-	public LocalDate getDate() {
-		return this.date;
+	public void setRequestDate(Date requestDate) {
+		this.requestDate = requestDate;
+	}
+
+	public Date getServiceDate() {
+		return serviceDate;
+	}
+
+	public void setServiceDate(Date serviceDate) {
+		this.serviceDate = serviceDate;
+	}
+
+	public Pet getPet() {
+		return pet;
+	}
+
+	public void setPet(Pet pet) {
+		this.pet = pet;
 	}
 
 	public Boolean getStatus() {

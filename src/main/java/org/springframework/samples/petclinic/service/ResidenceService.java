@@ -54,5 +54,10 @@ public class ResidenceService {
 	public Residence findResidenceByRequest(Request request) throws DataAccessException {
 		return this.residenceRepository.findByRequest(request);
 	}
+	
+	@Transactional
+	public Iterable<Residence> findAll(){
+		return residenceRepository.findAll();
+	}
 
 }
