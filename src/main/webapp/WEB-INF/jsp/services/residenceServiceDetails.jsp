@@ -6,16 +6,31 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <petclinic:layout pageName="residences">
 
-    <h2>Residence Details</h2>
-
-
-    <table class="table table-striped">
+	<h2><b><c:out value="${residence.name}"/></b></h2>
+	<table class="table table-striped">
+	<tr>
+             <tr>
+            <th><strong>Address:</strong></th>
+            <td><c:out value="${residence.address}"/></td>
+        </tr>
+         <tr>
+            <th><strong>Price:</strong></th>
+            <td><c:out value="${residence.price}"/></td>
+        </tr>
+         <tr>
+            <th><strong>Rating:</strong></th>
+            <td><c:out value="${residence.rating}"/></td>
+        </tr>
+         <tr>
+            <th><strong>Max:</strong></th>
+            <td><c:out value="${residence.max}"/></td>
+        </tr>
         <tr>
-            <th>Description</th>
+            <th><strong>Description:</strong></th>
            <td><c:out value="${residence.description}"/></td>
         </tr>
-    <tr>
-    <th>Days:</th>
+    	<tr>
+    		<th><strong>Days:</strong></th>
             <td><c:out value="${residence.days}"/></td>
         </tr>
       </table>
