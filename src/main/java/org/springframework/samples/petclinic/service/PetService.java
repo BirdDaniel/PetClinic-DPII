@@ -84,5 +84,10 @@ public class PetService {
 	public void deletePet(int id){
 		this.petRepository.deletePet(id);
 	}
+	
+	@Transactional
+	public Collection<Pet> findPetsOfOwnerByName(int id, String name){
+		return this.petRepository.findPetsOfOwnerByName(id, name);
+	}
 
 }

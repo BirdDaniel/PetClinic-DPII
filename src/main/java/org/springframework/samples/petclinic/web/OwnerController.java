@@ -15,9 +15,7 @@
  */
 package org.springframework.samples.petclinic.web;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,21 +25,24 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
-import org.springframework.samples.petclinic.model.Shop;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.OwnerService;
+import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ResidenceService;
-import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -63,6 +64,8 @@ public class OwnerController {
 	private final ClinicService clinicService;
 
 	private final ResidenceService residenceService;
+	
+	private final PetService petService;
 
 	
 	@Autowired
@@ -70,11 +73,13 @@ public class OwnerController {
 			ClinicService clinicService, 
 			RequestService requestService, 
 			ResidenceService residenceService,
+			PetService petService,
 			UserService userService, AuthoritiesService authoritiesService) {
 		this.ownerService = ownerService;
 		this.requestService = requestService;
 		this.clinicService = clinicService;
 		this.residenceService = residenceService;
+		this.petService = petService;
 	}
 
 	@InitBinder
@@ -172,19 +177,21 @@ public class OwnerController {
 	public String requestListForm(@PathVariable("ownerId") int ownerId, Model model) {
 		Owner owner = this.ownerService.findOwnerById(ownerId);
 		Set<Request> requests = owner.getRequests();
+		model.addAttribute("owner", owner);
 		model.addAttribute("requests", requests);
 		return "owners/myRequestList";
 	}
 	
 	/**Obtain a Request list of a Owner only accepted*/
-	@GetMapping(value = "/owners/{ownerId}/myRequestAccepted")
+	@GetMapping(value = "/owners/{ownerId}/appointments")
 	public String requestAcceptedForm(@PathVariable("ownerId") int ownerId, Model model) {
 		Owner owner = this.ownerService.findOwnerById(ownerId);
 		Set<Request> requests = owner.getAcceptedRequests();
 		model.addAttribute("requests", requests);
-		return "owners/myRequestList";
+		return "owners/appointments";
 	}
 	
+	/**Obtain a Service of a Owner*/
 	/**Obtain a Service of a Owner*/
 	@GetMapping(value = "/owners/{ownerId}/myRequestList/{requestId}/details")
 	public String servicesForm(@PathVariable("requestId") int requestId, Model model,Boolean requestD) {
@@ -206,13 +213,6 @@ public class OwnerController {
 			return "redirect:/owners/" + req.getOwner().getId();
 		}
 	}
-
-	@GetMapping(value = "/owners/{ownerId}/myPetList")
-	public String petList(@PathVariable("ownerId") int ownerId, Model model) {
-		Owner owner = this.ownerService.findOwnerById(ownerId);
-		model.addAttribute(owner);
-		return "owners/myPetList";
-	}
 	
 	@GetMapping(value = "/owners/{ownerId}/myPetList/residence")
 	public String requestPetResidence(@PathVariable("ownerId") int ownerId, Model model) {
@@ -229,5 +229,27 @@ public class OwnerController {
 			model.addAttribute("requests", reqs);
 			return "owners/myPetResidence";
 	}
+	
+
+	@GetMapping(value = "/owners/{ownerId}/myPetList")
+	public String processFindForm2(@PathVariable("ownerId") int ownerId, Pet pet,  BindingResult result, Model model) {
+		Owner owner = this.ownerService.findOwnerById(ownerId);
+		if (pet.getName() == null) {
+			model.addAttribute("pets", owner.getPets()); 
+		}else if(pet.getName().equals("")){
+			model.addAttribute("pets", owner.getPets());
+		}else {
+			Collection<Pet> results = this.petService.findPetsOfOwnerByName(ownerId, pet.getName());
+			if (results.isEmpty()) {
+				result.rejectValue("name", "notFound", "not found");
+			}
+			else {
+				model.addAttribute("pets" , results);
+			}
+		}
+		return "/owners/myPetList";
+		}
+
+
 }
 

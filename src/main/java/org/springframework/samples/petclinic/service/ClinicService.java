@@ -52,16 +52,13 @@ public class ClinicService {
 	
 	@Transactional(readOnly = true)
 	public Clinic findClinicByRequest(Request request) throws DataAccessException {
-		Collection<Clinic> clinics = this.clinicRepository.findAll();
-		for(Clinic c: clinics) {
-			if(c.getRequestById(request.getId())!= null) return c;
-		}
-		return null;
+		return this.clinicRepository.findByRequest(request);
 	}
 	
 	@Transactional
 	public Iterable<Clinic> findAll(){
 		return clinicRepository.findAll();
 	}
+
 
 }

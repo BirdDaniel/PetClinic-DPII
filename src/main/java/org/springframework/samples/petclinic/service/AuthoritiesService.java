@@ -43,6 +43,11 @@ public class AuthoritiesService {
 	public void saveAuthorities(Authorities authorities) throws DataAccessException {
 		authoritiesRepository.save(authorities);
 	}
+
+	@Transactional(readOnly = true)
+	public Authorities findById(String username){
+		return this.authoritiesRepository.findById(username).get();
+	}
 	
 	@Transactional
 	public void saveAuthorities(String username, String role) throws DataAccessException {

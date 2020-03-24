@@ -6,7 +6,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<petclinic:layout pageName="requests">
+<petclinic:layout pageName="requestsEmployee">
     <table id="requestsTable" class="table table-striped">
         <thead>
         <tr>
@@ -48,21 +48,23 @@
                         </spring:url>
                        
                         
+                        <c:if test="${request.status == null}">
+                         <c:out value="Pending  "/>                                  
+                        </c:if>
+                        <c:if test="${request.status == true}">
+                            <c:out value="Accepted"/>
+                        </c:if>
+                        <c:if test="${request.status == false}">
+                            <c:out value="Declined"/>
+                        </c:if>
+                        |
                         <c:if test="${request.status != true}">
                         <a href="${fn:escapeXml(acceptUrl)}" class="btn btn-success">Accept</a>
                          </c:if>
                           <c:if test="${request.status != false}">
                         <a href="${fn:escapeXml(declineUrl)}" class="btn btn-danger">Decline</a>
                         </c:if>
-                        <c:if test="${request.status == null}">
-                         <c:out value="Pending..."/> 
-                    </c:if>
-                    <c:if test="${request.status == true}">
-                        <c:out value="Accepted"/>
-                    </c:if>
-                    <c:if test="${request.status == false}">
-                        <c:out value="Declined"/>
-                    </c:if>
+                        
                     
                 </td>
         <%-- 		       <td>
