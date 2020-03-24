@@ -52,11 +52,7 @@ public class ResidenceService {
 	
 	@Transactional(readOnly = true)
 	public Residence findResidenceByRequest(Request request) throws DataAccessException {
-		Collection<Residence> residences = this.residenceRepository.findAll();
-		for(Residence r: residences) {
-			if(r.getRequestById(request.getId())!= null) return r;
-		}
-		return null;
+		return this.residenceRepository.findByRequest(request);
 	}
 
 }

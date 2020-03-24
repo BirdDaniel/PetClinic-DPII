@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.repository;
 import java.util.Collection;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.model.Vet;
 
@@ -42,5 +43,7 @@ public interface ResidenceRepository {
 	 * @see BaseEntity#isNew
 	 */
 	void save(Residence residence) throws DataAccessException;
+	
+	Residence findByRequest(Request request) throws DataAccessException;
 
 }
