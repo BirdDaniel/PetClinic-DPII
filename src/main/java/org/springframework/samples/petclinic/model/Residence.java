@@ -30,7 +30,7 @@ import org.hibernate.validator.constraints.Range;
  */
 @Entity
 @Table(name = "residences")
-public class Residence extends Service {
+public class Residence extends Service  {
 	
 	@Range(min = 1)
 	private int days;
