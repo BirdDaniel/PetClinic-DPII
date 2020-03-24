@@ -68,6 +68,7 @@ INSERT INTO users(username,password,enabled) VALUES ('owner3','0wn3r',TRUE);
  INSERT INTO clinic_types VALUES (3, 'Chalé');
 
 --INSERT INTO pets VALUES (id, name, birth_date, owner_id, type_id)
+
  INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
  INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (3, 'Sly', '2012-06-08', 1, 5);
@@ -80,6 +81,7 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (9, 'Lucky', '2011-
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (10, 'Mulligan', '2007-02-24', 2, 7);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (11, 'Freddy', '2010-03-09', 5, 1);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010-06-24', 2, 4);
+
 
 
 --INSERT INTO clinics(id, address, close, open, rating, description, max, price, type_id);

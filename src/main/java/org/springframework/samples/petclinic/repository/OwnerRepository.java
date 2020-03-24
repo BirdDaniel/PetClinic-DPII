@@ -20,6 +20,7 @@ import java.util.Collection;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Pet;
 
 /**
  * Repository class for <code>Owner</code> domain objects All method names are compliant
@@ -59,5 +60,7 @@ public interface OwnerRepository {
 	 * @see BaseEntity#isNew
 	 */
 	void save(Owner owner) throws DataAccessException;
+	
+	
 
 }

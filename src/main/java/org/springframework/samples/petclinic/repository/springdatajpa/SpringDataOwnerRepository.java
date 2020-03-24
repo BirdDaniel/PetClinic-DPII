@@ -21,6 +21,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
 
 /**
@@ -38,6 +39,8 @@ public interface SpringDataOwnerRepository extends OwnerRepository, Repository<O
 	@Override
 	@Query("SELECT owner FROM Owner owner left join fetch owner.pets WHERE owner.id =:id")
 	public Owner findById(@Param("id") int id);
+	
+	
 
 	@Query("SELECT owner FROM Owner owner WHERE owner.user.username=:username")
 	public Owner findByUsername(@Param("username") String username);
