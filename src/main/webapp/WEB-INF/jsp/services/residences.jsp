@@ -15,28 +15,24 @@
 	<table id="residenceTable" class="table table-striped">
         <thead>
         <tr>
+       		<th>Name</th>
             <th>Address</th>
             <th>Price</th>
             <th>Rating</th>
-            <th>Open</th>
-            <th>Close</th>
-            <th>Max</th>
+            <th>Max Pets</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${residences}" var="residence">
-            <tr> <td>
-                     
+            <tr>
+             	<td> 
                      <spring:url value="/residence/{residenceId}" var="residenceUrl">
                          <spring:param name="residenceId" value="${residence.id}"/>
                      </spring:url>
-                
-               <!--       <spring:url value="/owners/{ownerId}" var="ownerUrl">
-                        <spring:param name="ownerId" value="${owner.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(ownerUrl)}"></a> -->
-                     <a href="${fn:escapeXml(residenceUrl)}"><c:out value=" ${residence.address}"/></a>
-                   <!-- <c:out value="${residence.address}"/> --> 
+                     <a href="${fn:escapeXml(residenceUrl)}"><c:out value=" ${residence.name}"/></a>
+                </td>
+                <td>
+                    <c:out value="${residence.address}"/>
                 </td>
                 <td>
                     <c:out value="${residence.price}"/>
@@ -45,12 +41,6 @@
                     <c:out value="${residence.rating}"/>
                 </td>
                 <td>
-                    <c:out value="${residence.open}"/>
-                </td>
-                <td>
-                 <c:out value="${residence.close}"/>
-                 </td>
-                 <td>
                  <c:out value="${residence.max}"/>
                  </td>     
             </tr>
