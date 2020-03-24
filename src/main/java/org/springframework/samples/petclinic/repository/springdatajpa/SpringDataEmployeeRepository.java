@@ -39,4 +39,8 @@ public interface SpringDataEmployeeRepository extends EmployeeRepository, Reposi
 	@Query("SELECT employee.requests FROM Employee employee WHERE employee.id=:id")
 	public Set<Request> getRequests(@Param("id") int id);
 
+	@Query("SELECT employee FROM Employee employee WHERE employee.user.username=:username")
+	public Employee findByUsername(@Param("username") String username);
+
+
 }

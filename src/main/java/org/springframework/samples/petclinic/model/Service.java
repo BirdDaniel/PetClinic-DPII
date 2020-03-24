@@ -82,15 +82,4 @@ public class Service extends BaseClinic {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public Request getRequestById(int requestId) {
-		Request request = null;
-		for(Request r: this.requests) {
-			if(r.getId()==requestId) {
-				request = r;
-				break;
-			}
-		}
-		return request;
-	}
 }
