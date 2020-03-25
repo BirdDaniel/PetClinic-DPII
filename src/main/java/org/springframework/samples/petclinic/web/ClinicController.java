@@ -17,7 +17,9 @@ package org.springframework.samples.petclinic.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
+import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +49,15 @@ public class ClinicController {
 		Iterable<Clinic> clinics= this.clinicService.findAll();
 		model.addAttribute("clinics", clinics);
 		return "services/clinics";
+	}
+
+	@GetMapping("/{clinicId}")
+	public String showClinic(@PathVariable("clinicId") int clinicId,Model model) {
+		
+		//String mav = new String("services/residenceServiceDetails");
+		Clinic clinic=this.clinicService.findClinicById(clinicId);
+		model.addAttribute("clinic",clinic);
+		return "services/clinicServiceDetails";
 	}
 
 }

@@ -33,5 +33,6 @@ import org.springframework.samples.petclinic.repository.VetRepository;
  * @since 15.1.2013
  */
 public interface SpringDataClinicRepository extends ClinicRepository, Repository<Clinic, Integer> {
-
+	@Query("select c from Clinic c WHERE :request in elements(c.requests)")
+	public Clinic findByRequest(@Param("request") Request request);
 }

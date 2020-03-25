@@ -37,7 +37,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  The services of the clinic
  */
 @MappedSuperclass
-public class BaseClinic extends BaseEntity {
+public class BaseClinic extends NamedEntity {
 	
 	@Range(min = 0, max = 5)
 	private int rating;

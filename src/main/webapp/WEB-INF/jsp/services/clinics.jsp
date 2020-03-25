@@ -16,12 +16,11 @@
         <thead>
         <tr>
         	<th>Type</th>
+        	<th>Name</th>
             <th>Address</th>
             <th>Price</th>
             <th>Rating</th>
-            <th>Open</th>
-            <th>Close</th>
-            <th>Max</th>
+            <th>Max Pets</th>
         </tr>
         </thead>
         <tbody>
@@ -29,6 +28,12 @@
             <tr>
              	<td>
                     <c:out value="${clinic.type}"/>
+                </td>
+                <td> 
+                     <spring:url value="/clinic/{clinicId}" var="clinicUrl">
+                         <spring:param name="clinicId" value="${clinic.id}"/>
+                     </spring:url>
+                     <a href="${fn:escapeXml(clinicUrl)}"><c:out value=" ${clinic.name}"/></a>
                 </td>
                 <td>
                     <c:out value="${clinic.address}"/>
@@ -39,12 +44,6 @@
                 <td>
                     <c:out value="${clinic.rating}"/>
                 </td>
-                <td>
-                    <c:out value="${clinic.open}"/>
-                </td>
-                <td>
-                 <c:out value="${clinic.close}"/>
-                 </td>
                  <td>
                  <c:out value="${clinic.max}"/>
                  </td>     

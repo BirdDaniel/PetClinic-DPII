@@ -33,57 +33,52 @@
 
     </form:form>
     <br>
-    <table id="petsTable" class="table table-striped">
-        <thead>
-        <tr>
-            <th style="width: 150px;">Name</th>
-            <th>Birth_date</th>
-            <th>Type</th>
-            <th>Owner</th>
-            <th>Telephone</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${pets}" var="pet">
-            <tr>
-                <td>
-               <!--       <spring:url value="/owners/{ownerId}" var="ownerUrl">
-                        <spring:param name="ownerId" value="${owner.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(ownerUrl)}"></a> -->
-                    <c:out value="${pet.name}"/>
-                </td>
-                <td>
-                    <c:out value="${pet.birthDate}"/>
-                </td>
-                <td>
-                    <c:out value="${pet.type}"/>
-                </td>
-                <td>
-                    <c:out value="${pet.owner.firstName} ${pet.owner.lastName}"/>
-                </td>
-                <td>
-                 <c:out value="${pet.owner.telephone}"/>
-                 </td>
-                <td>
-   <!--                 <c:forEach var="pet" items="${owner.pets}">
-                        <c:out value="${pet.name} "/>
-                    </c:forEach>
-                </td>
-                
-      
+    
+     <h2>My Pets</h2>
 
-                <td> 
-                    <c:out value="${owner.user.username}"/> 
+    <table class="table table-striped">
+        <c:forEach var="pet" items="${pets}">
+
+            <tr>
+                <td valign="top">
+                    <dl class="dl-horizontal">
+                        <dt>Name</dt>
+                        <dd><c:out value="${pet.name}"/></dd>
+                        <dt>Birth Date</dt>
+                        <dd><petclinic:localDate date="${pet.birthDate}" pattern="yyyy-MM-dd"/></dd>
+                        <dt>Type</dt>
+                        <dd><c:out value="${pet.type.name}"/></dd>
+                    </dl>
                 </td>
-                <td> 
-                   <c:out value="${owner.user.password}"/> 
-                </td> 
--->
-                
+                <td valign="top">
+                    <table class="table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Edit Pet</th>
+                            <th>Delete Pet</th>
+                        </tr>
+                        </thead>
+                        <tr>
+                            <td>
+                                <spring:url value="/owners/{ownerId}/pets/{petId}/edit" var="petUrl">
+                                    <spring:param name="ownerId" value="${pet.owner.id}"/>
+                                    <spring:param name="petId" value="${pet.id}"/>
+                                </spring:url>
+                                <a href="${fn:escapeXml(petUrl)}">Edit Pet</a>
+                            </td>
+                            <td>
+                                <spring:url value="/owners/{ownerId}/pets/{petId}/delete" var="deletePetUrl">
+                                    <spring:param name="ownerId" value="${pet.owner.id}"/>
+                                    <spring:param name="petId" value="${pet.id}"/>
+                                </spring:url>
+                                <a href="${fn:escapeXml(deletePetUrl)}">Delete</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
+
         </c:forEach>
-        </tbody>
     </table>
 </petclinic:layout>
 
