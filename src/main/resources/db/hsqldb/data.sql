@@ -110,6 +110,17 @@ INSERT INTO requests VALUES (5, '2019-08-01 15:30', '2030-08-06 14:00', true, 3,
 INSERT INTO requests VALUES (6, '2019-08-01 14:30', '2030-08-06 15:00', null, 3, 3, 2);
 INSERT INTO requests VALUES (7, '2019-08-05 19:00', '2030-08-08 17:00', true, 1, 2, 2);
 
+--INSERT INTO residences_requests VALUES (residence_id, request_id);
+INSERT INTO residences_requests VALUES (1, 4);
+INSERT INTO residences_requests VALUES (1, 5);
+INSERT INTO residences_requests VALUES (3, 6);
+
+--INSERT INTO clinics_requests VALUES (clinics_id, requests_id);
+INSERT INTO clinics_requests VALUES (1, 1);
+INSERT INTO clinics_requests VALUES (1, 2);
+INSERT INTO clinics_requests VALUES (2, 3);
+
+
 
 --INSERT INTO payments(id, credit_card, pay, date_pay, owner_id);
 -- INSERT INTO payments VALUES (1, '1234 1234 1234 1234', 0.5, '2012-06-08', 1);
@@ -126,10 +137,6 @@ INSERT INTO requests VALUES (7, '2019-08-05 19:00', '2030-08-08 17:00', true, 1,
 -- INSERT INTO clinics_payments VALUES (1, 2);
 -- INSERT INTO clinics_payments VALUES (3, 3);
 
---INSERT INTO clinics_requests VALUES (clinics_id, requests_id);
--- INSERT INTO clinics_requests VALUES (1, 1);
--- INSERT INTO clinics_requests VALUES (1, 2);
--- INSERT INTO clinics_requests VALUES (2, 3);
 
 --INSERT INTO residences_employees VALUES (residence_id, employee_id);
 

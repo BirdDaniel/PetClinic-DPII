@@ -49,7 +49,9 @@
                        
                         
                         <c:if test="${request.status == null}">
-                         <c:out value="Pending  "/>                                  
+                         <c:out value="Pending  "/>       
+                        <a href="${fn:escapeXml(acceptUrl)}" class="btn btn-success">Accept</a>
+
                         </c:if>
                         <c:if test="${request.status == true}">
                             <c:out value="Accepted"/>
@@ -59,7 +61,6 @@
                         </c:if>
                         |
                         <c:if test="${request.status != true}">
-                        <a href="${fn:escapeXml(acceptUrl)}" class="btn btn-success">Accept</a>
                          </c:if>
                           <c:if test="${request.status != false}">
                         <a href="${fn:escapeXml(declineUrl)}" class="btn btn-danger">Decline</a>

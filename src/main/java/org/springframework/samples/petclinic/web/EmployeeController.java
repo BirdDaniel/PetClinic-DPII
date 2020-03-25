@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.security.Principal;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -87,6 +89,7 @@ public class EmployeeController {
 
 	@GetMapping("/requests/{requestId}/decline")
 	public String declineRequest(Employee employee, @PathVariable("requestId") int id, Map<String,Object> model){
+		//Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Request request = this.requestService.findById(id);
 		if(request!=null){
 			request.setStatus(false);
