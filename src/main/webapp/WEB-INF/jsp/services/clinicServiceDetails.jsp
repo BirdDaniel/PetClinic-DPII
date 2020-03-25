@@ -9,7 +9,7 @@
 <td valign="top">
 
 	<h2><c:out value="${clinic.type.name}"/></h2>
-	<h2>Details:</h2>
+	
     <table class="table table-striped">
         <tr>
            <th> <strong>Address-Room:</strong> </th>
