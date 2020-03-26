@@ -55,7 +55,7 @@ public interface EmployeeRepository {
 	Employee findById(int id) throws DataAccessException;
 
 	Set<Request> getRequests(int id) throws DataAccessException;
-	Employee findByUsername(String username) throws DataAccessException;
+	Integer findByUsername(String username) throws DataAccessException;
 	/**
 	 * Save an <code>Employee</code> to the data store, either inserting or updating it.
 	 * @param Employee the <code>Employee</code> to save

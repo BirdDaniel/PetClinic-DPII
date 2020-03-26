@@ -18,13 +18,13 @@ package org.springframework.samples.petclinic.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
-
-
-
+import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClinicService;
+import org.springframework.samples.petclinic.service.EmployeeService;
+import org.springframework.samples.petclinic.service.OwnerService;
 
 /**
  * @author Juergen Hoeller
@@ -33,13 +33,19 @@ import org.springframework.samples.petclinic.service.ClinicService;
  */
 @Controller
 @RequestMapping("/clinic")
-public class ClinicController {
+public class ClinicController extends SecurityController {
 
 	private final ClinicService clinicService;
 
 	@Autowired
-	public ClinicController(ClinicService clinicService) {
-		this.clinicService = clinicService;
+	public ClinicController(OwnerService ownerService,
+						EmployeeService employeeService,
+						AuthoritiesService authoritiesService,
+						ClinicService clinicService) {
+							
+					super(ownerService, employeeService, authoritiesService);
+					this.clinicService = clinicService;
+					
 	}
 
 	@GetMapping(value = "/findAll")
@@ -47,6 +53,14 @@ public class ClinicController {
 		Iterable<Clinic> clinics= this.clinicService.findAll();
 		model.addAttribute("clinics", clinics);
 		return "services/clinics";
+	}
+
+	@GetMapping("/{clinicId}")
+	public String showClinic(@PathVariable("clinicId") int clinicId,Model model) {
+		
+		Clinic clinic=this.clinicService.findClinicById(clinicId);
+		model.addAttribute("clinic",clinic);
+		return "services/clinicServiceDetails";
 	}
 
 }

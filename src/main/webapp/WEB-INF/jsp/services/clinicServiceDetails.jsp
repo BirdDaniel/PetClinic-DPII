@@ -9,62 +9,57 @@
 <td valign="top">
 
 	<h2><c:out value="${clinic.type.name}"/></h2>
+	
     <table class="table table-striped">
         <tr>
-            <th>Address-Room: </th>
-            <td><b><c:out value="${clinic.address}"/></b></td>
+           <th> <strong>Address-Room:</strong> </th>
+            <td><c:out value="${clinic.address}"/></td>
+            
         </tr>
-        
-        <c:forEach var="employee" items="${clinic.employees}">
+     
+  <!--       <c:forEach var="employee" items="${clinic.employees}">
         	<tr>
-            	<th>Employee: </th>
+            	<th><strong>Employee:</strong> </th>
             	<td><c:out value="${employee.firstName} ${employee.lastName}"/></td>
         	</tr>
         </c:forEach>
-    </table>
-    
-    <h2>Details</h2>
-	
-	<table class="table table-striped">
+        --> 
     <tr>
     	<tr>
-            <th>Description:</th>
+            <th><strong>Description:</strong></th>
+            
             <td><c:out value="${clinic.description}"/></td>
         </tr>
         <tr>
-            <th>Max pets:</th>
+            <th><strong>Max pets:</strong></th>
             <td><c:out value="${clinic.max}"/></td>
         </tr>
         <tr>
-            <th>Open:</th>
+            <th><strong>Open:</strong></th>
             <td><fmt:formatDate value="${clinic.open}" type="date" pattern="HH:mm"/></td>
         </tr>
         <tr>
-            <th>Close:</th>
+            <th><strong>Close:</strong></th>
             <td><fmt:formatDate value="${clinic.close}" type="date" pattern="HH:mm"/></td>
         </tr>
-        <tr>
-            <th>Rating:</th>
-            <td><c:out value="${clinic.rating} stars by the clients"/></td>
-        </tr>
-		
-    </table>
-    
-    <h2>Details</h2>
-    
-	<table class="table table-striped">
         
+   
         <tr>
-            <th>Total price</th>
+            <th><strong>Rating:</strong></th>
+            <td><c:out value="${clinic.rating} by the clients"/></td>
+        </tr>
+        <tr>
+            <th><strong>Total price:</strong></th>
             <td><c:out value="${clinic.price}"/></td>
         </tr>
         
         <c:forEach var="payment" items="${clinic.payments}">
         	<tr>
-            	<th>Pay: </th>
+            	<th><strong>Pay: </strong></th>
+            	
             	<td><c:out value="${payment.pay}"/></td>
             </tr>
         </c:forEach>
     </table>
-</td>
+
 </petclinic:layout>

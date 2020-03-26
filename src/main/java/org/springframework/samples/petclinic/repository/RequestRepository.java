@@ -19,5 +19,6 @@ public interface RequestRepository {
 	Collection<Request> findAcceptedAll();
 	
 	Collection<Request> findAcceptedByOwnerId(int ownerId);
+	Collection<Request> findAcceptedByEmployeeId(int employeeId);
 
 }
