@@ -47,10 +47,14 @@ public class RequestService {
 		this.requestRepository.save(request);
 	}
 	
-	 @Transactional(readOnly = true)
-		public Collection<Request> findAcceptedByOwnerId(int id) throws DataAccessException {
-			return requestRepository.findAcceptedByOwnerId(id);
-		}
+	@Transactional(readOnly = true)
+	public Collection<Request> findAcceptedByOwnerId(int id) throws DataAccessException {
+		return requestRepository.findAcceptedByOwnerId(id);
+	}
 
+	@Transactional(readOnly = true)
+	public Collection<Request> findAcceptedByEmployeeId(int id) throws DataAccessException {
+		return requestRepository.findAcceptedByEmployeeId(id);
+	}
 
 }

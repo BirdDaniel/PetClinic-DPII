@@ -12,7 +12,8 @@
              </spring:url>
              <a href="${fn:escapeXml(serviceUrl)}" class="btn btn-default">Pets in Residence</a>
             <br>
-            
+            <br>
+            <br>
              <form:form modelAttribute="pet" method="get" class="form-horizontal"
                id="search-pet-form">
         <div class="form-group">

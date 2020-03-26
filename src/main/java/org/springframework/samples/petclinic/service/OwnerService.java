@@ -57,8 +57,9 @@ public class OwnerService {
 	}
 
 	@Transactional(readOnly = true)
-	public Owner findByUsername(String username) throws DataAccessException {
-		return ownerRepository.findByUsername(username);
+	public Integer findIdByUsername(String username) throws DataAccessException {
+		System.out.println("El username es "+ username);
+		return ownerRepository.findIdByUsername(username);
 	}
 
 	@Transactional
