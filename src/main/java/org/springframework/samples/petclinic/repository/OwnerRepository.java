@@ -52,7 +52,7 @@ public interface OwnerRepository {
 	 */
 	Owner findById(int id) throws DataAccessException;
 
-	Owner findByUsername(String username) throws DataAccessException;
+	Integer findIdByUsername(String username) throws DataAccessException;
 
 	/**
 	 * Save an <code>Owner</code> to the data store, either inserting or updating it.

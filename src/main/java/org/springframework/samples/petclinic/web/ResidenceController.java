@@ -23,6 +23,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.EmployeeService;
+import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.ResidenceService;
 
 /**
@@ -32,7 +35,7 @@ import org.springframework.samples.petclinic.service.ResidenceService;
  */
 @Controller
 @RequestMapping("/residence")
-public class ResidenceController {
+public class ResidenceController extends SecurityController{
 
 	private final ResidenceService residenceService;
 
@@ -42,8 +45,14 @@ public class ResidenceController {
 	}
 
 	@Autowired
-	public ResidenceController(ResidenceService residenceService) {
+	public ResidenceController(OwnerService ownerService,
+							EmployeeService employeeService,
+							AuthoritiesService authoritiesService,
+							ResidenceService residenceService) {
+
+		super(ownerService, employeeService, authoritiesService);
 		this.residenceService = residenceService;
+
 	}
 
 	@GetMapping(value = "/findAll")
@@ -57,7 +66,7 @@ public class ResidenceController {
 	@GetMapping("/{residenceId}")
 	public String showResidence(@PathVariable("residenceId") int residenceId,Model model) {
 		
-		//String mav = new String("services/residenceServiceDetails");
+		
 		Residence residence=this.residenceService.findResidenceById(residenceId);
 		model.addAttribute("residence",residence);
 		return "services/residenceServiceDetails";

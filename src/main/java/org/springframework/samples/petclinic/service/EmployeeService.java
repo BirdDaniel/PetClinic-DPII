@@ -42,7 +42,7 @@ public class EmployeeService {
 	}
 
 	@Transactional(readOnly = true)
-	public Employee findByUsername(String username) {
+	public Integer findByUsername(String username) {
 		return this.employeeRepository.findByUsername(username);
 	}
 
@@ -50,6 +50,7 @@ public class EmployeeService {
 	public Set<Request> getRequests(int id){
 		return this.employeeRepository.getRequests(id);
 	}
+
 
 	@Transactional(readOnly = true)
 	public Collection<Employee> findEmployeesByLastName(String lastName) throws DataAccessException {
