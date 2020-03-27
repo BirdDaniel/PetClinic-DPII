@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Request;
@@ -20,11 +21,11 @@ public class RequestService {
 
   private RequestRepository requestRepository;	
 	
-  @Autowired
-	private ClinicService clinicService;
-	
-	@Autowired
-	private ResidenceService residenceService;
+//  @Autowired
+//	private ClinicService clinicService;
+//	
+//	@Autowired
+//	private ResidenceService residenceService;
 
 
 	@Autowired
@@ -51,6 +52,9 @@ public class RequestService {
 		public Collection<Request> findAcceptedByOwnerId(int id) throws DataAccessException {
 			return requestRepository.findAcceptedByOwnerId(id);
 		}
-
-
+	 
+	 @Transactional(readOnly = true)
+	 public Collection<Request> findAcceptedResByOwnerId(int ownerId) throws DataAccessException{ 
+		 return requestRepository.findAcceptedResByOwnerId(ownerId);
+	 }
 }

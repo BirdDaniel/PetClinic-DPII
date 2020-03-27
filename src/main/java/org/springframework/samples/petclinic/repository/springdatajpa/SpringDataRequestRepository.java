@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.repository.springdatajpa;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -28,5 +29,8 @@ public interface SpringDataRequestRepository extends RequestRepository, Reposito
 	
 	@Query("SELECT req FROM Request req WHERE req.owner.id =:id AND req.status = true")
 	public Collection<Request> findAcceptedByOwnerId(@Param("id") int ownerId);
+	
+	@Query("SELECT req,resi FROM Request req,Residence resi WHERE req in elements(resi.requests) AND req.status = true AND req.owner.id = :id")
+	public Collection<Request> findAcceptedResByOwnerId(@Param("id") int ownerId);
 
 }
