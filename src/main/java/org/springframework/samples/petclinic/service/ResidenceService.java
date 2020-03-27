@@ -59,5 +59,10 @@ public class ResidenceService {
 	public Iterable<Residence> findAll(){
 		return residenceRepository.findAll();
 	}
+	
+	@Transactional
+	public Collection<Request> findReqsResidence(){
+		return residenceRepository.findReqsResidence();
+	}
 
 }
