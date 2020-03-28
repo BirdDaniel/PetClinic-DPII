@@ -46,4 +46,5 @@ public interface ResidenceRepository {
 	
 	Residence findByRequest(Request request) throws DataAccessException;
 
+	Collection<Request> findReqsResidence() throws DataAccessException;
 }

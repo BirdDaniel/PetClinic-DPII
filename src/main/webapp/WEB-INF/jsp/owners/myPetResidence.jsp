@@ -15,7 +15,7 @@
 	<table class="table table-striped">
         <c:if test="${empty requests}">
             <p>
-                Yo don't have any pet in a Residence!
+                You don't have any pet in a Residence!
             </p>
         </c:if>
         <c:forEach var="request" items="${requests}">
