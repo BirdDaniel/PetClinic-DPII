@@ -58,7 +58,9 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Michael Isvy
  */
 @Controller
-public class OwnerController extends SecurityController{
+public class OwnerController 
+extends SecurityController
+{
 
 	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
@@ -86,17 +88,10 @@ public class OwnerController extends SecurityController{
 			this.clinicService = clinicService;
 			this.residenceService = residenceService;
 			this.petService = petService;
+//			this.employeeService = employeeService;
 			
 	}
 	
-	public static String validationUser(String direction, Integer id, Model model) {
-			Integer loggedUserId = (Integer) model.getAttribute("loggedUser");
-
-			if(loggedUserId!=id){
-			return "redirect:/oups";
-		}
-		return direction;
-	}
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -212,7 +207,8 @@ public class OwnerController extends SecurityController{
 	public String requestPetResidence(@PathVariable("ownerId") int ownerId, Model model) {
 		Collection<Request> reqs = this.requestService.findAcceptedResByOwnerId(ownerId);
 		model.addAttribute("requests", reqs);
-		return OwnerController.validationUser("owners/myPetResidence", ownerId, model);
+	//	return OwnerController.validationUser("owners/myPetResidence", ownerId, model);
+		return "owners/myPetResidence";
 	}
 	
 	//Grupo Dani y Josan

@@ -12,8 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +30,7 @@ import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClinicService;
+import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.RequestService;
@@ -71,6 +70,9 @@ class OwnerControllerTests {
 	
 	@MockBean
 	private OwnerService ownerService;
+	
+	@MockBean
+	private EmployeeService employeeService;
 	
 	@MockBean
 	private RequestService requestService;
@@ -223,8 +225,7 @@ class OwnerControllerTests {
 		mockMvc.perform(post("/owners/new")
 							.with(csrf())
 							.param("firstName", "Joe")
-							.param("lastName", "Bloggs")
-							.param("city", "London"))
+							.param("lastName", "Bloggs"))
 				.andExpect(status().isOk())
 				.andExpect(model().attributeHasErrors("owner"))
 				.andExpect(model().attributeHasFieldErrors("owner", "address"))
@@ -285,7 +286,6 @@ class OwnerControllerTests {
 							.param("firstName", "Joe")
 							.param("lastName", "Bloggs")
 							.param("address", "123 Caramel Street")
-							.param("city", "London")
 							.param("telephone", "01616291589"))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/owners/{ownerId}"));
@@ -297,8 +297,7 @@ class OwnerControllerTests {
 		mockMvc.perform(post("/owners/{ownerId}/edit", TEST_OWNER_ID)
 							.with(csrf())
 							.param("firstName", "Joe")
-							.param("lastName", "Bloggs")
-							.param("city", "London"))
+							.param("lastName", "Bloggs"))
 				.andExpect(status().isOk())
 				.andExpect(model().attributeHasErrors("owner"))
 				.andExpect(model().attributeHasFieldErrors("owner", "address"))
@@ -322,9 +321,11 @@ class OwnerControllerTests {
         @WithMockUser(value = "spring")
         @Test
 	void testProcessFindPetsFormSuccess() throws Exception {
-		given(this.petService.findPetsOfOwnerByName(TEST_OWNER_ID, "")).willReturn(Lists.newArrayList(leo, new Pet()));
+        given(this.petService.findPetsOfOwnerByName(TEST_OWNER_ID, "")).willReturn(Lists.newArrayList(leo, new Pet()));
 
-		mockMvc.perform(get("/owners/{ownerId}/myPetList",  TEST_OWNER_ID)).andExpect(status().isOk()).andExpect(view().name("/owners/myPetList"));
+		mockMvc.perform(get("/owners/{ownerId}/myPetList",  TEST_OWNER_ID))
+		.andExpect(status().isOk())
+		.andExpect(view().name("/owners/myPetList"));
 	}
 
         

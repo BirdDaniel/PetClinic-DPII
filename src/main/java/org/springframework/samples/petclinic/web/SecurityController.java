@@ -10,6 +10,7 @@ import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
@@ -53,5 +54,14 @@ public class SecurityController {
             }
 
     }
+    
+//    public static String validationUser(String direction, Integer id, Model model) {
+//		Integer loggedUserId = (Integer) model.getAttribute("loggedUser");
+//
+//		if(loggedUserId!=id){
+//		return "redirect:/oups";
+//	}
+//	return direction;
+//}
 
 }
