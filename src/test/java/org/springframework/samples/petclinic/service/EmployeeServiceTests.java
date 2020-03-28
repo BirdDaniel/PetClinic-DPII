@@ -9,15 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
-import org.springframework.samples.petclinic.model.Request;
-import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.model.Visit;
-import org.springframework.samples.petclinic.model.User;
-import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.stereotype.Service;
 
@@ -40,22 +31,6 @@ class EmployeeServiceTests {
 		assertThat(employees.size()).isEqualTo(1);
 		
 
-	}
-	
-	@Test
-	void shouldFindRequestByEmployeeId() {
-        
-		Employee employee = this.employeeService.findEmployeeById(1);
-		
-		Collection<Request> req = this.employeeService.getRequests(employee.getId());
-		
-		assertThat(req.size()).isGreaterThanOrEqualTo(3);
-
-//		employees = this.employeeService.findEmployeesByLastName("Daviss");
-//        assertThat(employees.isEmpty()).isTrue();
-//        
-//		employees = this.employeeService.findEmployeesByLastName("Cart");
-//        assertThat(employees.size()).isEqualTo(1);
 	}
 /*
 	@Test

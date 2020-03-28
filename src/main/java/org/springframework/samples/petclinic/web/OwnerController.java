@@ -136,12 +136,10 @@ public class OwnerController extends SecurityController{
 	}
 	
 	/**Obtain a Request list of a Owner*/
-	//Dani
 	@GetMapping(value = "/owners/{ownerId}/myRequestList")
 	public String requestListForm(@PathVariable("ownerId") int ownerId, Model model) {
 
 		Owner owner = this.ownerService.findOwnerById(ownerId);
-
 		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
 
 		if(owner.getId()==loggedOwner){
@@ -172,7 +170,6 @@ public class OwnerController extends SecurityController{
 	
 	/**Obtain a Service of a Owner*/
 	/**Obtain a Service of a Owner*/
-	//Dani
 	@GetMapping(value = "/owners/{ownerId}/myRequestList/{requestId}/details")
 	public String servicesForm(@PathVariable("requestId") int requestId, Model model,Boolean requestD) {
 		
@@ -189,19 +186,28 @@ public class OwnerController extends SecurityController{
 			//requestD=false;
 			return "services/residenceServiceDetails";
 		}else {
-			return "redirect:/owners/{ownerId}";
+			model.addAttribute(req.getOwner());
+			return "redirect:/owners/" + req.getOwner().getId();
 		}
 	}
 	
-	//Grupo Dani y Josan
 	@GetMapping(value = "/owners/{ownerId}/myPetList/residence")
 	public String requestPetResidence(@PathVariable("ownerId") int ownerId, Model model) {
-		Collection<Request> reqs = this.requestService.findAcceptedResByOwnerId(ownerId);
-		model.addAttribute("requests", reqs);
-		return "owners/myPetResidence";
+		List <Request>  reqs = new ArrayList<>(this.requestService.findAcceptedByOwnerId(ownerId));
+		int i = reqs.size()-1;
+		//Usamos while porque al usar un buble for nos salta ConcurrentModificationException que suele
+		//pasar al borrar/modificar una lista de la base de datos.
+		while(i>=0) {
+			if(this.residenceService.findResidenceByRequest(reqs.get(i))== null) {
+				reqs.remove(reqs.get(i));
+			}
+			i--;			
+		}
+			model.addAttribute("requests", reqs);
+			return "owners/myPetResidence";
 	}
 	
-	//Grupo Dani y Josan
+
 	@GetMapping(value = "/owners/{ownerId}/myPetList")
 	public String processFindForm2(@PathVariable("ownerId") int ownerId, Pet pet,  BindingResult result, Model model) {
 

@@ -19,7 +19,7 @@
 	<br>
 	<h2>Request List: </h2>
 	<table class="table table-striped">
-        <c:forEach var="request" items="${owner.requests}">
+        <c:forEach var="request" items="${requests}">
 
             <tr>
                 <td valign="top">
