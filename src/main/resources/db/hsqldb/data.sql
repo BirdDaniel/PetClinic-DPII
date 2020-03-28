@@ -105,7 +105,7 @@ INSERT INTO employees VALUES (4, 'No Hose', 'Mad', '6145556023', '87654341A', 'e
 INSERT INTO requests VALUES (1, '2019-08-01 17:00', '2030-08-03 13:00', null, 1, 1, 1);
 INSERT INTO requests VALUES (2, '2019-08-01 18:00', '2030-08-06 19:00', true, 2, 1, 3);
 INSERT INTO requests VALUES (3, '2019-08-01 17:30', '2030-08-06 18:00', false, 2, 2, 2);
-INSERT INTO requests VALUES (4, '2019-08-05 16:00', '2030-08-06 20:00', null, 1, 2, 1);
+INSERT INTO requests VALUES (4, '2019-08-05 16:00', '2030-08-06 20:00', true, 1, 2, 1);
 INSERT INTO requests VALUES (5, '2019-08-01 15:30', '2030-08-06 14:00', true, 3, 3, 3);
 INSERT INTO requests VALUES (6, '2019-08-01 14:30', '2030-08-06 15:00', null, 3, 3, 2);
 INSERT INTO requests VALUES (7, '2019-08-05 19:00', '2030-08-08 17:00', true, 1, 2, 2);
@@ -137,15 +137,9 @@ INSERT INTO clinics_requests VALUES (2, 3);
 -- INSERT INTO clinics_payments VALUES (1, 2);
 -- INSERT INTO clinics_payments VALUES (3, 3);
 
-
 --INSERT INTO residences_employees VALUES (residence_id, employee_id);
 
 --INSERT INTO residences_payments VALUES (residence_id, payments_id);
-
---INSERT INTO residences_requests VALUES (residence_id, request_id);
--- INSERT INTO residences_requests VALUES (1, 4);
--- INSERT INTO residences_requests VALUES (1, 5);
--- INSERT INTO residences_requests VALUES (3, 6);
 
 --UPDATE requests SET employee_id = 1  WHERE (id = 1); UPDATE requests SET owner_id = 1  WHERE (id = 1);
 --UPDATE requests SET employee_id = 2  WHERE (id = 2); UPDATE requests SET owner_id = 1  WHERE (id = 2);
