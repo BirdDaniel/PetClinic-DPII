@@ -36,11 +36,11 @@
         </tr>
         <tr>
             <th><strong>Open:</strong></th>
-            <td><fmt:formatDate value="${clinic.open}" type="date" pattern="HH:mm"/></td>
+            <td><c:out value="${clinic.open}" /></td>
         </tr>
         <tr>
             <th><strong>Close:</strong></th>
-            <td><fmt:formatDate value="${clinic.close}" type="date" pattern="HH:mm"/></td>
+            <td><c:out value="${clinic.close}"/></td>
         </tr>
         
    
