@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -46,10 +47,10 @@ public class BaseClinic extends NamedEntity {
 	/*private DateFormat format = new SimpleDateFormat("HH:mm");
 	*/
 	@DateTimeFormat(pattern="HH:mm")
-	private Date open;// = format.parse(new Date());
+	private LocalTime open;// = format.parse(new Date());
 	
 	@DateTimeFormat(pattern="HH:mm")
-	private Date close;
+	private LocalTime close;
 
 	public String getRating() {
 		return "The rating is " + this.rating + "stars";
@@ -79,19 +80,19 @@ public class BaseClinic extends NamedEntity {
 		this.address = address;
 	}
 
-	public Date getOpen() {
+	public LocalTime getOpen() {
 		return open;
 	}
 
-	public void setOpen(Date open) {
+	public void setOpen(LocalTime open) {
 		this.open = open;
 	}
 
-	public Date getClose() {
+	public LocalTime getClose() {
 		return close;
 	}
 
-	public void setClose(Date close) {
+	public void setClose(LocalTime close) {
 		this.close = close;
 	}
 

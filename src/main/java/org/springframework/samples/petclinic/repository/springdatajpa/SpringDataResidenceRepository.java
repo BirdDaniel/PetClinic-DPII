@@ -15,6 +15,9 @@
  */
 package org.springframework.samples.petclinic.repository.springdatajpa;
 
+import java.util.Collection;
+import java.util.Set;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -35,4 +38,8 @@ import org.springframework.samples.petclinic.repository.VetRepository;
 public interface SpringDataResidenceRepository extends ResidenceRepository, Repository<Residence, Integer> {
 	@Query("select r from Residence r WHERE :request in elements(r.requests)")
 	public Residence findByRequest(@Param("request") Request request);
+	
+	@Query("SELECT resi.requests FROM Residence resi")
+	public Collection<Request> findReqsResidence();
+	
 }

@@ -17,14 +17,18 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
+import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Request;
@@ -82,6 +86,16 @@ public class OwnerController extends SecurityController{
 			this.clinicService = clinicService;
 			this.residenceService = residenceService;
 			this.petService = petService;
+			
+	}
+	
+	public static String validationUser(String direction, Integer id, Model model) {
+			Integer loggedUserId = (Integer) model.getAttribute("loggedUser");
+
+			if(loggedUserId!=id){
+			return "redirect:/oups";
+		}
+		return direction;
 	}
 
 	@InitBinder
@@ -136,10 +150,12 @@ public class OwnerController extends SecurityController{
 	}
 	
 	/**Obtain a Request list of a Owner*/
+	//Dani
 	@GetMapping(value = "/owners/{ownerId}/myRequestList")
 	public String requestListForm(@PathVariable("ownerId") int ownerId, Model model) {
 
 		Owner owner = this.ownerService.findOwnerById(ownerId);
+
 		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
 
 		if(owner.getId()==loggedOwner){
@@ -170,6 +186,7 @@ public class OwnerController extends SecurityController{
 	
 	/**Obtain a Service of a Owner*/
 	/**Obtain a Service of a Owner*/
+	//Dani
 	@GetMapping(value = "/owners/{ownerId}/myRequestList/{requestId}/details")
 	public String servicesForm(@PathVariable("requestId") int requestId, Model model,Boolean requestD) {
 		
@@ -186,28 +203,19 @@ public class OwnerController extends SecurityController{
 			//requestD=false;
 			return "services/residenceServiceDetails";
 		}else {
-			model.addAttribute(req.getOwner());
-			return "redirect:/owners/" + req.getOwner().getId();
+			return "redirect:/owners/{ownerId}";
 		}
 	}
 	
+	//Grupo Dani y Josan
 	@GetMapping(value = "/owners/{ownerId}/myPetList/residence")
 	public String requestPetResidence(@PathVariable("ownerId") int ownerId, Model model) {
-		List <Request>  reqs = new ArrayList<>(this.requestService.findAcceptedByOwnerId(ownerId));
-		int i = reqs.size()-1;
-		//Usamos while porque al usar un buble for nos salta ConcurrentModificationException que suele
-		//pasar al borrar/modificar una lista de la base de datos.
-		while(i>=0) {
-			if(this.residenceService.findResidenceByRequest(reqs.get(i))== null) {
-				reqs.remove(reqs.get(i));
-			}
-			i--;			
-		}
-			model.addAttribute("requests", reqs);
-			return "owners/myPetResidence";
+		Collection<Request> reqs = this.requestService.findAcceptedResByOwnerId(ownerId);
+		model.addAttribute("requests", reqs);
+		return OwnerController.validationUser("owners/myPetResidence", ownerId, model);
 	}
 	
-
+	//Grupo Dani y Josan
 	@GetMapping(value = "/owners/{ownerId}/myPetList")
 	public String processFindForm2(@PathVariable("ownerId") int ownerId, Pet pet,  BindingResult result, Model model) {
 
