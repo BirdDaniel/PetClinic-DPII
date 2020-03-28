@@ -17,14 +17,18 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
+import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Request;
@@ -82,6 +86,16 @@ public class OwnerController extends SecurityController{
 			this.clinicService = clinicService;
 			this.residenceService = residenceService;
 			this.petService = petService;
+			
+	}
+	
+	public static String validationUser(String direction, Integer id, Model model) {
+			Integer loggedUserId = (Integer) model.getAttribute("loggedUser");
+
+			if(loggedUserId!=id){
+			return "redirect:/oups";
+		}
+		return direction;
 	}
 
 	@InitBinder
@@ -198,7 +212,7 @@ public class OwnerController extends SecurityController{
 	public String requestPetResidence(@PathVariable("ownerId") int ownerId, Model model) {
 		Collection<Request> reqs = this.requestService.findAcceptedResByOwnerId(ownerId);
 		model.addAttribute("requests", reqs);
-		return "owners/myPetResidence";
+		return OwnerController.validationUser("owners/myPetResidence", ownerId, model);
 	}
 	
 	//Grupo Dani y Josan
