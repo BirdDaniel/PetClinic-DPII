@@ -24,17 +24,21 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/employees/{employeeId}")
-public class EmployeeController extends SecurityController{
+public class EmployeeController 
+//extends SecurityController
+{
 
 	private final RequestService requestService;
+	private final EmployeeService employeeService;
 	private final static String VIEW_MY_REQUESTS = "employees/requests";
 	private final static String VIEW_MY_APPOINTMENTS = "employees/appointments";
 
 	@Autowired
 	public EmployeeController(OwnerService ownerService, EmployeeService employeeService,
 								AuthoritiesService authoritiesService, RequestService requestService) {
-		super(ownerService, employeeService, authoritiesService);
+	//	super(ownerService, employeeService, authoritiesService);
 		this.requestService = requestService;
+		this.employeeService = employeeService;
 	}
 
 	@InitBinder
@@ -52,14 +56,14 @@ public class EmployeeController extends SecurityController{
 		
 		Integer loggedUserId = (Integer) model.get("loggedUser");
 
-		if(loggedUserId==employee.getId()){
+	//	if(loggedUserId==employee.getId()){
 			SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getRequestDate));
 			Set<Request> requests = this.employeeService.getRequests(employee.getId());
 			res.addAll(requests);
 			model.put("requests", res);
 			return VIEW_MY_REQUESTS;
-		}
-		return "redirect:/oups";
+	//	}
+//		return "redirect:/oups";
 	}
 
 	@GetMapping("/appointments")
@@ -82,15 +86,15 @@ public class EmployeeController extends SecurityController{
 	public String acceptRequest(Employee employee,@PathVariable("requestId") Integer id, Map<String,Object> model){
 		
 		Integer loggedEmployeeId = (Integer) model.get("loggedUser");
-		if(employee.getId() == loggedEmployeeId){
+	//	if(employee.getId() == loggedEmployeeId){
 			Request request = this.requestService.findById(id);
 			if(request!=null){
 				request.setStatus(true);
 				this.requestService.save(request);
 			}
-		} else {
-			return "redirect:/oups";
-		}
+//		} else {
+//			return "redirect:/oups";
+	//	}
 		return "redirect:/employees/{employeeId}/requests";
 	}
 
@@ -99,7 +103,7 @@ public class EmployeeController extends SecurityController{
 		
 		// El modelo guarda en todo momento un atributo con el id del usuario logeado
 		Integer loggedEmployeeId = (Integer) model.get("loggedUser");
-		if(employee.getId() == loggedEmployeeId){
+//		if(employee.getId() == loggedEmployeeId){
 		
 			Request request = this.requestService.findById(id);
 			if(request!=null){
@@ -109,10 +113,10 @@ public class EmployeeController extends SecurityController{
 	
 		return "redirect:/employees/{employeeId}/requests";
 
-		} else {
-			System.out.println("Han intentado cancelar una request sin la identificación necesaria");
-			return "redirect:/oups";
-		}	
+	//	} else {
+	//		System.out.println("Han intentado cancelar una request sin la identificación necesaria");
+	//		return "redirect:/oups";
+	//	}	
 	} 
 	
 

@@ -60,6 +60,8 @@ public class OwnerController extends SecurityController{
 
 	private final RequestService requestService;
 	
+	private final OwnerService ownerService;
+	
 	private final ClinicService clinicService;
 
 	private final ResidenceService residenceService;
@@ -77,11 +79,12 @@ public class OwnerController extends SecurityController{
 			PetService petService,
 			UserService userService) {
 		
-			super(ownerService, employeeService, authoritiesService);
+		super(ownerService, employeeService, authoritiesService);
 			this.requestService = requestService;
 			this.clinicService = clinicService;
 			this.residenceService = residenceService;
 			this.petService = petService;
+			this.ownerService = ownerService;
 	}
 
 	@InitBinder
