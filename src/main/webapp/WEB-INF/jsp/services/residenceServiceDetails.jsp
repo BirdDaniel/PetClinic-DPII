@@ -17,6 +17,14 @@
             <th><strong>Price:</strong></th>
             <td><c:out value="${residence.price}"/></td>
         </tr>
+        <tr>
+            <th><strong>Open:</strong></th>
+            <td><c:out value="${residence.open}"/></td>
+        </tr>
+        <tr>
+            <th><strong>Close:</strong></th>
+            <td><c:out value="${residence.close}"/></td>
+        </tr>
          <tr>
             <th><strong>Rating:</strong></th>
             <td><c:out value="${residence.rating}"/></td>
