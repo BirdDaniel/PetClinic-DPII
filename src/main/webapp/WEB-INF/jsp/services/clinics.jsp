@@ -5,6 +5,11 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+
 <petclinic:layout pageName="clinics">
 	
 	<br/>
@@ -24,28 +29,28 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${clinics}" var="clinic">
+        <c:forEach items="${clinics}" var="clinics">
             <tr>
              	<td>
-                    <c:out value="${clinic.type}"/>
+                    <c:out value="${clinics.type}"/>
                 </td>
                 <td> 
                      <spring:url value="/clinic/{clinicId}" var="clinicUrl">
-                         <spring:param name="clinicId" value="${clinic.id}"/>
+                         <spring:param name="clinicId" value="${clinics.id}"/>
                      </spring:url>
-                     <a href="${fn:escapeXml(clinicUrl)}"><c:out value=" ${clinic.name}"/></a>
+                     <a href="${fn:escapeXml(clinicUrl)}"><c:out value=" ${clinics.name}"/></a>
                 </td>
                 <td>
-                    <c:out value="${clinic.address}"/>
+                    <c:out value="${clinics.address}"/>
                 </td>
                 <td>
-                    <c:out value="${clinic.price}"/>
+                    <c:out value="${clinics.price}"/>
                 </td>
                 <td>
-                    <c:out value="${clinic.rating}"/>
+                    <c:out value="${clinics.rating}"/>
                 </td>
                  <td>
-                 <c:out value="${clinic.max}"/>
+                 <c:out value="${clinics.max}"/>
                  </td>     
                   <!--       <spring:url value="/owners/{ownerId}" var="ownerUrl">
                         <spring:param name="ownerId" value="${owner.id}"/>
