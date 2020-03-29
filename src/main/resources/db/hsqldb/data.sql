@@ -85,14 +85,14 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010
 
 
 --INSERT INTO clinics(id, name, address, close, open, rating, description, max, price, type_id);
-INSERT INTO clinics VALUES (1, 'Clinica 1','Elm Street s/n', '2012-06-08 10:10:10', '2022-06-08 12:00', 3, 'Description 1', 10, 2.5, 1);
-INSERT INTO clinics VALUES (2, 'Clinica 2','Avenida de la reina mercedes 2', '2012-06-08 10:10:10', '2022-06-08 12:00', 4, 'Description 2', 20, 3.5, 2);
-INSERT INTO clinics VALUES (3, 'Clinica 3', 'Calle Bami 3', '2012-01-01 10:00:00', '2022-06-08 13:00', 5, 'Description 3', 30, 4.5, 3);
+INSERT INTO clinics VALUES (1, 'Clinica 1','Elm Street s/n', '10:10', '12:00', 3, 'Description 1', 10, 2.5, 1);
+INSERT INTO clinics VALUES (2, 'Clinica 2','Avenida de la reina mercedes 2', '10:10', '12:00', 4, 'Description 2', 20, 3.5, 2);
+INSERT INTO clinics VALUES (3, 'Clinica 3', 'Calle Bami 3', '10:00', '13:00', 5, 'Description 3', 30, 4.5, 3);
 
 --INSERT INTO residences(id, name, address, close, open, rating, description, max, price,days);
-INSERT INTO residences VALUES (1, 'Residencia 1','Madison Square, 51-B', '2012-06-08 10:10:10', '2022-06-08 12:00', 3, 'Description 1', 10, 2.5, 2);
-INSERT INTO residences VALUES (2, 'Residencia 2','Baker Street 221-B', '2012-06-08 10:10:10', '2022-06-08 12:00', 4, 'Description 2', 20, 3.5, 8);
-INSERT INTO residences VALUES (3, 'Residencia 3','Avenida Doctor Fedriani, 3, 2ºC', '2012-01-01 10:00:00', '2022-06-08 13:00', 5, 'Description 3', 30, 4.5, 4);
+INSERT INTO residences VALUES (1, 'Residencia 1','Madison Square, 51-B', '10:10', '12:00', 3, 'Description 1', 10, 2.5, 2);
+INSERT INTO residences VALUES (2, 'Residencia 2','Baker Street 221-B', '10:10', '12:00', 4, 'Description 2', 20, 3.5, 8);
+INSERT INTO residences VALUES (3, 'Residencia 3','Avenida Doctor Fedriani, 3, 2ºC', '10:00:00', '13:00', 5, 'Description 3', 30, 4.5, 4);
 
 --INSERT INTO employees(id, first_name, last_name, telephone, dni, username);
 INSERT INTO employees VALUES (1, 'Marta', 'Carter', '679845125','65847525H','emp1');
@@ -105,7 +105,7 @@ INSERT INTO employees VALUES (4, 'No Hose', 'Mad', '6145556023', '87654341A', 'e
 INSERT INTO requests VALUES (1, '2019-08-01 17:00', '2030-08-03 13:00', null, 1, 1, 1);
 INSERT INTO requests VALUES (2, '2019-08-01 18:00', '2030-08-06 19:00', true, 2, 1, 3);
 INSERT INTO requests VALUES (3, '2019-08-01 17:30', '2030-08-06 18:00', false, 2, 2, 2);
-INSERT INTO requests VALUES (4, '2019-08-05 16:00', '2030-08-06 20:00', null, 1, 2, 1);
+INSERT INTO requests VALUES (4, '2019-08-05 16:00', '2030-08-06 20:00', true, 1, 2, 1);
 INSERT INTO requests VALUES (5, '2019-08-01 15:30', '2030-08-06 14:00', true, 3, 3, 3);
 INSERT INTO requests VALUES (6, '2019-08-01 14:30', '2030-08-06 15:00', null, 3, 3, 2);
 INSERT INTO requests VALUES (7, '2019-08-05 19:00', '2030-08-08 17:00', true, 1, 2, 2);
@@ -137,15 +137,9 @@ INSERT INTO clinics_requests VALUES (2, 3);
 -- INSERT INTO clinics_payments VALUES (1, 2);
 -- INSERT INTO clinics_payments VALUES (3, 3);
 
-
 --INSERT INTO residences_employees VALUES (residence_id, employee_id);
 
 --INSERT INTO residences_payments VALUES (residence_id, payments_id);
-
---INSERT INTO residences_requests VALUES (residence_id, request_id);
--- INSERT INTO residences_requests VALUES (1, 4);
--- INSERT INTO residences_requests VALUES (1, 5);
--- INSERT INTO residences_requests VALUES (3, 6);
 
 --UPDATE requests SET employee_id = 1  WHERE (id = 1); UPDATE requests SET owner_id = 1  WHERE (id = 1);
 --UPDATE requests SET employee_id = 2  WHERE (id = 2); UPDATE requests SET owner_id = 1  WHERE (id = 2);

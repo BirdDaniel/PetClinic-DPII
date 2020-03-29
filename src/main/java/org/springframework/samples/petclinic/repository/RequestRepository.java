@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Request;
 
 public interface RequestRepository {
@@ -19,6 +20,10 @@ public interface RequestRepository {
 	Collection<Request> findAcceptedAll();
 	
 	Collection<Request> findAcceptedByOwnerId(int ownerId);
+
 	Collection<Request> findAcceptedByEmployeeId(int employeeId);
+
+	Collection<Request> findAcceptedResByOwnerId(int ownerId) throws DataAccessException;
+
 
 }

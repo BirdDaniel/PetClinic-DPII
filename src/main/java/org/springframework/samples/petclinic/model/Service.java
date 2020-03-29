@@ -82,4 +82,12 @@ public class Service extends BaseClinic {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public void addRequest(Request request) {
+		this.requests.add(request);
+	}
+	
+	public void removeRequest(Request request) {
+		this.requests.remove(request);
+	}
 }

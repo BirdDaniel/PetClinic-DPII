@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
+
 import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.User;
@@ -60,6 +61,17 @@ class EmployeeServiceTests {
 		assertThat(this.employeeService.getRequests(-4)).isEmpty();
 
 	}
+	
+	@Test
+	void shouldFindRequestByEmployeeId() {
+        
+		Employee employee = this.employeeService.findEmployeeById(1);
+		
+		Collection<Request> req = this.employeeService.getRequests(employee.getId());
+		
+		assertThat(req.size()).isGreaterThanOrEqualTo(3);
+    
+	}
 
 	@Test
 	void saveEmployee(){
@@ -85,8 +97,6 @@ class EmployeeServiceTests {
 		.isEqualTo(1);
 	
 	}
-
-
 /*
 	@Test
 	void shouldFindSingleOwnerWithPet() {
