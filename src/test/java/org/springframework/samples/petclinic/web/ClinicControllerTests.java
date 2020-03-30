@@ -121,10 +121,6 @@ class ClinicControllerTests {
 		mockMvc.perform(get("/clinic/findAll")).andExpect(status().isOk())
 		.andExpect(view().name("services/clinics"))
 		.andExpect(model().attributeExists("clinics"));
-			
-
-
-		given(this.clinicService.findAll()).willReturn(Lists.newArrayList(c1, c2));
 	}
 	//Positivo
 //    @WithMockUser(value = "owner2" , username = "owner2" ,password = "0wn3r",authorities = {"owner"})
@@ -142,12 +138,5 @@ class ClinicControllerTests {
 //			given(this.clinicService.findClinicById(TEST_CLINIC_ID)).willReturn(clinic1);
 //
 //    }
-    @WithMockUser(value = "spring")
-		@Test
-	void testShowReidenceListHtml() throws Exception {
-		mockMvc.perform(get("/clinic/findAll")).andExpect(status().isOk()).andExpect(model().attributeExists("clinics"))
-				.andExpect(view().name("services/clinics"));
-
-	}	
 
 }
