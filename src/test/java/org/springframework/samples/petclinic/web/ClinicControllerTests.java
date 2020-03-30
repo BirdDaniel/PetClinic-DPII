@@ -36,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 import java.security.Principal;
+import java.util.Calendar;
 
 /**
  * Test class for the {@link ClinicController}
@@ -48,7 +49,7 @@ import java.security.Principal;
 		excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 		excludeAutoConfiguration= SecurityConfiguration.class)
 class ClinicControllerTests {
-
+	private static final int TEST_CLINIC_ID=1;
 	@Autowired
 	private ClinicController clinicController;
 
@@ -75,7 +76,10 @@ class ClinicControllerTests {
 	private Owner david;
 		
 	private Authorities auth;
-
+	
+	private Clinic c1;
+	private Clinic c2;
+	private Clinic clinic1;
 	@BeforeEach
 	void setup() {
 
@@ -87,7 +91,16 @@ class ClinicControllerTests {
 		c2.setName("c2");
 		c2.setId(Integer.valueOf(2));
 		c2.setAddress("a2");
+		clinic1=new Clinic();
+		clinic1.setId(TEST_CLINIC_ID);
+		clinic1.setName("Residencia");
+		clinic1.setAddress("a1");
+		clinic1.setDescription("Esto es una residencia");
+		clinic1.setMax(10);
 
+		Calendar c = Calendar.getInstance();
+		c.set(2019, 8, 5, 19, 00);
+		
 		david = new Owner();
 		david.setId(TEST_OWNER_ID);
 		david.setFirstName("David");
@@ -110,9 +123,25 @@ class ClinicControllerTests {
 		.andExpect(model().attributeExists("clinics"));
 			
 
+
 		given(this.clinicService.findAll()).willReturn(Lists.newArrayList(c1, c2));
 	}
-      
+	//Positivo
+//    @WithMockUser(value = "owner2" , username = "owner2" ,password = "0wn3r",authorities = {"owner"})
+//		@Test
+//		void testShowClinicPos() throws Exception {
+//    	
+//		   mockMvc.perform(get("/clinic/{clinicId}", TEST_CLINIC_ID)).andExpect(status().isOk())
+//		   .andExpect(model().attributeExists("clinic"))
+//			.andExpect(model().attribute("clinic", hasProperty("name", is("Residencia"))))
+//			.andExpect(model().attribute("clinic", hasProperty("address",is("a1"))))
+//			.andExpect(model().attribute("clinic", hasProperty("description",is("Esto es una residencia"))))
+//			.andExpect(model().attribute("clinic", hasProperty("max",is("10"))))
+//			//.andExpect(model().attribute("clinic", hasProperty("open", is())))
+//			
+//			given(this.clinicService.findClinicById(TEST_CLINIC_ID)).willReturn(clinic1);
+//
+//    }
     @WithMockUser(value = "spring")
 		@Test
 	void testShowReidenceListHtml() throws Exception {
