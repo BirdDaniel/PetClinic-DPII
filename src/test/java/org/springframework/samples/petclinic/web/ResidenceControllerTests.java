@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Residence;
+
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.OwnerService;
+
 import org.springframework.samples.petclinic.service.ResidenceService;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -34,7 +36,6 @@ class ResidenceControllerTests {
 
 	@Autowired
 	private ResidenceController residenceController;
-	
 
 	@MockBean
 	private OwnerService ownerService;
@@ -44,6 +45,7 @@ class ResidenceControllerTests {
 	
 	@MockBean
 	private AuthoritiesService authoritiesService;
+
 
 	@MockBean
 	private ResidenceService residenceService;

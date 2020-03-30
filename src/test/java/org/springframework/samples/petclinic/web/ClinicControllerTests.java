@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+
 import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Owner;
@@ -14,6 +15,12 @@ import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.OwnerService;
+
+
+import org.springframework.samples.petclinic.model.Residence;
+
+import org.springframework.samples.petclinic.service.ResidenceService;
+
 import org.springframework.test.web.servlet.MockMvc;
 
 
@@ -27,20 +34,26 @@ import org.springframework.security.test.context.support.WithMockUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+
 import java.security.Principal;
 
 /**
  * Test class for the {@link ClinicController}
+=======
+/**
+ * Test class for the {@link ResidenceController}
+
  */
 @WebMvcTest(controllers=ClinicController.class,
 		excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 		excludeAutoConfiguration= SecurityConfiguration.class)
 class ClinicControllerTests {
-	
+
 	@Autowired
 	private ClinicController clinicController;
 
 	@MockBean
+
 	private OwnerService ownerService;
 	
 	@MockBean
@@ -50,17 +63,19 @@ class ClinicControllerTests {
 	private AuthoritiesService authoritiesService;
 	
 	@MockBean
+
 	private ClinicService clinicService;
 
 	@Autowired
 	private MockMvc mockMvc;
+
 	
 	private static final int TEST_OWNER_ID = 2;
 	
 	private Owner david;
 		
 	private Authorities auth;
-	
+
 	@BeforeEach
 	void setup() {
 
@@ -72,6 +87,7 @@ class ClinicControllerTests {
 		c2.setName("c2");
 		c2.setId(Integer.valueOf(2));
 		c2.setAddress("a2");
+
 		david = new Owner();
 		david.setId(TEST_OWNER_ID);
 		david.setFirstName("David");
@@ -93,6 +109,16 @@ class ClinicControllerTests {
 		.andExpect(view().name("services/clinics"))
 		.andExpect(model().attributeExists("clinics"));
 			
+
+		given(this.clinicService.findAll()).willReturn(Lists.newArrayList(c1, c2));
+	}
+      
+    @WithMockUser(value = "spring")
+		@Test
+	void testShowReidenceListHtml() throws Exception {
+		mockMvc.perform(get("/clinic/findAll")).andExpect(status().isOk()).andExpect(model().attributeExists("clinics"))
+				.andExpect(view().name("services/clinics"));
+
 	}	
 
 }
