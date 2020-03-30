@@ -38,11 +38,13 @@
                 </td>
                 <td>
                     
-                        <spring:url value="/employees/{employeeId}/requests/{requestId}/accept" var="acceptUrl">
+                        <spring:url value="/employees/{employeeId}/{action}/{requestId}/accept" var="acceptUrl">
+                         <spring:param name="action" value="requests"/>
                             <spring:param name="requestId" value="${request.id}"/>
                             <spring:param name="employeeId" value="${request.employee.id}"/>
                         </spring:url>
-                        <spring:url value="/employees/{employeeId}/requests/{requestId}/decline" var="declineUrl">
+                        <spring:url value="/employees/{employeeId}/{action}/{requestId}/decline" var="declineUrl">
+                         <spring:param name="action" value="requests"/>
                             <spring:param name="requestId" value="${request.id}"/>
                             <spring:param name="employeeId" value="${request.employee.id}"/>
                         </spring:url>

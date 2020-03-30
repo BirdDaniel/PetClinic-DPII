@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<jsp:useBean id="now" class="java.util.Date"/>
 
 <petclinic:layout pageName="appointmentsEmployee">
     <table id="requestsTable" class="table table-striped">
@@ -37,11 +38,13 @@
                 </td>
                 <td>
                     
-                        <spring:url value="/employees/{employeeId}/requests/{requestId}/accept" var="acceptUrl">
+                        <spring:url value="/employees/{employeeId}/{action}/{requestId}/accept" var="acceptUrl">
+                            <spring:param name="action" value="appointments"/>
                             <spring:param name="requestId" value="${request.id}"/>
                             <spring:param name="employeeId" value="${request.employee.id}"/>
                         </spring:url>
-                        <spring:url value="/employees/{employeeId}/requests/{requestId}/decline" var="declineUrl">
+                        <spring:url value="/employees/{employeeId}/{action}/{requestId}/decline" var="declineUrl">
+                         	<spring:param name="action" value="appointments"/>
                             <spring:param name="requestId" value="${request.id}"/>
                             <spring:param name="employeeId" value="${request.employee.id}"/>
                         </spring:url>
@@ -52,7 +55,7 @@
                             <c:out value="Accepted"/>
                         </c:if>
                         |
-                        <c:if test="${request.status != false}">
+                        <c:if test="${(request.status != false) && (now lt request.serviceDate)}">
                         <a href="${fn:escapeXml(declineUrl)}" class="btn btn-danger">Cancel</a>
                         </c:if>
                         
