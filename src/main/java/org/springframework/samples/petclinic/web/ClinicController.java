@@ -49,7 +49,7 @@ public class ClinicController extends SecurityController {
 	}
 
 	@GetMapping(value = "/findAll")
-	public String clinics(ModelMap model) {
+	public String clinics(Model model) {
 		Iterable<Clinic> clinics= this.clinicService.findAll();
 		model.addAttribute("clinics", clinics);
 		return "services/clinics";
