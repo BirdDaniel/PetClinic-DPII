@@ -183,21 +183,28 @@ import org.springframework.test.web.servlet.MockMvc;
 	@WithMockUser(value = "spring")
 	@Test
 	void testViewRequestsForm() throws Exception {
-	mockMvc.perform(get("/employees/{employeeId}/requests", TEST_EMPLOYEE_ID)).andExpect(status().isOk()).andExpect(model().attributeExists("requests"))
-			.andExpect(view().name("employees/requests"));
+	mockMvc.perform(get("/employees/{employeeId}/requests", TEST_EMPLOYEE_ID)	
+	.param("requestDate", "2019-08-05 16:00").param("serviceDate", "2030-08-06 20:00"))
+	.andExpect(status().isOk())
+	.andExpect(model().attributeExists("requests"))
+//	.andExpect(model().attribute("requests", hasProperty("requestDate", is("2019-08-05 16:00"))))
+//	.andExpect(model().attribute("requests", hasProperty("serviceDate", is("2030-08-06 20:00"))))
+	.andExpect(view().name("employees/requests"));
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testAcceptRequestForm() throws Exception {
-	mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/accept", TEST_EMPLOYEE_ID, TEST_REQUEST_ID_RESIDENCE)).andExpect(status().is3xxRedirection())
-			.andExpect(view().name("redirect:/employees/{employeeId}/requests"));
+	mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/accept", TEST_EMPLOYEE_ID, TEST_REQUEST_ID_RESIDENCE))
+	.andExpect(status().is3xxRedirection())
+	.andExpect(view().name("redirect:/employees/{employeeId}/requests"));
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testDeclineRequestForm() throws Exception {
-	mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/decline", TEST_EMPLOYEE_ID, TEST_REQUEST_ID_RESIDENCE)).andExpect(status().is3xxRedirection())
-			.andExpect(view().name("redirect:/employees/{employeeId}/requests"));
+	mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/decline", TEST_EMPLOYEE_ID, TEST_REQUEST_ID_RESIDENCE))
+	.andExpect(status().is3xxRedirection())
+	.andExpect(view().name("redirect:/employees/{employeeId}/requests"));
 	}
 }

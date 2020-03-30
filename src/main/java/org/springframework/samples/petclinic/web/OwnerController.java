@@ -97,14 +97,14 @@ public class OwnerController extends SecurityController{
 	public String initUpdateOwnerForm(@PathVariable("ownerId") int ownerId, Model model) {
 
 		Owner owner = this.ownerService.findOwnerById(ownerId);
-		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
-		if(owner.getId()==loggedOwner){
+//		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
+//		if(owner.getId()==loggedOwner){
 
 			model.addAttribute(owner);
 			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
-		}
+//		}
 
-		return "redirect:/oups";
+//		return "redirect:/oups";
 	}
 
 	@PostMapping(value = "/owners/{ownerId}/edit")
@@ -129,13 +129,13 @@ public class OwnerController extends SecurityController{
 	public String showOwner(@PathVariable("ownerId") int ownerId, Model model) {
 
 		Owner owner = this.ownerService.findOwnerById(ownerId);
-		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");		
+//		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");		
 
-		if(owner.getId()==loggedOwner){
+//		if(owner.getId()==loggedOwner){
 			model.addAttribute(owner);
 			return "owners/ownerDetails";
-		}
-		return "redirect:/oups";
+//		}
+//		return "redirect:/oups";
 	}
 	
 	/**Obtain a Request list of a Owner*/
@@ -145,15 +145,15 @@ public class OwnerController extends SecurityController{
 
 		Owner owner = this.ownerService.findOwnerById(ownerId);
 
-		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
+//		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
 
-		if(owner.getId()==loggedOwner){
-			Set<Request> requests = owner.getRequests();
+//		if(owner.getId()==loggedOwner){
+	//		Set<Request> requests = owner.getRequests();
 			model.addAttribute("owner", owner);
-			model.addAttribute("requests", requests);
+	//		model.addAttribute("requests", requests);
 			return "owners/myRequestList";
-		}
-		return "redirect:/oups";
+//		}
+//		return "redirect:/oups";
 	}
 	
 	/**Obtain a Request list of a Owner only accepted*/
@@ -161,15 +161,15 @@ public class OwnerController extends SecurityController{
 	public String requestAcceptedForm(@PathVariable("ownerId") int ownerId, Model model) {
 
 		Owner owner = this.ownerService.findOwnerById(ownerId);
-		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
+//		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
 		
-		if(loggedOwner==owner.getId()){
+//		if(loggedOwner==owner.getId()){
 			Set<Request> requests = owner.getAcceptedRequests();
 			model.addAttribute("requests", requests);
 			return "owners/appointments";
-		}
+//		}
 
-		return "redirect:/oups";
+//		return "redirect:/oups";
 
 	}
 	
@@ -177,7 +177,7 @@ public class OwnerController extends SecurityController{
 	/**Obtain a Service of a Owner*/
 	//Dani
 	@GetMapping(value = "/owners/{ownerId}/myRequestList/{requestId}/details")
-	public String servicesForm(@PathVariable("requestId") int requestId, Model model,Boolean requestD) {
+	public String servicesForm(@PathVariable("requestId") int requestId, Model model) {
 		
 		Request req = this.requestService.findById(requestId);
 		
