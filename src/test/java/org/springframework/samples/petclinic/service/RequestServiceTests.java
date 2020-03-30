@@ -47,6 +47,7 @@ public class RequestServiceTests {
 			assertThat(reqRes.stream().allMatch(x->x.getStatus()==true)).isTrue();
 			assertThat(reqRes.stream().allMatch(x->this.residenceService.findResidenceByRequest(x)!=null)).isTrue();
 			
+			
 	}
 
 }
