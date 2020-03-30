@@ -3,12 +3,16 @@ package org.springframework.samples.petclinic.web;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
@@ -20,6 +24,7 @@ import static org.hamcrest.Matchers.is;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,34 +33,54 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.OwnerService;
+import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 
 @WebMvcTest(controllers=EmployeeController.class,
 		excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 		excludeAutoConfiguration= SecurityConfiguration.class)
+@ExtendWith(MockitoExtension.class)
 class EmployeeControllerTests {
 
 	private static final int TEST_EMPLOYEE_ID = 1;
+	private static final int TEST_REQUEST_ID = 1;
 
 	
 	@MockBean
 	private EmployeeService employeeService;
-        
-    @MockBean
-	private UserService userService;
-        
-    @MockBean
-    private AuthoritiesService authoritiesService; 
+		
+	@MockBean
+	private OwnerService ownerService;
+	
+	@MockBean
+	private RequestService reqService;
+	
+	@MockBean
+	private AuthoritiesService authService;
+	
+	@Mock
+	private Request req1;
+	@Mock
+	private Request req2;
+	@Mock
+	private Request req3;
+	@Mock
+	private Request req4;
+
+	private Request req5;
+
+	@Mock
+	Map<String, Object> model;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -81,116 +106,83 @@ class EmployeeControllerTests {
         george.setDni("15432567D");
         george.setTelephone("6085551023");
         george.setUser(user);
-		given(this.employeeService.findEmployeeById(TEST_EMPLOYEE_ID)).willReturn(george);
+
+		Set<Request> reqs = new HashSet<>();
+		reqs.add(req1);
+		reqs.add(req2);
+		reqs.add(req3);
+		reqs.add(req4);
+		
+		req5 = new Request();
+		req5.setEmployee(george);
+		req5.setId(1);
+		reqs.add(req5);
+
+
+		given(this.authService.findById("emp1")).willReturn(auth);
+		given(this.employeeService.findByUsername("emp1")).willReturn(TEST_EMPLOYEE_ID);
 
     }
   
-    @WithMockUser(value = "spring")
+
+    @WithMockUser(value = "emp1",  authorities = {"employee"}, username = "emp1")
     @Test
-	void testGetRequests() throws Exception {
-        
-		//given(this.employeeService.getRequests(TEST_EMPLOYEE_ID))).willReturn();
+	void testShouldGetRequests() throws Exception {
 
-		mockMvc.perform(get("/owners")).andExpect(status().isOk()).andExpect(view().name("owners/ownersList"));
+		mockMvc.perform(get("/employees/{employeeId}/requests", TEST_EMPLOYEE_ID))
+			.andExpect(status().isOk()).andExpect(view().name("employees/requests"));
 	}
 
-/*
-	@WithMockUser(value = "spring")
-        @Test
-	void testProcessCreationFormHasErrors() throws Exception {
-		mockMvc.perform(post("/owners/new")
-							.with(csrf())
-							.param("firstName", "Joe")
-							.param("lastName", "Bloggs")
-							.param("city", "London"))
-				.andExpect(status().isOk())
-				.andExpect(model().attributeHasErrors("owner"))
-				.andExpect(model().attributeHasFieldErrors("owner", "address"))
-				.andExpect(model().attributeHasFieldErrors("owner", "telephone"))
-				.andExpect(view().name("owners/createOrUpdateOwnerForm"));
+	@WithMockUser(value = "emp1",  authorities = {"employee"}, username = "emp1")
+    @Test
+	void testShouldAcceptRequest() throws Exception {
+
+		mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/accept", TEST_EMPLOYEE_ID, TEST_REQUEST_ID))
+			.andExpect(status().isOk()).andExpect(view().name("employees/requests"));
 	}
 
-	@WithMockUser(value = "spring")
-        @Test
-	void testInitFindForm() throws Exception {
-		mockMvc.perform(get("/owners/find")).andExpect(status().isOk()).andExpect(model().attributeExists("owner"))
-				.andExpect(view().name("owners/findOwners"));
+	@WithMockUser(value = "emp1",  authorities = {"employee"}, username = "emp1")
+    @Test
+	void testShouldDeclineRequest() throws Exception {
+
+		mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/decline", TEST_EMPLOYEE_ID, TEST_REQUEST_ID))
+			.andExpect(status().isOk()).andExpect(view().name("employees/requests"));
 	}
 
+	@WithMockUser(value = "emp1",  authorities = {"employee"}, username = "emp1")
+    @Test
+	void testShouldGetAppointments() throws Exception {
 
-	@WithMockUser(value = "spring")
-        @Test
-	void testProcessFindFormByLastName() throws Exception {
-		given(this.clinicService.findOwnerByLastName(george.getLastName())).willReturn(Lists.newArrayList(george));
-
-		mockMvc.perform(get("/owners").param("lastName", "Franklin")).andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/owners/" + TEST_OWNER_ID));
+		mockMvc.perform(get("/employees/{employeeId}/appointments", TEST_EMPLOYEE_ID))
+			.andExpect(status().isOk()).andExpect(view().name("employees/requests"));
 	}
 
-        @WithMockUser(value = "spring")
-	@Test
-	void testProcessFindFormNoOwnersFound() throws Exception {
-		mockMvc.perform(get("/owners").param("lastName", "Unknown Surname")).andExpect(status().isOk())
-				.andExpect(model().attributeHasFieldErrors("owner", "lastName"))
-				.andExpect(model().attributeHasFieldErrorCode("owner", "lastName", "notFound"))
-				.andExpect(view().name("owners/findOwners"));
+	
+
+	@WithMockUser(value = "emp1",  authorities = {"employee"}, username = "emp1")
+    @Test
+	void testShouldNotGetRequests() throws Exception {
+
+		mockMvc.perform(get("/employees/{employeeId}/requests", 2))
+			.andExpect(status().isOk()).andExpect(view().name("exception"));
 	}
 
-        @WithMockUser(value = "spring")
-	@Test
-	void testInitUpdateOwnerForm() throws Exception {
-		mockMvc.perform(get("/owners/{ownerId}/edit", TEST_OWNER_ID)).andExpect(status().isOk())
-				.andExpect(model().attributeExists("owner"))
-				.andExpect(model().attribute("owner", hasProperty("lastName", is("Franklin"))))
-				.andExpect(model().attribute("owner", hasProperty("firstName", is("George"))))
-				.andExpect(model().attribute("owner", hasProperty("address", is("110 W. Liberty St."))))
-				.andExpect(model().attribute("owner", hasProperty("city", is("Madison"))))
-				.andExpect(model().attribute("owner", hasProperty("telephone", is("6085551023"))))
-				.andExpect(view().name("owners/createOrUpdateOwnerForm"));
+	@WithMockUser(value = "emp1",  authorities = {"employee"}, username = "emp1")
+    @Test
+	void testShouldNotAcceptRequest() throws Exception {
 
-		verify(clinicService).findOwnerById(TEST_OWNER_ID);
+		mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/accept", 2, TEST_REQUEST_ID))
+			.andExpect(status().isOk()).andExpect(view().name("exception"));
 	}
 
-        @WithMockUser(value = "spring")
-	@Test
-	void testProcessUpdateOwnerFormSuccess() throws Exception {
-		mockMvc.perform(post("/owners/{ownerId}/edit", TEST_OWNER_ID)
-							.with(csrf())
-							.param("firstName", "Joe")
-							.param("lastName", "Bloggs")
-							.param("address", "123 Caramel Street")
-							.param("city", "London")
-							.param("telephone", "01616291589"))
-				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/owners/{ownerId}"));
+	
+	@WithMockUser(value = "emp1",  authorities = {"employee"}, username = "emp1")
+    @Test
+	void testShouldNotDeclineRequest() throws Exception {
+
+		mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/decline", 2, TEST_REQUEST_ID))
+			.andExpect(status().isOk()).andExpect(view().name("exception"));
 	}
 
-        @WithMockUser(value = "spring")
-	@Test
-	void testProcessUpdateOwnerFormHasErrors() throws Exception {
-		mockMvc.perform(post("/owners/{ownerId}/edit", TEST_OWNER_ID)
-							.with(csrf())
-							.param("firstName", "Joe")
-							.param("lastName", "Bloggs")
-							.param("city", "London"))
-				.andExpect(status().isOk())
-				.andExpect(model().attributeHasErrors("owner"))
-				.andExpect(model().attributeHasFieldErrors("owner", "address"))
-				.andExpect(model().attributeHasFieldErrors("owner", "telephone"))
-				.andExpect(view().name("owners/createOrUpdateOwnerForm"));
-	}
-
-        @WithMockUser(value = "spring")
-	@Test
-	void testShowOwner() throws Exception {
-		mockMvc.perform(get("/owners/{ownerId}", TEST_OWNER_ID)).andExpect(status().isOk())
-				.andExpect(model().attribute("owner", hasProperty("lastName", is("Franklin"))))
-				.andExpect(model().attribute("owner", hasProperty("firstName", is("George"))))
-				.andExpect(model().attribute("owner", hasProperty("address", is("110 W. Liberty St."))))
-				.andExpect(model().attribute("owner", hasProperty("city", is("Madison"))))
-				.andExpect(model().attribute("owner", hasProperty("telephone", is("6085551023"))))
-				.andExpect(view().name("owners/ownerDetails"));
-    }
-    */
 
 }

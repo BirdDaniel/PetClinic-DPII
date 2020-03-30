@@ -3,9 +3,6 @@ package org.springframework.samples.petclinic.web;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Employee;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Person;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.OwnerService;

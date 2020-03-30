@@ -51,6 +51,7 @@ public class EmployeeController extends SecurityController{
 	public String RequestsEmployee(Employee employee, Map<String, Object> model){
 		
 		Integer loggedUserId = (Integer) model.get("loggedUser");
+		System.out.println(loggedUserId);
 
 		if(loggedUserId==employee.getId()){
 			SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getRequestDate));
