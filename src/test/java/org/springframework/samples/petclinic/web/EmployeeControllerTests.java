@@ -15,6 +15,10 @@ import java.util.Calendar;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,10 +34,12 @@ import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.model.User;
+
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.OwnerService;
+
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ResidenceService;
@@ -85,6 +91,7 @@ import org.springframework.test.web.servlet.MockMvc;
 	@MockBean
 	private AuthoritiesService authoritiesService; 
 	
+
 	@Autowired
 	private MockMvc mockMvc;
 	
@@ -110,6 +117,7 @@ import org.springframework.test.web.servlet.MockMvc;
 	//INSERT INTO residences VALUES (1, 'Residencia 1','Madison Square, 51-B', '2012-06-08 10:10:10', '2022-06-08 12:00', 3, 'Description 1', 10, 2.5, 2);
 	@BeforeEach
 	void setup() {
+
 		
 	employee = new Employee();
 	employee.setId(TEST_EMPLOYEE_ID);
@@ -226,3 +234,4 @@ import org.springframework.test.web.servlet.MockMvc;
 	.andExpect(view().name("redirect:/employees/{employeeId}/appointments"));
 	}
 }
+
