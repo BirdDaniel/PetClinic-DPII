@@ -15,15 +15,20 @@
  */
 package org.springframework.samples.petclinic.model;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -48,13 +53,13 @@ public class Owner extends Person {
 	@NotEmpty
 	protected String address;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
 	private Set<Pet> pets;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
 	private Set<Payment> payments;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",fetch = FetchType.EAGER)
 	private Set<Request> requests;
 
 	protected Set<Pet> getPetsInternal() {
@@ -138,6 +143,26 @@ public class Owner extends Person {
 	public void setRequests(Set<Request> requests) {
 		this.requests = requests;
 	}
-	
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setPets(Set<Pet> pets) {
+		this.pets = pets;
+	}
+  
+  public Set<Request> getAcceptedRequests(){
+		SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getRequestDate));
+		for(Request req : this.requests){
+			if(req.getStatus()!=null) if(req.getStatus()==true) res.add(req);
+		}
+		return res;
+	}
+  
 }
+

@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -77,12 +78,13 @@ class PetServiceTests {
         
         @Autowired
 	protected OwnerService ownerService;	
+        
 
 	@Test
 	void shouldFindPetWithCorrectId() {
 		Pet pet7 = this.petService.findPetById(7);
 		assertThat(pet7.getName()).startsWith("Samantha");
-		assertThat(pet7.getOwner().getFirstName()).isEqualTo("Jean");
+		assertThat(pet7.getOwner().getFirstName()).isEqualTo("David");
 
 	}
 
@@ -194,7 +196,7 @@ class PetServiceTests {
 			petService.savePet(anotherPet);
 		});		
 	}
-
+/*
 	@Test
 	@Transactional
 	public void shouldAddNewVisitForPet() {
@@ -224,5 +226,22 @@ class PetServiceTests {
 		assertThat(visitArr[0].getDate()).isNotNull();
 		assertThat(visitArr[0].getPet().getId()).isEqualTo(7);
 	}
+*/
+	
+	@Test
+	void shouldFindPetByName() {
+        
+		Owner owner = this.ownerService.findOwnerById(1);
+		assertThat(owner.getPet("Leo")).isNotNull();
+		assertThat(owner.getPet("Iggy")).isNull();
+		
+		Collection<Pet> pets = this.petService.findPetsOfOwnerByName(owner.getId(), "Leo");
+		assertThat(pets.size()).isEqualTo(1);
 
+		pets = this.petService.findPetsOfOwnerByName(0, "Leo");
+        assertThat(pets.isEmpty()).isTrue();
+        
+		pets = this.petService.findPetsOfOwnerByName(owner.getId(), "Iggy");
+        assertThat(pets.size()).isEqualTo(0);
+	}
 }

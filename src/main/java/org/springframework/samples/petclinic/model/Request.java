@@ -13,62 +13,82 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.samples.petclinic.model;
 
-import java.time.LocalDate;
-import java.util.Set;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-/**
- * Simple JavaBean domain object representing a veterinarian.
- *
- * @author Ken Krebs
- * @author Juergen Hoeller
- * @author Sam Brannen
- * @author Arjen Poutsma
- */
+
 @Entity
 @Table(name = "requests")
 public class Request extends BaseEntity{
-
+	
 	@Column(name = "date_req")
 	@Past
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate date;
+	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+	private Date requestDate;
+
+	@Column(name = "date_ser")
+	@Future
+	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+	private Date serviceDate;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="services_id")
-	private Set<Service> services;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="employee_id")
+	private Employee employee;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="owner_id")
 	private Owner owner;
+
+	private Boolean status = null;
 	
-
-	public void setDate(LocalDate date) {
-		this.date = date;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="pet_id")
+	private Pet pet;
+	
+	
+	public Date getRequestDate() {
+		return requestDate;
 	}
 
-	public LocalDate getDate() {
-		return this.date;
+	public void setRequestDate(Date requestDate) {
+		this.requestDate = requestDate;
 	}
 
-	public Set<Service> getServices() {
-		return services;
+	public Date getServiceDate() {
+		return serviceDate;
 	}
 
-	public void setServices(Set<Service> services) {
-		this.services = services;
+	public void setServiceDate(Date serviceDate) {
+		this.serviceDate = serviceDate;
+	}
+
+	public Pet getPet() {
+		return pet;
+	}
+
+	public void setPet(Pet pet) {
+		this.pet = pet;
+	}
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
 	}
 
 	public Owner getOwner() {
@@ -79,6 +99,13 @@ public class Request extends BaseEntity{
 		this.owner = owner;
 	}
 	
+	public Employee getEmployee() {
+		return this.employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
 	
 
 }

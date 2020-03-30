@@ -15,17 +15,14 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -33,27 +30,27 @@ import org.springframework.format.annotation.DateTimeFormat;
 /**
  The services of the clinic
  */
-@Entity
-public class BaseClinic extends BaseEntity {
+@MappedSuperclass
+public class BaseClinic extends NamedEntity {
 	
 	@Range(min = 0, max = 5)
 	private int rating;
-	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="service")
-	private Set<Payment> payments;
-	
+
 	private String address;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Employee> employees;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Payment> payments;
 	
 	/*private DateFormat format = new SimpleDateFormat("HH:mm");
 	*/
 	@DateTimeFormat(pattern="HH:mm")
-	private Date open;// = format.parse(new Date());
+	private LocalTime open;// = format.parse(new Date());
 	
 	@DateTimeFormat(pattern="HH:mm")
-	private Date close;
+	private LocalTime close;
 
 	public String getRating() {
 		return "The rating is " + this.rating + "stars";
@@ -83,21 +80,31 @@ public class BaseClinic extends BaseEntity {
 		this.address = address;
 	}
 
-	public Date getOpen() {
+	public LocalTime getOpen() {
 		return open;
 	}
 
-	public void setOpen(Date open) {
+	public void setOpen(LocalTime open) {
 		this.open = open;
 	}
 
-	public Date getClose() {
+	public LocalTime getClose() {
 		return close;
 	}
 
-	public void setClose(Date close) {
+	public void setClose(LocalTime close) {
 		this.close = close;
 	}
+
+	public Set<Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(Set<Employee> employees) {
+		this.employees = employees;
+	}
+	
+	
 	
 
 }

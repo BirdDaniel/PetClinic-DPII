@@ -13,7 +13,6 @@
         <tr>
             <th style="width: 150px;">Name</th>
             <th style="width: 200px;">Address</th>
-            <th>City</th>
             <th style="width: 120px">Telephone</th>
             <th>Pets</th>
         </tr>
@@ -29,9 +28,6 @@
                 </td>
                 <td>
                     <c:out value="${owner.address}"/>
-                </td>
-                <td>
-                    <c:out value="${owner.city}"/>
                 </td>
                 <td>
                     <c:out value="${owner.telephone}"/>

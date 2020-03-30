@@ -16,6 +16,12 @@
 package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Range;
 
@@ -23,10 +29,19 @@ import org.hibernate.validator.constraints.Range;
  The services of the clinic
  */
 @Entity
-public class Residence extends Service {
+@Table(name = "residences")
+public class Residence extends Service  {
 	
 	@Range(min = 1)
 	private int days;
+
+	public int getDays() {
+		return days;
+	}
+
+	public void setDays(int days) {
+		this.days = days;
+	}
 	
 
 }
