@@ -70,20 +70,20 @@ public class EmployeeController
 	public String allAppointments(Employee employee, Map<String, Object> model){
 
 		Integer loggedUserId = (Integer) model.get("loggedUser");
-		if(loggedUserId==employee.getId()){
+	//	if(loggedUserId==employee.getId()){
 			Collection<Request> appointments = this.requestService.findAcceptedByEmployeeId(employee.getId());
 			
 			if(appointments!=null)
 				model.put("appointments", appointments);
 
 			return VIEW_MY_APPOINTMENTS;
-		}
+		//}
 
-		return "redirect:/oups";
+	//	return "redirect:/oups";
 	}
 
-	@GetMapping("/requests/{requestId}/accept")
-	public String acceptRequest(Employee employee,@PathVariable("requestId") Integer id, Map<String,Object> model){
+	@GetMapping("/{action}/{requestId}/accept")
+	public String acceptRequest(Employee employee,@PathVariable("requestId") Integer id, @PathVariable("action") String action, Map<String,Object> model){
 		
 		Integer loggedEmployeeId = (Integer) model.get("loggedUser");
 	//	if(employee.getId() == loggedEmployeeId){
@@ -95,11 +95,15 @@ public class EmployeeController
 //		} else {
 //			return "redirect:/oups";
 	//	}
-		return "redirect:/employees/{employeeId}/requests";
-	}
+			if(action.equals("requests")) {
+				return "redirect:/employees/{employeeId}/requests";
+			}else {
+				return "redirect:/employees/{employeeId}/appointments";
+			}
+		}
 
-	@GetMapping("/requests/{requestId}/decline")
-	public String declineRequest(Employee employee, @PathVariable("requestId") int id, Map<String,Object> model){
+	@GetMapping("/{action}/{requestId}/decline")
+	public String declineRequest(Employee employee, @PathVariable("requestId") int id, @PathVariable("action") String action, Map<String,Object> model){
 		
 		// El modelo guarda en todo momento un atributo con el id del usuario logeado
 		Integer loggedEmployeeId = (Integer) model.get("loggedUser");
@@ -110,8 +114,11 @@ public class EmployeeController
 				request.setStatus(false);
 				this.requestService.save(request);
 		}
-	
-		return "redirect:/employees/{employeeId}/requests";
+			if(action.equals("requests")) {
+				return "redirect:/employees/{employeeId}/requests";
+			}else {
+				return "redirect:/employees/{employeeId}/appointments";
+			}
 
 	//	} else {
 	//		System.out.println("Han intentado cancelar una request sin la identificación necesaria");

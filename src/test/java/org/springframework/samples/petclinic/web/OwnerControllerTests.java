@@ -369,16 +369,6 @@ class OwnerControllerTests {
         
         @WithMockUser(value = "owner2" , username = "owner2" ,password = "0wn3r",authorities = {"owner"})
         @Test
-	void testProcessFindNoRequestFormSuccess() throws Exception {
-		given(this.ownerService.findOwnerById(TEST_OWNER_ID)).willReturn(david,new Owner());
-		mockMvc.perform(get("/owners/{ownerId}/myRequestList",  TEST_OWNER_ID).param("lastName", "Unknown Surname")).andExpect(status().isOk())
-		.andExpect(model().attributeHasFieldErrors("owner", "lastName"))
-		.andExpect(model().attributeHasFieldErrorCode("owner", "lastName", "notFound"))
-		.andExpect(view().name("owners/myRequestList"));
-	}
-        
-        @WithMockUser(value = "owner2" , username = "owner2" ,password = "0wn3r",authorities = {"owner"})
-        @Test
 	void testProcessFindRequestDetailsFormSuccess() throws Exception {
 		given(this.requestService.findById(TEST_REQUEST_ID_NULL)).willReturn(reqEmpty, new Request());
 		mockMvc.perform(get("/owners/{ownerId}/myRequestList/{requestId}/details", TEST_OWNER_ID, TEST_REQUEST_ID_NULL))
