@@ -97,28 +97,34 @@ public class OwnerController extends SecurityController{
 	public String initUpdateOwnerForm(@PathVariable("ownerId") int ownerId, Model model) {
 
 		Owner owner = this.ownerService.findOwnerById(ownerId);
-//		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
-//		if(owner.getId()==loggedOwner){
+		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
+		if(owner.getId()==loggedOwner){
 
 			model.addAttribute(owner);
 			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
-//		}
+		}
 
-//		return "redirect:/oups";
+		return "redirect:/oups";
 	}
 
 	@PostMapping(value = "/owners/{ownerId}/edit")
 	public String processUpdateOwnerForm(@Valid Owner owner, BindingResult result,
-			@PathVariable("ownerId") int ownerId) {
-		if (result.hasErrors()) {
-			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+			@PathVariable("ownerId") int ownerId, Model model) {
+		
+		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
+		
+		if(owner.getId()==loggedOwner){
+			if (result.hasErrors()) {
+				return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+			}
+			else {
+				owner.setId(ownerId);
+				this.ownerService.saveOwner(owner);
+				return "redirect:/owners/{ownerId}";
+			}
 		}
-		else {
-			owner.setId(ownerId);
-			this.ownerService.saveOwner(owner);
-			return "redirect:/owners/{ownerId}";
+			return "redirect:/oups";
 		}
-	}
 
 	/**
 	 * Custom handler for displaying an owner.
@@ -129,13 +135,13 @@ public class OwnerController extends SecurityController{
 	public String showOwner(@PathVariable("ownerId") int ownerId, Model model) {
 
 		Owner owner = this.ownerService.findOwnerById(ownerId);
-//		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");		
+		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");		
 
-//		if(owner.getId()==loggedOwner){
+		if(owner.getId()==loggedOwner){
 			model.addAttribute(owner);
 			return "owners/ownerDetails";
-//		}
-//		return "redirect:/oups";
+		}
+		return "redirect:/oups";
 	}
 	
 	/**Obtain a Request list of a Owner*/
@@ -145,15 +151,13 @@ public class OwnerController extends SecurityController{
 
 		Owner owner = this.ownerService.findOwnerById(ownerId);
 
-//		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
+		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
 
-//		if(owner.getId()==loggedOwner){
-	//		Set<Request> requests = owner.getRequests();
+		if(owner.getId()==loggedOwner){
 			model.addAttribute("owner", owner);
-	//		model.addAttribute("requests", requests);
 			return "owners/myRequestList";
-//		}
-//		return "redirect:/oups";
+		}
+		return "redirect:/oups";
 	}
 	
 	/**Obtain a Request list of a Owner only accepted*/
@@ -161,15 +165,15 @@ public class OwnerController extends SecurityController{
 	public String requestAcceptedForm(@PathVariable("ownerId") int ownerId, Model model) {
 
 		Owner owner = this.ownerService.findOwnerById(ownerId);
-//		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
+		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
 		
-//		if(loggedOwner==owner.getId()){
+		if(loggedOwner==owner.getId()){
 			Set<Request> requests = owner.getAcceptedRequests();
 			model.addAttribute("requests", requests);
 			return "owners/appointments";
-//		}
+		}
 
-//		return "redirect:/oups";
+		return "redirect:/oups";
 
 	}
 	
@@ -177,56 +181,71 @@ public class OwnerController extends SecurityController{
 	/**Obtain a Service of a Owner*/
 	//Dani
 	@GetMapping(value = "/owners/{ownerId}/myRequestList/{requestId}/details")
-	public String servicesForm(@PathVariable("requestId") int requestId, Model model) {
+	public String servicesForm(@PathVariable("requestId") int requestId,@PathVariable("ownerId") int ownerId, Model model) {
 		
 		Request req = this.requestService.findById(requestId);
 		
-		if(this.clinicService.findClinicByRequest(req)!= null) {
+		
+		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
+		
+		if(loggedOwner==ownerId){
 			Clinic clinic = this.clinicService.findClinicByRequest(req);
-			model.addAttribute("clinic", clinic);
-			//requestD=true;
-			return "services/clinicServiceDetails";
-		}else if(this.residenceService.findResidenceByRequest(req)!= null) {
 			Residence residence = this.residenceService.findResidenceByRequest(req);
-			model.addAttribute("residence", residence);
-			//requestD=false;
-			return "services/residenceServiceDetails";
-		}else {
-			return "redirect:/owners/{ownerId}";
+			
+			if(clinic!= null) {
+				model.addAttribute("clinic", clinic);
+				return "services/clinicServiceDetails";
+			}else if(residence!= null) {
+				model.addAttribute("residence", residence);
+				return "services/residenceServiceDetails";
+			}else {
+				return "redirect:/owners/{ownerId}";
+			}
 		}
+			return "redirect:/oups";
+
 	}
 	
 	//Grupo Dani y Josan
 	@GetMapping(value = "/owners/{ownerId}/myPetList/residence")
 	public String requestPetResidence(@PathVariable("ownerId") int ownerId, Model model) {
-		Collection<Request> reqs = this.requestService.findAcceptedResByOwnerId(ownerId);
-		model.addAttribute("requests", reqs);
-		return "owners/myPetResidence";
+		
+		Integer loggedOwner = (Integer) model.getAttribute("loggedUser"); 
+		
+		if(loggedOwner==ownerId){
+			Collection<Request> reqs = this.requestService.findAcceptedResByOwnerId(ownerId);
+			model.addAttribute("requests", reqs);
+			return "owners/myPetResidence";
+		}
+		return "redirect:/oups";
 	}
 	
 	//Grupo Dani y Josan
 	@GetMapping(value = "/owners/{ownerId}/myPetList")
 	public String processFindForm2(@PathVariable("ownerId") int ownerId, Pet pet,  BindingResult result, Model model) {
 
-		System.out.println(pet);
-
 		Owner owner = this.ownerService.findOwnerById(ownerId);
-		if (pet.getName() == null) {
-			model.addAttribute("pets", owner.getPets()); 
-		}else if(pet.getName().equals("")){
-			model.addAttribute("pets", owner.getPets());
-		}else {
-			Collection<Pet> results = this.petService.findPetsOfOwnerByName(ownerId, pet.getName());
-			if (results.isEmpty()) {
-				result.rejectValue("name", "notFound", "not found");
+		
+		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
+		
+		if(loggedOwner.equals(ownerId)){
+			if (pet.getName() == null) {
+				model.addAttribute("pets", owner.getPets()); 
+			}else if(pet.getName().equals("")){
+				model.addAttribute("pets", owner.getPets());
+			}else {
+				Collection<Pet> results = this.petService.findPetsOfOwnerByName(ownerId, pet.getName());
+				if (results.isEmpty()) {
+					result.rejectValue("name", "notFound", "not found");
+				}
+				else {
+					model.addAttribute("pets" , results);
+				}
 			}
-			else {
-				model.addAttribute("pets" , results);
-			}
+			return "/owners/myPetList";
 		}
-		return "/owners/myPetList";
-		}
-
+		return "redirect:/oups";
+	}
 
 }
 

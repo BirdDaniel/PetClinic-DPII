@@ -31,6 +31,7 @@ import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
@@ -43,6 +44,8 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 
 /**
@@ -102,11 +105,13 @@ class OwnerControllerTests {
 	private Owner david;
 	
 	@MockBean
-	Model model;
+	private Model model;
 	
 	private Authorities auth;
 	
 	private Pet leo;
+	
+	private User user;
 	
 	private Request reqEmpty;
 	
@@ -194,13 +199,16 @@ class OwnerControllerTests {
 //		user.setUsername("david");
 //		user.setPassword("1234");
 //		user.setEnabled(true);
+		user = new User();
+		user.setUsername("owner2");
+		user.setPassword("0wn3r");
 		david = new Owner();
 		david.setId(TEST_OWNER_ID);
 		david.setFirstName("Peter");
 		david.setLastName("McTavish");
 		david.setAddress("2387 S. Fair Way");
 		david.setTelephone("6085552765");
-
+		david.setUser(user);
 		david.setRequests(requestList);
 //		david.addPet(leo);
 		
@@ -208,6 +216,7 @@ class OwnerControllerTests {
 		auth.setAuthority("owner");
 		auth.setUsername("owner2");
 		
+		model.addAttribute("loggedUser", 2);
 		
 		given(model.getAttribute("loggedUser")).willReturn(2);
 		given(this.authoritiesService.findById("owner2")).willReturn(auth);
@@ -405,7 +414,7 @@ class OwnerControllerTests {
         @WithMockUser(value = "owner2" , username = "owner2" ,password = "0wn3r",authorities = {"owner"})
         @Test
 	void testProcessFindRequestResidenceFormSuccess() throws Exception {
-		given(this.requestService.findAcceptedResByOwnerId(TEST_OWNER_ID)).willReturn(Lists.newArrayList(reqResidence, new Request()));
+	//	given(this.requestService.findAcceptedResByOwnerId(TEST_OWNER_ID)).willReturn(Lists.newArrayList(reqResidence, new Request()));
 		mockMvc.perform(get("/owners/{ownerId}/myPetList/residence",  TEST_OWNER_ID))
 		.andExpect(status().isOk())
 		.andExpect(model().attributeExists("requests"))
@@ -413,4 +422,5 @@ class OwnerControllerTests {
 //		.andExpect(model().attribute("request", hasProperty("serviceDate", is("2030-08-06 20:00"))))
 		.andExpect(view().name("owners/myPetResidence"));
 	}
+        
 }
