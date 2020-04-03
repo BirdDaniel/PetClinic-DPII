@@ -15,10 +15,7 @@
  */
 package org.springframework.samples.petclinic.web;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -37,6 +34,8 @@ import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ResidenceService;
 import org.springframework.samples.petclinic.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,7 +44,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Juergen Hoeller
@@ -54,7 +52,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Michael Isvy
  */
 @Controller
-public class OwnerController extends SecurityController{
+public class OwnerController {
 
 	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
@@ -62,29 +60,23 @@ public class OwnerController extends SecurityController{
 	
 	private final OwnerService ownerService;
 	
-	private final ClinicService clinicService;
-
-	private final ResidenceService residenceService;
-	
 	private final PetService petService;
 
 	
 	@Autowired
 	public OwnerController(OwnerService ownerService,
-			EmployeeService employeeService,
-			AuthoritiesService authoritiesService, 
-			ClinicService clinicService, 
 			RequestService requestService, 
-			ResidenceService residenceService,
-			PetService petService,
-			UserService userService) {
-		
-		super(ownerService, employeeService, authoritiesService);
-			this.requestService = requestService;
-			this.clinicService = clinicService;
-			this.residenceService = residenceService;
-			this.petService = petService;
+			PetService petService) {
+
 			this.ownerService = ownerService;
+			this.requestService = requestService;
+			this.petService = petService;
+	}
+
+	private boolean isAuth(int ownerId) {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Integer loggedId = this.ownerService.findIdByUsername(user.getUsername());
+		return ownerId == loggedId; 
 	}
 
 	@InitBinder
@@ -92,69 +84,65 @@ public class OwnerController extends SecurityController{
 		dataBinder.setDisallowedFields("id");
 	}
 
+	
+	@GetMapping("/owners/{ownerId}")
+	public String showOwner(@PathVariable("ownerId") int ownerId, Model model) {
 
-	@GetMapping(value = "/owners/{ownerId}/edit")
-	public String initUpdateOwnerForm(@PathVariable("ownerId") int ownerId, Model model) {
+		if(isAuth(ownerId)){
 
-		Owner owner = this.ownerService.findOwnerById(ownerId);
-		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
-		if(owner.getId()==loggedOwner){
-
+			Owner owner = this.ownerService.findOwnerById(ownerId);
 			model.addAttribute(owner);
-			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+			model.addAttribute("loggedUser", ownerId);
+			return "owners/ownerDetails";
+
 		}
 
 		return "redirect:/oups";
 	}
 
+	@GetMapping(value = "/owners/{ownerId}/edit")
+	public String initEditOwnerForm(@PathVariable("ownerId") int ownerId, Model model) {
+
+		if(isAuth(ownerId)){
+			Owner owner = this.ownerService.findOwnerById(ownerId);
+			model.addAttribute(owner);
+			model.addAttribute("loggedUser", ownerId);
+			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+		}
+		return "redirect:/oups";
+	}
+
 	@PostMapping(value = "/owners/{ownerId}/edit")
-	public String processUpdateOwnerForm(@Valid Owner owner, BindingResult result,
+	public String processEditOwnerForm(@Valid Owner owner, BindingResult result,
 			@PathVariable("ownerId") int ownerId, Model model) {
 		
-		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
-		
-		if(owner.getId()==loggedOwner){
+		if(isAuth(ownerId)){
 			if (result.hasErrors()) {
+				model.addAttribute("loggedUser", ownerId);
 				return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 			}
 			else {
 				owner.setId(ownerId);
 				this.ownerService.saveOwner(owner);
+				model.addAttribute("loggedUser", ownerId);
+
 				return "redirect:/owners/{ownerId}";
 			}
 		}
-			return "redirect:/oups";
-		}
-
-	/**
-	 * Custom handler for displaying an owner.
-	 * @param ownerId the ID of the owner to display
-	 * @return a ModelMap with the model attributes for the view
-	 */
-	@GetMapping("/owners/{ownerId}")
-	public String showOwner(@PathVariable("ownerId") int ownerId, Model model) {
-
-		Owner owner = this.ownerService.findOwnerById(ownerId);
-		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");		
-
-		if(owner.getId()==loggedOwner){
-			model.addAttribute(owner);
-			return "owners/ownerDetails";
-		}
 		return "redirect:/oups";
 	}
+
+	
 	
 	/**Obtain a Request list of a Owner*/
 	//Dani
 	@GetMapping(value = "/owners/{ownerId}/myRequestList")
 	public String requestListForm(@PathVariable("ownerId") int ownerId, Model model) {
 
-		Owner owner = this.ownerService.findOwnerById(ownerId);
-
-		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
-
-		if(owner.getId()==loggedOwner){
+		if(isAuth(ownerId)) {
+			Owner owner = this.ownerService.findOwnerById(ownerId);
 			model.addAttribute("owner", owner);
+			model.addAttribute("loggedUser", ownerId);
 			return "owners/myRequestList";
 		}
 		return "redirect:/oups";
@@ -162,14 +150,12 @@ public class OwnerController extends SecurityController{
 	
 	/**Obtain a Request list of a Owner only accepted*/
 	@GetMapping(value = "/owners/{ownerId}/appointments")
-	public String requestAcceptedForm(@PathVariable("ownerId") int ownerId, Model model) {
-
-		Owner owner = this.ownerService.findOwnerById(ownerId);
-		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
-		
-		if(loggedOwner==owner.getId()){
+	public String appointmentsForm(@PathVariable("ownerId") int ownerId, Model model) {
+		if(isAuth(ownerId)){
+			Owner owner = this.ownerService.findOwnerById(ownerId);
 			Set<Request> requests = owner.getAcceptedRequests();
 			model.addAttribute("requests", requests);
+			model.addAttribute("loggedUser", ownerId);
 			return "owners/appointments";
 		}
 
@@ -177,42 +163,11 @@ public class OwnerController extends SecurityController{
 
 	}
 	
-	/**Obtain a Service of a Owner*/
-	/**Obtain a Service of a Owner*/
-	//Dani
-	@GetMapping(value = "/owners/{ownerId}/myRequestList/{requestId}/details")
-	public String servicesForm(@PathVariable("requestId") int requestId,@PathVariable("ownerId") int ownerId, Model model) {
-		
-		Request req = this.requestService.findById(requestId);
-		
-		
-		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
-		
-		if(loggedOwner==ownerId){
-			Clinic clinic = this.clinicService.findClinicByRequest(req);
-			Residence residence = this.residenceService.findResidenceByRequest(req);
-			
-			if(clinic!= null) {
-				model.addAttribute("clinic", clinic);
-				return "services/clinicServiceDetails";
-			}else if(residence!= null) {
-				model.addAttribute("residence", residence);
-				return "services/residenceServiceDetails";
-			}else {
-				return "redirect:/owners/{ownerId}";
-			}
-		}
-			return "redirect:/oups";
-
-	}
-	
 	//Grupo Dani y Josan
 	@GetMapping(value = "/owners/{ownerId}/myPetList/residence")
 	public String requestPetResidence(@PathVariable("ownerId") int ownerId, Model model) {
-		
-		Integer loggedOwner = (Integer) model.getAttribute("loggedUser"); 
-		
-		if(loggedOwner==ownerId){
+
+		if(isAuth(ownerId)){
 			Collection<Request> reqs = this.requestService.findAcceptedResByOwnerId(ownerId);
 			model.addAttribute("requests", reqs);
 			return "owners/myPetResidence";
@@ -223,12 +178,8 @@ public class OwnerController extends SecurityController{
 	//Grupo Dani y Josan
 	@GetMapping(value = "/owners/{ownerId}/myPetList")
 	public String processFindForm2(@PathVariable("ownerId") int ownerId, Pet pet,  BindingResult result, Model model) {
-
-		Owner owner = this.ownerService.findOwnerById(ownerId);
-		
-		Integer loggedOwner = (Integer) model.getAttribute("loggedUser");
-		
-		if(loggedOwner.equals(ownerId)){
+		if(isAuth(ownerId)){
+			Owner owner = this.ownerService.findOwnerById(ownerId);
 			if (pet.getName() == null) {
 				model.addAttribute("pets", owner.getPets()); 
 			}else if(pet.getName().equals("")){
@@ -242,10 +193,12 @@ public class OwnerController extends SecurityController{
 					model.addAttribute("pets" , results);
 				}
 			}
-			return "/owners/myPetList";
+				return "/owners/myPetList";
+			}
+
+			return "redirect:/oups";
+
 		}
-		return "redirect:/oups";
-	}
 
 }
 

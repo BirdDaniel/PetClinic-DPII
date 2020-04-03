@@ -39,8 +39,8 @@
 					<span>Requests</span>
 				</petclinic:menuItem>
 				</sec:authorize>
+
 				<sec:authorize access="hasAuthority('employee')">
-				
 				<petclinic:menuItem active="${name eq 'requestsEmployee'}" url="/employees/${loggedUser}/requests"
 					title="Requests">
 					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>

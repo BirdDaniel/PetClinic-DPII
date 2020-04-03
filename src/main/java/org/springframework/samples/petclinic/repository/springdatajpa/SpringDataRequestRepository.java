@@ -21,10 +21,10 @@ public interface SpringDataRequestRepository extends RequestRepository, Reposito
 	@Query("SELECT req FROM Request req WHERE req.owner.id =:id")
 	public Request findByOwnerId(@Param("id") int id);
 
-	@Query("SELECT req FROM Request req WHERE req.employee.id =:id")
+	@Query("SELECT req.requestDate, req.serviceDate, req.pet.name, req.owner.firstName, req.owner.lastName, req.status FROM Request req WHERE req.employee.id =:id")
 	public List<Request> findRequestsByEmployeeId(@Param("id") int id);
 
-	@Query("SELECT req FROM Request req WHERE req.employee.id =:id AND req.status=true")
+	@Query("SELECT req.requestDate, req.serviceDate, req.pet.name, req.owner.firstName, req.owner.lastName, req.status FROM Request req WHERE req.employee.id =:id AND req.status=true")
 	public List<Request> findAcceptedByEmployeeId(@Param("id") int id);
 
 	@Query("SELECT req FROM Request req WHERE req.id=:id")
