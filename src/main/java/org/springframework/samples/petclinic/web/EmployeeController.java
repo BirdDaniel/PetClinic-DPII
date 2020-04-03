@@ -1,32 +1,26 @@
 package org.springframework.samples.petclinic.web;
 
-import java.security.Principal;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Request;
-import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.EmployeeService;
-import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.RequestService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/employees/{employeeId}")
-public class EmployeeController 
-//extends SecurityController
-{
+public class EmployeeController {
 
 	private final RequestService requestService;
 	private final EmployeeService employeeService;
@@ -34,11 +28,19 @@ public class EmployeeController
 	private final static String VIEW_MY_APPOINTMENTS = "employees/appointments";
 
 	@Autowired
-	public EmployeeController(OwnerService ownerService, EmployeeService employeeService,
-								AuthoritiesService authoritiesService, RequestService requestService) {
-	//	super(ownerService, employeeService, authoritiesService);
+	public EmployeeController(EmployeeService employeeService, RequestService requestService) {
+		
 		this.requestService = requestService;
 		this.employeeService = employeeService;
+
+	}
+
+	private boolean isAuth(Employee employee){
+
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Integer empId = this.employeeService.findByUsername(user.getUsername());
+		return employee.getId()==empId;
+
 	}
 
 	@InitBinder
@@ -47,85 +49,92 @@ public class EmployeeController
 	}
 
 	@ModelAttribute("employee")
-	public Employee findEmployee(@PathVariable("employeeId") int employeeId){
+	public Employee findEmployee(@PathVariable("employeeId") int employeeId) {
 		return this.employeeService.findEmployeeById(employeeId);
 	}
 
 	@GetMapping("/requests")
-	public String RequestsEmployee(Employee employee, Map<String, Object> model){
-		
-		Integer loggedUserId = (Integer) model.get("loggedUser");
-		System.out.println(loggedUserId);
+	public String RequestsEmployee(Employee employee, Map<String, Object> model) {
 
-	//	if(loggedUserId==employee.getId()){
+		if(isAuth(employee)){
+
 			SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getRequestDate));
 			Set<Request> requests = this.employeeService.getRequests(employee.getId());
-			res.addAll(requests);
+
+			if(requests!=null)
+				res.addAll(requests);
+
+			model.put("loggedUser", employee.getId());
 			model.put("requests", res);
 			return VIEW_MY_REQUESTS;
-	//	}
-//		return "redirect:/oups";
+
+		}
+
+		return "redirect:/oups";
+
 	}
 
 	@GetMapping("/appointments")
-	public String allAppointments(Employee employee, Map<String, Object> model){
+	public String allAppointments(Employee employee, Map<String, Object> model) {
 
-		Integer loggedUserId = (Integer) model.get("loggedUser");
-	//	if(loggedUserId==employee.getId()){
-			Collection<Request> appointments = this.requestService.findAcceptedByEmployeeId(employee.getId());
-			
-			if(appointments!=null)
-				model.put("appointments", appointments);
+		if(isAuth(employee)){
+		Collection<Request> appointments = this.requestService
+												.findAcceptedByEmployeeId(employee.getId());
 
-			return VIEW_MY_APPOINTMENTS;
-		//}
+		if (appointments != null)
+			model.put("appointments", appointments);
 
-	//	return "redirect:/oups";
+		model.put("loggedUser", employee.getId());
+		return VIEW_MY_APPOINTMENTS;
 	}
 
-	@GetMapping("/{action}/{requestId}/accept")
-	public String acceptRequest(Employee employee,@PathVariable("requestId") Integer id, @PathVariable("action") String action, Map<String,Object> model){
-		
-		Integer loggedEmployeeId = (Integer) model.get("loggedUser");
-	//	if(employee.getId() == loggedEmployeeId){
+	return "redirect:/oups";
+
+	}
+
+	@GetMapping("/requests/{requestId}/accept")
+	public String acceptRequest(Employee employee, 
+								@PathVariable("requestId") Integer id,
+								Map<String, Object> model) {
+
+		if(isAuth(employee)){	
+
+			model.put("loggedUser", employee.getId());
 			Request request = this.requestService.findById(id);
-			if(request!=null){
+
+			if (request != null) {
 				request.setStatus(true);
 				this.requestService.save(request);
 			}
-//		} else {
-//			return "redirect:/oups";
-	//	}
-			if(action.equals("requests")) {
-				return "redirect:/employees/{employeeId}/requests";
-			}else {
-				return "redirect:/employees/{employeeId}/appointments";
-			}
+		
+			return "redirect:/employees/{employeeId}/requests";
 		}
+		
+		return "redirect:/oups";
+		
+	}
 
-	@GetMapping("/{action}/{requestId}/decline")
-	public String declineRequest(Employee employee, @PathVariable("requestId") int id, @PathVariable("action") String action, Map<String,Object> model){
-		
-		// El modelo guarda en todo momento un atributo con el id del usuario logeado
-		Integer loggedEmployeeId = (Integer) model.get("loggedUser");
-//		if(employee.getId() == loggedEmployeeId){
-		
+	@GetMapping("/{requestType}/{requestId}/decline")
+	public String declineRequest(Employee employee, @PathVariable("requestId") int id,
+			@PathVariable("requestType") String requestType, Map<String, Object> model) {
+
+		if(isAuth(employee)){
+
+			model.put("loggedUser", employee.getId());
 			Request request = this.requestService.findById(id);
-			if(request!=null){
+			if (request != null) {
 				request.setStatus(false);
 				this.requestService.save(request);
-		}
-			if(action.equals("requests")) {
+			}
+			if (requestType.equals("requests")) {
 				return "redirect:/employees/{employeeId}/requests";
-			}else {
+			} else {
 				return "redirect:/employees/{employeeId}/appointments";
 			}
+		}
 
-	//	} else {
-	//		System.out.println("Han intentado cancelar una request sin la identificación necesaria");
-	//		return "redirect:/oups";
-	//	}	
-	} 
-	
+		return "redirect:/oups";
+		
+	}
 
 }
