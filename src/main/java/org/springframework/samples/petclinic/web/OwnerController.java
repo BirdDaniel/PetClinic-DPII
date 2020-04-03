@@ -61,16 +61,25 @@ public class OwnerController {
 	private final OwnerService ownerService;
 	
 	private final PetService petService;
+	
+	private final ClinicService clinicService;
+	
+	private final ResidenceService residenceService;
+
 
 	
 	@Autowired
 	public OwnerController(OwnerService ownerService,
 			RequestService requestService, 
-			PetService petService) {
+			PetService petService,
+			ClinicService clinicService,
+			ResidenceService residenceService) {
 
 			this.ownerService = ownerService;
 			this.requestService = requestService;
 			this.petService = petService;
+			this.clinicService = clinicService;
+			this.residenceService = residenceService;
 	}
 
 	private boolean isAuth(int ownerId) {
@@ -170,6 +179,7 @@ public class OwnerController {
 		if(isAuth(ownerId)){
 			Collection<Request> reqs = this.requestService.findAcceptedResByOwnerId(ownerId);
 			model.addAttribute("requests", reqs);
+			model.addAttribute("loggedUser", ownerId);
 			return "owners/myPetResidence";
 		}
 		return "redirect:/oups";
@@ -182,8 +192,10 @@ public class OwnerController {
 			Owner owner = this.ownerService.findOwnerById(ownerId);
 			if (pet.getName() == null) {
 				model.addAttribute("pets", owner.getPets()); 
+				model.addAttribute("loggedUser", ownerId);
 			}else if(pet.getName().equals("")){
 				model.addAttribute("pets", owner.getPets());
+				model.addAttribute("loggedUser", ownerId);
 			}else {
 				Collection<Pet> results = this.petService.findPetsOfOwnerByName(ownerId, pet.getName());
 				if (results.isEmpty()) {
@@ -191,6 +203,7 @@ public class OwnerController {
 				}
 				else {
 					model.addAttribute("pets" , results);
+					model.addAttribute("loggedUser", ownerId);
 				}
 			}
 				return "/owners/myPetList";
@@ -199,6 +212,28 @@ public class OwnerController {
 			return "redirect:/oups";
 
 		}
+	
+	@GetMapping(value = "/owners/{ownerId}/myRequestList/{requestId}/details")
+	public String servicesForm(@PathVariable("requestId") int requestId,@PathVariable("ownerId") int ownerId, Model model) {
+		if(isAuth(ownerId)){
+			Request req = this.requestService.findById(requestId);
+			
+			Clinic clinic = this.clinicService.findClinicByRequest(req);
+			Residence residence = this.residenceService.findResidenceByRequest(req);
+			
+			if(clinic!= null) {
+				model.addAttribute("clinic", clinic);
+				return "services/clinicServiceDetails";
+			}else if(residence!= null) {
+				model.addAttribute("residence", residence);
+				return "services/residenceServiceDetails";
+			}else {
+				return "redirect:/owners/{ownerId}";
+			}
+		}
+			return "redirect:/oups";
+
+	}
 
 }
 
