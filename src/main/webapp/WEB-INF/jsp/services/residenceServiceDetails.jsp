@@ -30,16 +30,12 @@
             <td><c:out value="${residence.rating}"/></td>
         </tr>
          <tr>
-            <th><strong>Max:</strong></th>
+            <th><strong>Max allowed pets:</strong></th>
             <td><c:out value="${residence.max}"/></td>
         </tr>
         <tr>
             <th><strong>Description:</strong></th>
            <td><c:out value="${residence.description}"/></td>
-        </tr>
-    	<tr>
-    		<th><strong>Days:</strong></th>
-            <td><c:out value="${residence.days}"/></td>
         </tr>
       </table>
     <!--    <div class="form-group">

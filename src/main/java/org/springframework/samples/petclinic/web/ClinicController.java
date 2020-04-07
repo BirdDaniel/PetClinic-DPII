@@ -33,17 +33,12 @@ import org.springframework.samples.petclinic.service.OwnerService;
  */
 @Controller
 @RequestMapping("/clinic")
-public class ClinicController extends SecurityController {
+public class ClinicController{
 
 	private final ClinicService clinicService;
 
 	@Autowired
-	public ClinicController(OwnerService ownerService,
-						EmployeeService employeeService,
-						AuthoritiesService authoritiesService,
-						ClinicService clinicService) {
-							
-					super(ownerService, employeeService, authoritiesService);
+	public ClinicController(ClinicService clinicService) {
 					this.clinicService = clinicService;
 					
 	}

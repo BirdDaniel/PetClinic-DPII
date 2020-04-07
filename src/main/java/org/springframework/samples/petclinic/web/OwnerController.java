@@ -161,8 +161,7 @@ public class OwnerController {
 	public String appointmentsForm(@PathVariable("ownerId") int ownerId, Model model) {
 
 		if(isAuth(ownerId)){
-			Owner owner = this.ownerService.findOwnerById(ownerId);
-			Set<Request> requests = owner.getAcceptedRequests();
+			Collection<Request> requests = this.requestService.findAcceptedByOwnerId(ownerId);
 			model.addAttribute("requests", requests);
 			model.addAttribute("loggedUser", ownerId);
 			return "owners/appointments";
