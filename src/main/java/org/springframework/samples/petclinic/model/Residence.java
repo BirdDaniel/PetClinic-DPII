@@ -32,16 +32,6 @@ import org.hibernate.validator.constraints.Range;
 @Table(name = "residences")
 public class Residence extends Service  {
 	
-	@Range(min = 1)
-	private int days;
 
-	public int getDays() {
-		return days;
-	}
-
-	public void setDays(int days) {
-		this.days = days;
-	}
-	
 
 }

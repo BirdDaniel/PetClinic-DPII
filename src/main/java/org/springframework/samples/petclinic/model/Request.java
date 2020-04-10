@@ -16,6 +16,7 @@
 
 package org.springframework.samples.petclinic.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -42,7 +43,12 @@ public class Request extends BaseEntity{
 	@Column(name = "date_ser")
 	@Future
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
-	private Date serviceDate;
+	private LocalDateTime serviceDate;
+
+	@Column(name = "date_finish")
+	@Future
+	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+	private LocalDateTime finishDate;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="employee_id")
@@ -57,8 +63,7 @@ public class Request extends BaseEntity{
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="pet_id")
 	private Pet pet;
-	
-	
+
 	public Date getRequestDate() {
 		return requestDate;
 	}
@@ -67,12 +72,20 @@ public class Request extends BaseEntity{
 		this.requestDate = requestDate;
 	}
 
-	public Date getServiceDate() {
+	public LocalDateTime getServiceDate() {
 		return serviceDate;
 	}
 
-	public void setServiceDate(Date serviceDate) {
+	public void setServiceDate(LocalDateTime serviceDate) {
 		this.serviceDate = serviceDate;
+	}
+
+	public LocalDateTime getFinishDate() {
+		return finishDate;
+	}
+
+	public void setFinishDate(LocalDateTime finishDate) {
+		this.finishDate = finishDate;
 	}
 
 	public Pet getPet() {

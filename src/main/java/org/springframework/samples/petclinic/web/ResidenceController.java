@@ -35,7 +35,7 @@ import org.springframework.samples.petclinic.service.ResidenceService;
  */
 @Controller
 @RequestMapping("/residence")
-public class ResidenceController extends SecurityController{
+public class ResidenceController{
 
 	private final ResidenceService residenceService;
 
@@ -45,12 +45,8 @@ public class ResidenceController extends SecurityController{
 	}
 
 	@Autowired
-	public ResidenceController(OwnerService ownerService,
-							EmployeeService employeeService,
-							AuthoritiesService authoritiesService,
-							ResidenceService residenceService) {
+	public ResidenceController(ResidenceService residenceService) {
 
-		super(ownerService, employeeService, authoritiesService);
 		this.residenceService = residenceService;
 
 	}
