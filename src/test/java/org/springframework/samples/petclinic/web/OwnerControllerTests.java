@@ -161,7 +161,7 @@ class OwnerControllerTests {
 		c.set(2019, 8, 5, 19, 00);
 		reqEmpty.setRequestDate(c.getTime());
 		c.set(2030, 8, 8, 17, 00);
-		reqEmpty.setServiceDate(c.getTime());
+		//reqEmpty.setServiceDate(c.getTime());
 		reqEmpty.setStatus(true);
 		
 		reqClinic = new Request();
@@ -169,7 +169,7 @@ class OwnerControllerTests {
 		c.set(2019, 8, 1, 18, 00);
 		reqClinic.setRequestDate(c.getTime());
 		c.set(2030, 8, 6, 19, 00);
-		reqClinic.setServiceDate(c.getTime());
+		//reqClinic.setServiceDate(c.getTime());
 		reqClinic.setStatus(true);
 		
 		reqResidence = new Request();
@@ -177,7 +177,7 @@ class OwnerControllerTests {
 		c.set(2019, 8, 1, 15, 30);
 		reqResidence.setRequestDate(c.getTime());
 		c.set(2030, 8, 6, 14, 00);
-		reqResidence.setServiceDate(c.getTime());
+		//reqResidence.setServiceDate(c.getTime());
 		reqResidence.setStatus(true);
 		
 		clinic = new Clinic();
