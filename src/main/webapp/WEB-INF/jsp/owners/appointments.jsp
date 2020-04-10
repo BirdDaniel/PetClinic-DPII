@@ -37,7 +37,7 @@
                 </td>
                 <td>
                     
-                        <spring:url value="/employees/{employeeId}/requests/{requestId}/accept" var="acceptUrl">
+                        <spring:url value="/owner/{ownerId}/requests/{requestId}/accept" var="acceptUrl">
                             <spring:param name="requestId" value="${request.id}"/>
                             <spring:param name="employeeId" value="${request.employee.id}"/>
                         </spring:url>

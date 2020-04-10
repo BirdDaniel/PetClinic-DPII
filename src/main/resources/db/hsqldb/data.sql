@@ -100,7 +100,6 @@ INSERT INTO employees VALUES (2, 'Jeorge', 'Frank', '6115551023', '87654321A', '
 INSERT INTO employees VALUES (3, 'Hoss', 'Mad', '6115551023', '87654721A', 'emp3');
 INSERT INTO employees VALUES (4, 'No Hose', 'Mad', '6145556023', '87654341A', 'emp4');
 
-
 --INSERT INTO requests(id,date_finish, date_req, date_ser, status, employee_id, owner_id, pet_id);
 INSERT INTO requests VALUES (4, '2020-04-12 12:00', '2020-04-03 13:00','2019-08-01 17:00', true, 1, 1, 1);
 INSERT INTO requests VALUES (2, '2030-08-12 12:00', '2030-08-06 19:00','2019-08-01 18:00', true, 2, 1, 3);
