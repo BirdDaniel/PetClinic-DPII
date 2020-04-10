@@ -15,14 +15,11 @@
  */
 package org.springframework.samples.petclinic.repository.springdatajpa;
 
-import org.springframework.data.jpa.repository.Query;
+import java.util.Collection;
+
 import org.springframework.data.repository.Repository;
-import org.springframework.data.repository.query.Param;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Request;
+import org.springframework.samples.petclinic.model.Item;
 import org.springframework.samples.petclinic.model.Shop;
-import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.repository.RequestRepository;
 import org.springframework.samples.petclinic.repository.ShopRepository;
 import org.springframework.samples.petclinic.repository.VetRepository;
 
@@ -33,5 +30,7 @@ import org.springframework.samples.petclinic.repository.VetRepository;
  * @since 15.1.2013
  */
 public interface SpringDataShopRepository extends ShopRepository, Repository<Shop, Integer> {
+	
+	
 
 }

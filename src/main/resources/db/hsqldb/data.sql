@@ -128,9 +128,12 @@ INSERT INTO clinics_requests VALUES (2, 3);
 -- INSERT INTO payments VALUES (3, '3234 1234 1234 6234', 2, '2012-06-08', 1);
 
 --INSERT INTO clinics_employees(clinic_id, employees_id);
--- INSERT INTO clinics_employees VALUES (1, 1);
--- INSERT INTO clinics_employees VALUES (2, 2);
--- INSERT INTO clinics_employees VALUES (2, 3);
+  INSERT INTO clinics_employees VALUES (1, 1);
+  INSERT INTO clinics_employees VALUES (2, 2);
+  
+  --INSERT INTO clinics_employees(clinic_id, employees_id);
+  INSERT INTO residences_employees VALUES (1, 4);
+  INSERT INTO residences_employees VALUES (2, 3);
 
 --INSERT INTO clinics_payments VALUES (clinics_id, payments_id);
 -- INSERT INTO clinics_payments VALUES (1, 1);
@@ -152,3 +155,37 @@ INSERT INTO clinics_requests VALUES (2, 3);
 
 --INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');*/
 
+--INSERT INTO items (items_id, description, price, sale, stock)
+  INSERT INTO items VALUES (1,'Description 1',10., 0.5, 3);
+  INSERT INTO items VALUES (2,'Description 2',7., 0.5, 3);
+  INSERT INTO items VALUES (3,'Description 3',8., 0.5, 3);
+  INSERT INTO items VALUES (4,'Description 4',4., 0.5, 3);
+  INSERT INTO items VALUES (5,'Description 5',10., 0.5, 3);
+  INSERT INTO items VALUES (6,'Description 6',7., 0.5, 3);
+  INSERT INTO items VALUES (7,'Description 7',8., 0.5, 3);
+  INSERT INTO items VALUES (8,'Description 8',10., 0.5, 3);
+  INSERT INTO items VALUES (9,'Description 9',9., 0.5, 3);
+  INSERT INTO items VALUES (10,'Description 10',5., 0.5, 3);
+  INSERT INTO items VALUES (11,'Description 11',7., 0.5, 3);
+  INSERT INTO items VALUES (12,'Description 12',6., 0.5, 3);
+  INSERT INTO items VALUES (13,'Description 13',8., 0.5, 3);
+  
+--INSERT INTO clinics_items(clinic_id, items_id)
+  INSERT INTO clinics_items VALUES (1,1);
+  INSERT INTO clinics_items VALUES (1,3);
+  INSERT INTO clinics_items VALUES (2,5);
+  INSERT INTO clinics_items VALUES (2,7);
+  INSERT INTO clinics_items VALUES (3,9);
+  INSERT INTO clinics_items VALUES (3,11);
+  
+--INSERT INTO residences_items(residence_id, items_id)
+  INSERT INTO residences_items VALUES (1,2);
+  INSERT INTO residences_items VALUES (1,4);
+  INSERT INTO residences_items VALUES (2,6);
+  INSERT INTO residences_items VALUES (2,8);
+  INSERT INTO residences_items VALUES (3,10);
+  INSERT INTO residences_items VALUES (3,12);
+  
+  
+  
+  

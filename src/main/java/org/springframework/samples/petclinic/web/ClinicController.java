@@ -15,8 +15,13 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
+import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Item;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -62,5 +67,7 @@ public class ClinicController extends SecurityController {
 		model.addAttribute("clinic",clinic);
 		return "services/clinicServiceDetails";
 	}
+	
+
 
 }

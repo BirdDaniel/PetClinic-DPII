@@ -51,6 +51,9 @@ public class Service extends BaseClinic {
 	@Column(length = 1024)
 	private String description;
 	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Item> items;
+	
 	public int getMax() {
 		return max;
 	}
@@ -89,5 +92,13 @@ public class Service extends BaseClinic {
 	
 	public void removeRequest(Request request) {
 		this.requests.remove(request);
+	}
+	
+	public Set<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<Item> items) {
+		this.items = items;
 	}
 }

@@ -66,10 +66,42 @@ public class Item extends BaseEntity {
 	
 	@Range(min= 0)
 	private int stock;
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="shop_id")
-	private Shop shop;
+//	
+//	@ManyToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name="shop_id")
+//	private Shop shop;
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public double getSale() {
+		return sale;
+	}
+
+	public void setSale(double sale) {
+		this.sale = sale;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
 	
 	
 
