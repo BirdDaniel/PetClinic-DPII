@@ -7,24 +7,33 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Item;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
+import org.springframework.samples.petclinic.service.ItemService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ResidenceService;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedItemNameException;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -35,17 +44,21 @@ public class EmployeeController {
 	private final EmployeeService employeeService;
 	private final ClinicService clinicService;
 	private final ResidenceService residenceService;
+	private final ItemService itemService;
 	private final static String VIEW_MY_REQUESTS = "employees/requests";
 	private final static String VIEW_MY_APPOINTMENTS = "employees/appointments";
+	private final static String CREATE_OR_UPDATE_ITEMLIST = "employees/createOrUpdateItemsList";
+	
 
 	@Autowired
 	public EmployeeController(EmployeeService employeeService, RequestService requestService, ClinicService clinicService,
-			ResidenceService residenceService) {
+			ResidenceService residenceService, ItemService itemService) {
 		
 		this.requestService = requestService;
 		this.employeeService = employeeService;
 		this.clinicService = clinicService;
 		this.residenceService = residenceService;
+		this.itemService = itemService;
 
 	}
 
@@ -175,5 +188,48 @@ public class EmployeeController {
 				return "redirect:/employees/{employeeId}";
 			}
 		}
+	
+	@GetMapping(value = "/itemsList/new")
+	public String initCreationForm(Employee employee, ModelMap model) {
+		Item item = new Item();
+		
+		Clinic clinic = this.clinicService.findByEmployee(employee);
+		Residence residence = this.residenceService.findByEmployee(employee);
+		
+		if(clinic!= null) {
+			clinic.addItems(item);
+			model.addAttribute("item", item);
+		}else if(residence!= null) {
+			residence.addItems(item);
+			model.addAttribute("item", item);	
+		}
+		return CREATE_OR_UPDATE_ITEMLIST;
+	}
+
+	@PostMapping(value = "/itemsList/new")
+	public String processCreationForm(Employee employee, @Valid Item item, BindingResult result, ModelMap model) {		
+		if (result.hasErrors()) {
+			model.put("item", item);
+			return CREATE_OR_UPDATE_ITEMLIST;
+		}
+		else {
+                    try{
+                    	Clinic clinic = this.clinicService.findByEmployee(employee);
+                		Residence residence = this.residenceService.findByEmployee(employee);
+                		
+                		
+                		if(clinic!= null) {
+                			this.itemService.saveItem(item, clinic);
+                		}else if(residence!= null) {                			
+                			this.itemService.saveItem(item, residence);
+                		}
+                    	
+                    }catch(DuplicatedItemNameException ex){
+                        result.rejectValue("name", "duplicate", "already exists");
+                        return CREATE_OR_UPDATE_ITEMLIST;
+                    }
+                    return "redirect:/employees/{employeeId}/itemsList";
+		}
+	}
 
 }

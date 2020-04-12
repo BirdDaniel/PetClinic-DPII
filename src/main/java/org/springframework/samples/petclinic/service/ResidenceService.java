@@ -62,7 +62,7 @@ public class ResidenceService {
 	}
 	
 	@Transactional
-	public Collection<Request> findReqsResidence(){
+	public Collection<Request> findReqsResidence() throws DataAccessException{
 		return residenceRepository.findReqsResidence();
 	}
 	

@@ -52,7 +52,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @Entity
 @Table(name = "items")
-public class Item extends BaseEntity {
+public class Item extends NamedEntity {
 
 	@Range(min= (long) 0.1)
 	private double price;

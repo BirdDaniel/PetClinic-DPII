@@ -7,9 +7,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <petclinic:layout pageName="itemsEmployee">
+
+
+  <spring:url value="itemsList/new" var="addUrl">
+    </spring:url>
+    <a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Add New Item</a>
+    
+    
     <table id="itemsTable" class="table table-striped">
         <thead>
         <tr>
+            <th style="width: 150px;">Name</th>
             <th style="width: 150px;">Price</th>
             <th style="width: 150px;">Sale</th>
             <th style="width: 200px;">Description</th>
@@ -19,6 +27,9 @@
         <tbody>
      <c:forEach items="${items}" var="item"> 
             <tr> 
+           		 <td>
+                   <c:out value="${item.name}"></c:out>
+                </td>
                 <td>
                    <c:out value="${item.price}"></c:out>
                 </td>

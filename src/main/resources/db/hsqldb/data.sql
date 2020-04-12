@@ -156,19 +156,19 @@ INSERT INTO clinics_requests VALUES (2, 3);
 --INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');*/
 
 --INSERT INTO items (items_id, description, price, sale, stock)
-  INSERT INTO items VALUES (1,'Description 1',10., 0.5, 3);
-  INSERT INTO items VALUES (2,'Description 2',7., 0.5, 3);
-  INSERT INTO items VALUES (3,'Description 3',8., 0.5, 3);
-  INSERT INTO items VALUES (4,'Description 4',4., 0.5, 3);
-  INSERT INTO items VALUES (5,'Description 5',10., 0.5, 3);
-  INSERT INTO items VALUES (6,'Description 6',7., 0.5, 3);
-  INSERT INTO items VALUES (7,'Description 7',8., 0.5, 3);
-  INSERT INTO items VALUES (8,'Description 8',10., 0.5, 3);
-  INSERT INTO items VALUES (9,'Description 9',9., 0.5, 3);
-  INSERT INTO items VALUES (10,'Description 10',5., 0.5, 3);
-  INSERT INTO items VALUES (11,'Description 11',7., 0.5, 3);
-  INSERT INTO items VALUES (12,'Description 12',6., 0.5, 3);
-  INSERT INTO items VALUES (13,'Description 13',8., 0.5, 3);
+  INSERT INTO items VALUES (1,'Collar','Description 1',10., 0.5, 3);
+  INSERT INTO items VALUES (2,'Champú','Description 2',7., 0.5, 3);
+  INSERT INTO items VALUES (3,'Pienso','Description 3',8., 0.5, 3);
+  INSERT INTO items VALUES (4,'Gel Antiséptico','Description 4',4., 0.5, 3);
+  INSERT INTO items VALUES (5,'Gold Terrine surtido','Description 5',10., 0.5, 3);
+  INSERT INTO items VALUES (6,'Collar antiparasitario para perros ','Description 6',7., 0.5, 3);
+  INSERT INTO items VALUES (7,'Vegetal Clean Papel','Description 7',8., 0.5, 3);
+  INSERT INTO items VALUES (8,'Arena Absorbente Classic','Description 8',10., 0.5, 3);
+  INSERT INTO items VALUES (9,'Sustrato Absorbente Natural','Description 9',9., 0.5, 3);
+  INSERT INTO items VALUES (10,'Lagrinet Neo','Description 10',5., 0.5, 3);
+  INSERT INTO items VALUES (11,'Toallitas higiénicas','Description 11',7., 0.5, 3);
+  INSERT INTO items VALUES (12,'Champú en espuma seca','Description 12',6., 0.5, 3);
+  INSERT INTO items VALUES (13,'Desodorante para gatos','Description 13',8., 0.5, 3);
   
 --INSERT INTO clinics_items(clinic_id, items_id)
   INSERT INTO clinics_items VALUES (1,1);
