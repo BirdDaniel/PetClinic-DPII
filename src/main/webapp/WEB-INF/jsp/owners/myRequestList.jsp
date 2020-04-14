@@ -26,7 +26,7 @@
                 <td valign="top">
                     <dl class="dl-horizontal">
                         <dt>Request Date</dt>
-						<!--<dd><javatime:parseLocalDateTime value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></dd>-->
+						<dd><javatime:format value="${request.requestDate}" pattern="yyyy/MM/dd HH:mm"/></dd>
 						<dt>Service Date</dt>
 						<dd><javatime:format value="${request.serviceDate}" pattern="yyyy/MM/dd HH:mm"/></dd>
 						<dt>Employee</dt>
