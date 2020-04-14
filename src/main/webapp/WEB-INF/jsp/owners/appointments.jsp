@@ -20,7 +20,7 @@
         <tbody>
         <c:forEach items="${requests}" var="request">
             <tr>
-              <td><javatime:parseLocalDateTime value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></td>
+              <td><javatime:format value="${request.requestDate}" pattern="yyyy/MM/dd HH:mm"/></td>
 
               <td><javatime:format value="${request.serviceDate}" pattern="yyyy/MM/dd HH:mm"/></td>
 
@@ -30,19 +30,10 @@
                 </td>
                 <td>
                    <c:out value="${request.owner.firstName} ${request.owner.lastName}"/>
-                </td>     
+                </td>    
+                <td> 
                      <c:out value="Accepted" />
-                </td>
-      
-<!--
-                <td> 
-                    <c:out value="${owner.user.username}"/> 
-                </td>
-                <td> 
-                   <c:out value="${owner.user.password}"/> 
-                </td> 
--->
-                
+                </td>             
             </tr>
         </c:forEach>
         </tbody>

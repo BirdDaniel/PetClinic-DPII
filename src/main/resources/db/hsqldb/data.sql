@@ -121,11 +121,7 @@ INSERT INTO clinics_requests VALUES (2, 3);
 
 --INSERT INTO residences_employees VALUES (residence_id, employee_id);
 INSERT INTO residences_employees VALUES (1, 1);
-INSERT INTO residences_employees VALUES (1, 2);
-INSERT INTO residences_employees VALUES (2, 3);
-INSERT INTO residences_employees VALUES (3, 4);
-
-
+INSERT INTO residences_employees VALUES (3, 2);
 
 --INSERT INTO payments(id, credit_card, pay, date_pay, owner_id);
 -- INSERT INTO payments VALUES (1, '1234 1234 1234 1234', 0.5, '2012-06-08', 1);
