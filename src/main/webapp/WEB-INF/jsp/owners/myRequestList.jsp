@@ -20,14 +20,14 @@
 	<h2>Request List: </h2>
 	<table class="table table-striped">
         <c:forEach var="request" items="${owner.requests}">
-
+			
             <tr>
                 <td valign="top">
                     <dl class="dl-horizontal">
                         <dt>Request Date</dt>
-						<dd><fmt:formatDate value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></dd>
+						<!--<dd><javatime:parseLocalDateTime value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></dd>-->
 						<dt>Service Date</dt>
-						<dd><fmt:formatDate value="${request.serviceDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></dd>
+						<dd><javatime:parseLocalDateTime value="${request.serviceDate}" pattern="yyyy/MM/dd HH:mm"/></dd>
 						<dt>Employee</dt>
 						<dd><c:out value="With: ${request.employee.firstName} ${request.employee.lastName}"/></dd>
 						<dt>Status</dt>

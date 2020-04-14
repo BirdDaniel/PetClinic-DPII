@@ -13,15 +13,15 @@
             <th style="width: 150px;">Service Date</th>
             <th style="width: 200px;">Pet</th>
             <th style="width: 200px;">Owner</th>
-            <th style="width: 250px">Accept or Decline</th>
+            <th style="width: 250px">Status</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${requests}" var="request">
             <tr>
-                <td><fmt:formatDate value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></td>
+                <td><javatime:parseLocalDateTime value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></td>
             
-            <td><fmt:formatDate value="${request.serviceDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></td>
+            <td><javatime:parseLocalDateTime value="${request.serviceDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></td>
                  
                 <td>
                     <spring:url value="/pets/{petId}" var="petUrl">
@@ -35,28 +35,8 @@
                     </spring:url>
                     <a href="${fn:escapeXml(ownerUrl)}"><c:out value="${request.owner.firstName} ${request.owner.lastName}"/></a>
                 </td>
-                <td>
-                    
-                        <spring:url value="/owner/{ownerId}/requests/{requestId}/accept" var="acceptUrl">
-                            <spring:param name="requestId" value="${request.id}"/>
-                            <spring:param name="employeeId" value="${request.employee.id}"/>
-                        </spring:url>
-                        <spring:url value="/employees/{employeeId}/requests/{requestId}/decline" var="declineUrl">
-                            <spring:param name="requestId" value="${request.id}"/>
-                            <spring:param name="employeeId" value="${request.employee.id}"/>
-                        </spring:url>
-                       
-                        
-                        
-                        <c:if test="${request.status == true}">
-                            <c:out value="Accepted"/>
-                        </c:if>
-                        |
-                        <c:if test="${request.status != false}">
-                        <a href="${fn:escapeXml(declineUrl)}" class="btn btn-danger">Cancel</a>
-                        </c:if>
-                        
-                    
+                <td>        
+                       <c:out value="Accepted" />
                 </td>
       
 <!--

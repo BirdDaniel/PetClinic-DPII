@@ -68,4 +68,6 @@ public class ResidenceController{
 		return "services/residenceServiceDetails";
 	}
 
+	
+
 }
