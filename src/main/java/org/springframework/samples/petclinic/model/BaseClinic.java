@@ -53,7 +53,7 @@ public class BaseClinic extends NamedEntity {
 	private LocalTime close;
 
 	public String getRating() {
-		return "The rating is " + this.rating + "stars";
+		return "The rating is " + this.rating + " stars";
 	}
 
 	public void setRating(int rating) {
