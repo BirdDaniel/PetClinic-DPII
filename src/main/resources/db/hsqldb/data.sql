@@ -30,7 +30,7 @@ INSERT INTO users(username,password,enabled) VALUES ('owner3','0wn3r',TRUE);
  INSERT INTO authorities VALUES ('emp4','employee');
 
 --INSERT INTO owners VALUES (id, firstName, LastName, telephone, address, username);
- INSERT INTO owners VALUES (1, 'David', 'Schroeder','6085559435' , '2749 Blackhawk Trail', 'owner1');
+ INSERT INTO owners VALUES (1, 'David', 'Seder','6085559435' , '2749 Blackhawk Trail', 'owner1');
  INSERT INTO owners VALUES (2, 'Peter', 'McTavish','6085552765' , '2387 S. Fair Way', 'owner2');
  INSERT INTO owners VALUES (3, 'Jean', 'Coleman', '6085552654' , '105 N. Lake St.', 'owner3');
  INSERT INTO owners VALUES (4, 'Jeff', 'Black','6085555387' , '1450 Oak Blvd.', 'owner4');
@@ -63,9 +63,9 @@ INSERT INTO users(username,password,enabled) VALUES ('owner3','0wn3r',TRUE);
 
 
 --INSERT INTO clinic_types VALUES (id, name);
- INSERT INTO clinic_types VALUES (1, 'Peluquería');
- INSERT INTO clinic_types VALUES (2, 'Operaciones');
- INSERT INTO clinic_types VALUES (3, 'Chalé');
+ INSERT INTO clinic_types VALUES (1, 'The Clinic');
+ INSERT INTO clinic_types VALUES (2, 'The Pet Surgery');
+ INSERT INTO clinic_types VALUES (3, 'Vet Services');
 
 --INSERT INTO pets VALUES (id, name, birth_date, owner_id, type_id)
 
@@ -90,9 +90,9 @@ INSERT INTO clinics VALUES (2, 'Clinica 2','Avenida de la reina mercedes 2', '10
 INSERT INTO clinics VALUES (3, 'Clinica 3', 'Calle Bami 3', '10:00', '13:00', 5, 'Description 3', 30, 4.5, 3);
 
 --INSERT INTO residences(id, name, address, close, open, rating, description, max, price,days);
-INSERT INTO residences VALUES (1, 'Residencia 1','Madison Square, 51-B', '10:10', '12:00', 3, 'Description 1', 10, 2.5);
-INSERT INTO residences VALUES (2, 'Residencia 2','Baker Street 221-B', '10:10', '12:00', 4, 'Description 2', 20, 3.5);
-INSERT INTO residences VALUES (3, 'Residencia 3','Avenida Doctor Fedriani, 3, 2ºC', '10:00:00', '13:00', 5, 'Description 3', 30, 4.5);
+INSERT INTO residences VALUES (1, 'Residence "Happy Pet"','Madison Square, 51-B', '10:10', '12:00', 3, 'Description 1', 10, 2.5);
+INSERT INTO residences VALUES (2, 'The Pet Residence ','Baker Street 221-B', '10:10', '12:00', 4, 'Description 2', 20, 3.5);
+INSERT INTO residences VALUES (3, 'Pet Stay','Avenida Doctor Fedriani, 3, 2ºC', '10:00:00', '13:00', 5, 'Description 3', 30, 4.5);
 
 --INSERT INTO employees(id, first_name, last_name, telephone, dni, username);
 INSERT INTO employees VALUES (1, 'Marta', 'Carter', '679845125','65847525H','emp1');

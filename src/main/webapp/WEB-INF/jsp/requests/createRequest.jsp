@@ -13,7 +13,11 @@
         <script>
             $(function () {
                 $("#serviceDate").datetimepicker({
-                    formatDate:'d-m-y',
+                    onShow:function( ct ){
+                        this.setOptions({
+                            maxDateTime:$('#finishDate').val()?$('#finishDate').val():false
+                        })
+                        },
                     minDate: Date.now(),
                     minTime: Date.now(),
                     allowTimes:[
@@ -21,11 +25,18 @@
                             '16:00', '17:00', '18:00', '19:00', '20:00'
                         ]
               });
+
             });
 
             $(function () {
                 $("#finishDate").datetimepicker({
-                    formatDate:'d-m-y',
+                    onShow: function( ct ){
+                        var serviceDate = $('#serviceDate').val();
+                        console.log(serviceDate);
+                        this.setOptions({
+                            minDateTime:$('#serviceDate').val()?serviceDate:Date.now()
+                        })
+                        },
                     allowTimes:[
                             '09:00','10:00','11:00','12:00', '13:00','14:00', '15:00', 
                             '16:00', '17:00', '18:00', '19:00', '20:00'
@@ -43,12 +54,15 @@
     <form:form modelAttribute="request" class="form-horizontal" id="add-request-form">
         <div class="form-group has-feedback">
             <c:if test="${service eq 'residence'}"> 
-            <petclinic:inputField label="Date to leave your pet" name="serviceDate"/>
+            <petclinic:inputField label="Date to bring your pet" name="serviceDate"/>
             <petclinic:inputField label="Date to pick up your pet" name="finishDate"/>
             </c:if>
             <c:if test="${service eq 'clinic'}">
             <petclinic:inputField label="Choose a date" name="serviceDate"/>
             </c:if>
+            <div class="control-group">
+                <petclinic:selectField name="pet" label="Pet" names="${pets}" size="2"/>
+            </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

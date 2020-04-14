@@ -1,9 +1,13 @@
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.service.ClinicService;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class RequestController {
@@ -79,11 +84,14 @@ public class RequestController {
                 .skip((int) (residence.getEmployees().size()-1 * Math.random()))
                 .findFirst().get();
 
+                List<Pet> pets = userLogged.getPets();
+
                 //Y A UN EMPLOYEE ALEATORIO
                 request.setEmployee(emp);
 
                 model.addAttribute("request", request);
                 model.addAttribute("service", "residence");
+                model.addAttribute("pets", pets);
                 model.addAttribute("residence", residence);
 
             }else if(serviceName.equals("clinic")) {
@@ -98,17 +106,18 @@ public class RequestController {
 
                 model.addAttribute("attributeName", "attributeValue");
             }
-
-            
-            
+            return "requests/createRequest";
         }
+        return "redirect:/oups";
+    }
 
+    @PostMapping("/createRequest/{serviceName}/{serviceId}")
+    public String processRequestForm(@PathVariable("serviceName") String serviceName,
+                                    @PathVariable("serviceId") Integer serviceId, Request request){
 
+        request.setRequestDate(LocalDateTime.now());
+        this.requestService.save(request);
+        return "redirect:/";
 
-        /*
-        
-        */
-
-        return "requests/createRequest";
     }
 }
