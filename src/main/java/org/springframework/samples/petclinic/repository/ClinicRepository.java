@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Clinic;
+import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Vet;
 
@@ -46,4 +47,6 @@ public interface ClinicRepository {
 	void save(Clinic clinic) throws DataAccessException;
 
 	Clinic findByRequest(Request request) throws DataAccessException;
+	
+	Clinic findByEmployee(Employee employee) throws DataAccessException;
 }

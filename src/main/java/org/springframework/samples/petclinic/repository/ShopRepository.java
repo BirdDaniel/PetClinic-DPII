@@ -20,6 +20,7 @@ import java.util.Collection;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.Clinic;
+import org.springframework.samples.petclinic.model.Item;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Shop;
@@ -55,5 +56,6 @@ public interface ShopRepository {
 	 * @see BaseEntity#isNew
 	 */
 	void save(Shop shop) throws DataAccessException;
+	
 
 }
