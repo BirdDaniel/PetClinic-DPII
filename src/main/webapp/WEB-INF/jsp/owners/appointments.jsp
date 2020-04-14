@@ -20,33 +20,18 @@
         <tbody>
         <c:forEach items="${requests}" var="request">
             <tr>
-                <td><fmt:formatDate value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></td>
-            
-            <td><javatime:format value="${request.serviceDate}" pattern="yyyy/MM/dd HH:mm"/></td>
+              <td><javatime:parseLocalDateTime value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></td>
+
+              <td><javatime:format value="${request.serviceDate}" pattern="yyyy/MM/dd HH:mm"/></td>
+
                  
                 <td>
                     <c:out value="${request.pet.name}"/>
                 </td>
                 <td>
                    <c:out value="${request.owner.firstName} ${request.owner.lastName}"/>
-                </td>
-                <td>
-                    
-                        <spring:url value="/owner/{ownerId}/requests/{requestId}/accept" var="acceptUrl">
-                            <spring:param name="requestId" value="${request.id}"/>
-                            <spring:param name="employeeId" value="${request.employee.id}"/>
-                        </spring:url>
-                        <spring:url value="/employees/{employeeId}/requests/{requestId}/decline" var="declineUrl">
-                            <spring:param name="requestId" value="${request.id}"/>
-                            <spring:param name="employeeId" value="${request.employee.id}"/>
-                        </spring:url>
-                       
-                        
-                        
-                        <c:if test="${request.status == true}">
-                            <c:out value="Accepted"/>
-                        </c:if>
-
+                </td>     
+                     <c:out value="Accepted" />
                 </td>
       
 <!--

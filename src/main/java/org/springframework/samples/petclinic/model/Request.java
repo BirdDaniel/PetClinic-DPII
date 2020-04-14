@@ -38,7 +38,7 @@ public class Request extends BaseEntity{
 	@Column(name = "date_req")
 	@Past
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
-	private Date requestDate;
+	private LocalDateTime requestDate;
 
 	@Column(name = "date_ser")
 	@Future
@@ -64,11 +64,11 @@ public class Request extends BaseEntity{
 	@JoinColumn(name="pet_id")
 	private Pet pet;
 
-	public Date getRequestDate() {
+	public LocalDateTime getRequestDate() {
 		return requestDate;
 	}
 
-	public void setRequestDate(Date requestDate) {
+	public void setRequestDate(LocalDateTime requestDate) {
 		this.requestDate = requestDate;
 	}
 

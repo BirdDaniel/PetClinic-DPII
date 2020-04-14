@@ -62,6 +62,11 @@ public class OwnerService {
 	}
 
 	@Transactional
+	public Owner findOwnerByUsername(String username) throws DataAccessException {
+		return ownerRepository.findOwnerByUsername(username);
+	}
+
+	@Transactional
 	public void saveOwner(Owner owner) throws DataAccessException {
 		//creating owner
 		ownerRepository.save(owner);		

@@ -119,6 +119,12 @@ INSERT INTO clinics_requests VALUES (1, 1);
 INSERT INTO clinics_requests VALUES (1, 2);
 INSERT INTO clinics_requests VALUES (2, 3);
 
+--INSERT INTO residences_employees VALUES (residence_id, employee_id);
+INSERT INTO residences_employees VALUES (1, 1);
+INSERT INTO residences_employees VALUES (1, 2);
+INSERT INTO residences_employees VALUES (2, 3);
+INSERT INTO residences_employees VALUES (3, 4);
+
 
 
 --INSERT INTO payments(id, credit_card, pay, date_pay, owner_id);
@@ -139,7 +145,6 @@ INSERT INTO clinics_requests VALUES (2, 3);
 -- INSERT INTO clinics_payments VALUES (1, 2);
 -- INSERT INTO clinics_payments VALUES (3, 3);
 
---INSERT INTO residences_employees VALUES (residence_id, employee_id);
 
 --INSERT INTO residences_payments VALUES (residence_id, payments_id);
 
