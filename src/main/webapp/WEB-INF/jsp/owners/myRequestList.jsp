@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
 <petclinic:layout pageName="requestsOwner">
 	
@@ -27,7 +28,7 @@
                         <dt>Request Date</dt>
 						<dd><fmt:formatDate value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></dd>
 						<dt>Service Date</dt>
-						<dd><fmt:formatDate value="${request.serviceDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></dd>
+						<dd><javatime:format value="${request.serviceDate}" pattern="yyyy/MM/dd HH:mm"/></dd>
 						<dt>Employee</dt>
 						<dd><c:out value="With: ${request.employee.firstName} ${request.employee.lastName}"/></dd>
 						<dt>Status</dt>

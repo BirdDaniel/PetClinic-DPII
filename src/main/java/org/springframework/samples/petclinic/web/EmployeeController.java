@@ -107,7 +107,7 @@ public class EmployeeController {
 		if(isAuth(employee)){
 		Collection<Request> appointments = this.requestService
 												.findAcceptedByEmployeeId(employee.getId());
-
+		
 		if (appointments != null)
 			model.put("appointments", appointments);
 
