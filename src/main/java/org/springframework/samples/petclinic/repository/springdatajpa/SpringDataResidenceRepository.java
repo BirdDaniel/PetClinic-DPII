@@ -21,6 +21,7 @@ import java.util.Set;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
@@ -45,4 +46,6 @@ public interface SpringDataResidenceRepository extends ResidenceRepository, Repo
 	@Query("select r from Residence r WHERE :request in elements(r.requests)")
 	public Residence findByRequest(@Param("request") Request request);
 	
+	@Query("select r from Residence r WHERE :employee in elements(r.employees)")
+	public Residence findByEmployee(@Param("employee")Employee employee);
 }

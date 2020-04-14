@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
 <petclinic:layout pageName="requestsEmployee">
     <table id="requestsTable" class="table table-striped">
@@ -22,19 +23,13 @@
             <tr>
             <td><fmt:formatDate value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></td>
             
-            <td><fmt:formatDate value="${request.serviceDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></td>
+            <td><javatime:format value="${request.serviceDate}" pattern="yyyy/MM/dd HH:mm"/></td>
                  
                 <td>
-                    <spring:url value="/pets/{petId}" var="petUrl">
-                        <spring:param name="petId" value="${request.pet.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(petUrl)}"><c:out value="${request.pet.name}"/></a>
+                    <c:out value="${request.pet.name}"/>
                 </td>
                 <td>
-                    <spring:url value="/owners/{ownerId}" var="ownerUrl">
-                        <spring:param name="ownerId" value="${request.owner.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(ownerUrl)}"><c:out value="${request.owner.firstName} ${request.owner.lastName}"/></a>
+                    <c:out value="${request.owner.firstName} ${request.owner.lastName}"/>
                 </td>
                 <td>
                     
