@@ -7,8 +7,10 @@ import org.springframework.samples.petclinic.model.Item;
 
 public interface ItemRepository {
 	
-	Collection<Item> findItemByNameInService(String item);
+	Collection<Item> findItemByNameInService(String item) throws DataAccessException;
 	
 	void save(Item item) throws DataAccessException;
+	
+	Item findById(int id) throws DataAccessException;
 
 }

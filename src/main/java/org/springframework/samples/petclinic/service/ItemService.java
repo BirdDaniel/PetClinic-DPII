@@ -7,9 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Item;
 import org.springframework.samples.petclinic.model.Residence;
-import org.springframework.samples.petclinic.repository.ClinicRepository;
 import org.springframework.samples.petclinic.repository.ItemRepository;
-import org.springframework.samples.petclinic.repository.ResidenceRepository;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedItemNameException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,25 +16,38 @@ import org.springframework.transaction.annotation.Transactional;
 public class ItemService {
 	
 	private ItemRepository itemRepository;
-	private ClinicService clinicService;
-	private ResidenceService residenceService;
+
 	
 	@Autowired
 	public ItemService(ItemRepository itemRepository) {
 		this.itemRepository = itemRepository;
 	}
 	
+	@Transactional(readOnly = true)
+	public Item findItemById(int id) throws DataAccessException {
+		return itemRepository.findById(id);
+	}
+	
+	@Transactional(rollbackFor = DuplicatedItemNameException.class)
+	public void saveIt(Item item) throws DataAccessException, DuplicatedItemNameException {
+		 itemRepository.save(item);
+	}
+
+	
 	@Transactional(rollbackFor = DuplicatedItemNameException.class)
 	public void saveItem(Item item, Clinic clinic) throws DataAccessException, DuplicatedItemNameException {
 		//creating item
 		Collection<Item> otherItem = this.itemRepository.findItemByNameInService(item.getName());
-		System.out.println(otherItem);
-        if (otherItem.size() != 0) {            	
-        	throw new DuplicatedItemNameException();
-        }else {
+		
+//        if (otherItem.size() != 0) {            	
+//        	throw new DuplicatedItemNameException();
+//        }else {
+		for(Item i: otherItem) {
+			System.out.println(i.getName());
+		}
         	clinic.addItems(item);
         	itemRepository.save(item);
-		}
+//		}
 	}
 
 	@Transactional(rollbackFor = DuplicatedItemNameException.class)
