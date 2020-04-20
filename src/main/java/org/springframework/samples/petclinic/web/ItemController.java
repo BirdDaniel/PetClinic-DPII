@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Item;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
@@ -100,12 +101,18 @@ public class ItemController {
 		Clinic clinic = this.clinicService.findByEmployee(employee);
 		Residence residence = this.residenceService.findByEmployee(employee);
 		
+		System.out.println(item.getId());
 		if(clinic!= null) {
 			clinic.addItems(item);
-			model.addAttribute("item", item);
+			System.out.println("=========================================================================================");
+			System.out.println(clinic.getName());
+			System.out.println(item.getId());
+			model.put("item", item);
 		}else if(residence!= null) {
 			residence.addItems(item);
-			model.addAttribute("item", item);	
+			System.out.println("=========================================================================================");
+			System.out.println(residence.getName());
+			model.put("item", item);	
 		}
 		return CREATE_OR_UPDATE_ITEMLIST;
 	}
@@ -117,22 +124,25 @@ public class ItemController {
 			return CREATE_OR_UPDATE_ITEMLIST;
 		}
 		else {
-                    try{
-                    	Clinic clinic = this.clinicService.findByEmployee(employee);
-                		Residence residence = this.residenceService.findByEmployee(employee);
-                		
-                		
-                		if(clinic!= null) {
-                			this.itemService.saveItem(item, clinic);
-                		}else if(residence!= null) {                			
-                			this.itemService.saveItem(item, residence);
-                		}
-                    	
-                    }catch(DuplicatedItemNameException ex){
-                        result.rejectValue("name", "duplicate", "already exists");
-                        return CREATE_OR_UPDATE_ITEMLIST;
-                    }
-                    return "redirect:/employees/{employeeId}/itemsList";
+			try{
+				Clinic clinic = this.clinicService.findByEmployee(employee);
+				Residence residence = this.residenceService.findByEmployee(employee);
+				System.out.println(item.getName());
+				System.out.println(item.getId());
+					if(clinic!= null) {
+						System.out.println(clinic.getName());
+						clinic.addItems(item);
+                		this.itemService.saveItem(item, clinic);
+                	}else if(residence!= null) {
+                		System.out.println(residence.getName());
+                		residence.addItems(item);
+                		this.itemService.saveItem(item, residence);
+                	}
+				}catch(DuplicatedItemNameException ex){
+					result.rejectValue("name", "duplicate", "already exists");
+					return CREATE_OR_UPDATE_ITEMLIST;
+				}
+			return "redirect:/employees/{employeeId}/itemsList";
 		}
 	}
 	
@@ -151,34 +161,37 @@ public class ItemController {
 			return CREATE_OR_UPDATE_ITEMLIST;
 		}
 		else {
-                        Item itemToUpdate=this.itemService.findItemById(itemId);
-                        System.out.println("=========================================================================================");
-                    	System.out.println(itemToUpdate.getName());
-                		System.out.println(item.getName());
-			BeanUtils.copyProperties(item, itemToUpdate, "id");                                                                                  
-                    try {                    
-                    	Clinic clinic = this.clinicService.findByEmployee(employee);
-                		Residence residence = this.residenceService.findByEmployee(employee);
-                		
-                		System.out.println("=========================================================================================");
-                		System.out.println(this.itemService.findItemById(itemId));
-                		System.out.println(this.itemService.findItemById(item.getId()));
-                		System.out.println(itemToUpdate.getName());
-                		System.out.println(item.getName());
-                		if(clinic!= null) {
-                			this.itemService.saveItem(itemToUpdate, clinic);
-                		}else if(residence!= null) {                			
-                			this.itemService.saveItem(itemToUpdate, residence);
-                		}                   
-                    } catch (DuplicatedItemNameException ex) {
-                        result.rejectValue("name", "duplicate", "already exists");
-                        return CREATE_OR_UPDATE_ITEMLIST;
-                    }
+			Item itemToUpdate=this.itemService.findItemById(itemId);
+			BeanUtils.copyProperties(item, itemToUpdate, "clinic", "residence", "id");
+			try {
+				Clinic clinic = this.clinicService.findByEmployee(employee);
+                Residence residence = this.residenceService.findByEmployee(employee);
+	            if(clinic!= null) {
+                	this.itemService.saveItem(itemToUpdate, clinic);
+                }else if(residence!= null) {                			
+                	this.itemService.saveItem(itemToUpdate, residence);
+                }
+            }catch (DuplicatedItemNameException ex) {
+            	result.rejectValue("name", "duplicate", "already exists");
+            	return CREATE_OR_UPDATE_ITEMLIST;
+            }
 			return "redirect:/employees/{employeeId}/itemsList";
 		}
 	}
-
-
-
-
+        
+    @GetMapping(value = "/itemsList/{itemId}/delete")
+    public String deletePet(@PathVariable("itemId") int itemId, Employee employee, ModelMap model) {
+    	Item item = this.itemService.findItemById(itemId);
+    	Clinic clinic = this.clinicService.findByEmployee(employee);
+        Residence residence = this.residenceService.findByEmployee(employee);
+        if(clinic!= null) {
+        	clinic.removeItems(item);
+        }else if(residence!= null) {                			
+        	residence.removeItems(item);
+        }
+    	if(item!=null){
+    		this.itemService.deleteItem(item);
+    	}
+    	return "redirect:/employees/{employeeId}/itemsList";
+    }
 }

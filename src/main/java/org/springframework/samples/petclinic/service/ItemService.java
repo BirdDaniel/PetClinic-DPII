@@ -1,16 +1,19 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Item;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.repository.ItemRepository;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedItemNameException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
 public class ItemService {
@@ -37,30 +40,46 @@ public class ItemService {
 	@Transactional(rollbackFor = DuplicatedItemNameException.class)
 	public void saveItem(Item item, Clinic clinic) throws DataAccessException, DuplicatedItemNameException {
 		//creating item
-		Collection<Item> otherItem = this.itemRepository.findItemByNameInService(item.getName());
-		
-//        if (otherItem.size() != 0) {            	
-//        	throw new DuplicatedItemNameException();
-//        }else {
-		for(Item i: otherItem) {
-			System.out.println(i.getName());
+		//Collection<Item> otherItem = this.itemRepository.findItemByNameInService(item.getName());
+		Item otherItem = null;
+		List<Item> items;
+		if(item.getId()!=null) {
+			items=this.itemRepository.findItemWithIdDiferent(item.getName().toLowerCase(), item.getId());
+			System.out.print(items);
+			if(items.size()!=0) otherItem = items.get(0);
+		}else {
+			otherItem = this.itemRepository.findItemWithIdDiferent(item.getName().toLowerCase()).get(0);
 		}
-        	clinic.addItems(item);
+		if (StringUtils.hasLength(item.getName()) &&  (otherItem!= null && otherItem.getId()!=item.getId())) {            	
+        	throw new DuplicatedItemNameException();
+        }else {
         	itemRepository.save(item);
-//		}
+		}
 	}
 
 	@Transactional(rollbackFor = DuplicatedItemNameException.class)
 	public void saveItem(Item item, Residence residence) throws DataAccessException, DuplicatedItemNameException {
 		//creating item
-		Collection<Item> otherItem = this.itemRepository.findItemByNameInService(item.getName());
-		System.out.println(otherItem);
-	    if (otherItem.size() != 0) {            	
-	    	throw new DuplicatedItemNameException();
-	    }else {
-	    	residence.addItems(item);
+		Item otherItem = null;
+		List<Item> items;
+		if(item.getId()!=null) {
+			items=this.itemRepository.findItemWithIdDiferent(item.getName().toLowerCase(), item.getId());
+			System.out.print(items);
+			if(items.size()!=0) otherItem = items.get(0);
+		}else {
+			otherItem = this.itemRepository.findItemWithIdDiferent(item.getName().toLowerCase()).get(0);
+		}
+		
+		if (StringUtils.hasLength(item.getName()) &&  (otherItem!= null && otherItem.getId()!=item.getId())) {            	
+        	throw new DuplicatedItemNameException();
+        }else {
 	    	itemRepository.save(item);
 		}
+	}
+	
+	@Transactional
+	public void deleteItem(Item item){
+		this.itemRepository.delete(item);
 	}
 }
 
