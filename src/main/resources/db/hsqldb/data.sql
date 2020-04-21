@@ -58,7 +58,11 @@ INSERT INTO users(username,password,enabled) VALUES ('owner3','0wn3r',TRUE);
 --INSERT INTO vet_specialties VALUES (3, 3);
 --INSERT INTO vet_specialties VALUES (4, 2);
 --INSERT INTO vet_specialties VALUES (5, 1);
-
+INSERT INTO PARKS VALUES(1,'Parque del retiro', 'Plaza de la independencia, Madrid',1);
+INSERT INTO PARKS VALUES(2,'Parque del Alamillo', 'Callejón Iglesia, Serranillos del Valle',2);
+INSERT INTO PARKS VALUES(3,'Parque de la urba', 'Calle del Cerro, 36, 28979 Serranillos del Valle, Madrid',3);
+INSERT INTO PARKS VALUES(4,'Parque Pardo de san Sebastián', '41004 Sevilla',2);
+INSERT INTO PARKS VALUES(5,'Plaza de américa', 'Plaza América, 3, 41013 Sevilla',1);
 
 
 
@@ -69,8 +73,8 @@ INSERT INTO users(username,password,enabled) VALUES ('owner3','0wn3r',TRUE);
 
 --INSERT INTO pets VALUES (id, name, birth_date, owner_id, type_id)
 
- INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
- INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (3, 'Sly', '2012-06-08', 1, 5);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (4, 'Jewel', '2010-03-07', 2, 3);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (5, 'Iggy', '2010-11-30', 3, 4);
