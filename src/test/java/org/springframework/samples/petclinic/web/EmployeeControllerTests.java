@@ -16,9 +16,12 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Request;
+import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
+import org.springframework.samples.petclinic.service.ItemService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.RequestService;
+import org.springframework.samples.petclinic.service.ResidenceService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -37,6 +40,15 @@ import org.springframework.test.web.servlet.MockMvc;
 	
 	@MockBean
 	private EmployeeService employeeService;
+
+	@MockBean
+	private ClinicService clinicService;
+
+	@MockBean
+	private ResidenceService residenceService;
+
+	@MockBean
+	private ItemService itemService;
 
 	@MockBean
 	private RequestService requestService;
