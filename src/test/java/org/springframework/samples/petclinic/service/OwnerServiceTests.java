@@ -79,7 +79,7 @@ class OwnerServiceTests {
 	@Test
 	void shouldFindOwnersByLastName() {
 		Collection<Owner> owners = this.ownerService.findOwnerByLastName("Schroeder");
-		assertThat(owners.size()).isEqualTo(2);
+		assertThat(owners.size()).isEqualTo(1);
 
 		owners = this.ownerService.findOwnerByLastName("Daviss");
 		assertThat(owners.isEmpty()).isTrue();
@@ -88,7 +88,7 @@ class OwnerServiceTests {
 	@Test
 	void shouldFindSingleOwnerWithPet() {
 		Owner owner = this.ownerService.findOwnerById(1);
-		assertThat(owner.getLastName()).startsWith("Schroeder");
+		assertThat(owner.getLastName()).isEqualTo("Seder");
 		assertThat(owner.getPets().size()).isEqualTo(2);
 		assertThat(owner.getPets().get(0).getType()).isNotNull();
 		assertThat(owner.getPets().get(0).getType().getName()).isEqualTo("bird");

@@ -61,5 +61,9 @@
             </tr>
         </c:forEach>
     </table>
+    <spring:url value="/createRequest/clinic/{clinicId}" var="reqUrl">
+            <spring:param name="clinicId" value="${clinic.id}"/>
+        </spring:url>
+      <a href="${fn:escapeXml(reqUrl)}" class="btn btn-default">Make a request</a>
 
 </petclinic:layout>

@@ -42,7 +42,7 @@ public class RequestServiceTests {
 	void shouldFindRequest(){
 		assertThat(this.requestService.findById(1))
 		.hasFieldOrPropertyWithValue("finishDate", LocalDateTime.of(2030, 8, 12, 12, 0))
-		.hasFieldOrPropertyWithValue("serviceDate", LocalDateTime.of(2019, 8, 5, 16, 0) );
+		.hasFieldOrPropertyWithValue("serviceDate", LocalDateTime.of(2021, 8, 5, 16, 0) );
 
 	}
 
