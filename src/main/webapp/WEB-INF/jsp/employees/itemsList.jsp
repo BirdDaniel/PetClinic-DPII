@@ -48,10 +48,12 @@
                 <spring:url value="itemsList/{itemId}/edit" var="editUrl">
                  <spring:param name="itemId" value="${item.id}"/>
    				 </spring:url>
+   				  <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Edit Item</a>
+   				 </td>
+   				 <td>
    				 <spring:url value="itemsList/{itemId}/delete" var="deleteUrl">
                  <spring:param name="itemId" value="${item.id}"/>
    				 </spring:url>
-   				 <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Edit Item</a>
    				 <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Remove Item</a>
                  </td>
             </tr>

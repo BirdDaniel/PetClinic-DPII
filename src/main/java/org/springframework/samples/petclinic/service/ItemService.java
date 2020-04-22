@@ -30,35 +30,9 @@ public class ItemService {
 	public Item findItemById(int id) throws DataAccessException {
 		return itemRepository.findById(id);
 	}
-	
-	@Transactional(rollbackFor = DuplicatedItemNameException.class)
-	public void saveIt(Item item) throws DataAccessException, DuplicatedItemNameException {
-		 itemRepository.save(item);
-	}
-
-	
-	@Transactional(rollbackFor = DuplicatedItemNameException.class)
-	public void saveItem(Item item, Clinic clinic) throws DataAccessException, DuplicatedItemNameException {
-		//creating item
-		//Collection<Item> otherItem = this.itemRepository.findItemByNameInService(item.getName());
-		Item otherItem = null;
-		List<Item> items;
-		if(item.getId()!=null) {
-			items=this.itemRepository.findItemWithIdDiferent(item.getName().toLowerCase(), item.getId());
-			System.out.print(items);
-			if(items.size()!=0) otherItem = items.get(0);
-		}else {
-			otherItem = this.itemRepository.findItemWithIdDiferent(item.getName().toLowerCase()).get(0);
-		}
-		if (StringUtils.hasLength(item.getName()) &&  (otherItem!= null && otherItem.getId()!=item.getId())) {            	
-        	throw new DuplicatedItemNameException();
-        }else {
-        	itemRepository.save(item);
-		}
-	}
 
 	@Transactional(rollbackFor = DuplicatedItemNameException.class)
-	public void saveItem(Item item, Residence residence) throws DataAccessException, DuplicatedItemNameException {
+	public void saveItem(Item item) throws DataAccessException, DuplicatedItemNameException {
 		//creating item
 		Item otherItem = null;
 		List<Item> items;
@@ -67,7 +41,8 @@ public class ItemService {
 			System.out.print(items);
 			if(items.size()!=0) otherItem = items.get(0);
 		}else {
-			otherItem = this.itemRepository.findItemWithIdDiferent(item.getName().toLowerCase()).get(0);
+			items=this.itemRepository.findItemWithIdDiferent(item.getName().toLowerCase());
+			if(items.size()!=0) otherItem = items.get(0);
 		}
 		
 		if (StringUtils.hasLength(item.getName()) &&  (otherItem!= null && otherItem.getId()!=item.getId())) {            	

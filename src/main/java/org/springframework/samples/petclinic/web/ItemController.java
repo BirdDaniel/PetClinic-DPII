@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Item;
-import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
@@ -104,14 +103,9 @@ public class ItemController {
 		System.out.println(item.getId());
 		if(clinic!= null) {
 			clinic.addItems(item);
-			System.out.println("=========================================================================================");
-			System.out.println(clinic.getName());
-			System.out.println(item.getId());
 			model.put("item", item);
 		}else if(residence!= null) {
 			residence.addItems(item);
-			System.out.println("=========================================================================================");
-			System.out.println(residence.getName());
 			model.put("item", item);	
 		}
 		return CREATE_OR_UPDATE_ITEMLIST;
@@ -127,16 +121,12 @@ public class ItemController {
 			try{
 				Clinic clinic = this.clinicService.findByEmployee(employee);
 				Residence residence = this.residenceService.findByEmployee(employee);
-				System.out.println(item.getName());
-				System.out.println(item.getId());
 					if(clinic!= null) {
-						System.out.println(clinic.getName());
 						clinic.addItems(item);
-                		this.itemService.saveItem(item, clinic);
+                		this.itemService.saveItem(item);
                 	}else if(residence!= null) {
-                		System.out.println(residence.getName());
                 		residence.addItems(item);
-                		this.itemService.saveItem(item, residence);
+                		this.itemService.saveItem(item);
                 	}
 				}catch(DuplicatedItemNameException ex){
 					result.rejectValue("name", "duplicate", "already exists");
@@ -167,9 +157,9 @@ public class ItemController {
 				Clinic clinic = this.clinicService.findByEmployee(employee);
                 Residence residence = this.residenceService.findByEmployee(employee);
 	            if(clinic!= null) {
-                	this.itemService.saveItem(itemToUpdate, clinic);
+                	this.itemService.saveItem(itemToUpdate);
                 }else if(residence!= null) {                			
-                	this.itemService.saveItem(itemToUpdate, residence);
+                	this.itemService.saveItem(itemToUpdate);
                 }
             }catch (DuplicatedItemNameException ex) {
             	result.rejectValue("name", "duplicate", "already exists");

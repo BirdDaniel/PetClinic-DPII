@@ -84,13 +84,7 @@ class OwnerControllerTests {
 	
 	@MockBean
 	private Model model;
-	
-//	private Authorities auth;
-//	
-//	private Pet leo;
-//	
-//	private User user;
-//	
+		
 	private Request reqEmpty;
 	
 	private Request reqClinic;
@@ -101,49 +95,6 @@ class OwnerControllerTests {
 	
 	private Residence residence;
 	
-	
-	
-	//'David', 'Schroeder','6085559435' , '2749 Blackhawk Trail', 'owner1');
-	// pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
-	//7, '2019-08-05 19:00', '2030-08-08 17:00', true, 1, 2, 2)
-	//INSERT INTO requests VALUES (2, '2019-08-01 18:00', '2030-08-06 19:00', true, 2, 1, 3);
-	//INSERT INTO requests VALUES (5, '2019-08-01 15:30', '2030-08-06 14:00', true, 3, 3, 3);
-	//INSERT INTO clinics VALUES (1, 'Clinica 1','Elm Street s/n', '2012-06-08 10:10:10', '2022-06-08 12:00', 3, 'Description 1', 10, 2.5, 1);
-	//INSERT INTO residences VALUES (1, 'Residencia 1','Madison Square, 51-B', '2012-06-08 10:10:10', '2022-06-08 12:00', 3, 'Description 1', 10, 2.5, 2);
-//	@BeforeEach
-//	void setup() {
-//		
-//	
-//		
-//		leo = new Pet();
-//		LocalDate fecha = LocalDate.of(2010, 9, 7);
-//		PetType petType = new PetType();
-//		leo.setId(1);
-//		leo.setName("Leo");
-//		leo.setBirthDate(fecha);
-//		
-////		User user = new User();
-////		user.setUsername("david");
-////		user.setPassword("1234");
-////		user.setEnabled(true);
-//		user = new User();
-//		user.setUsername("owner2");
-//		user.setPassword("0wn3r");
-//		david = new Owner();
-//		david.setId(TEST_OWNER_ID);
-//		david.setFirstName("Peter");
-//		david.setLastName("McTavish");
-//		david.setAddress("2387 S. Fair Way");
-//		david.setTelephone("6085552765");
-//		david.setUser(user);
-//		david.setRequests(requestList);
-////		david.addPet(leo);
-//		
-//		auth = new Authorities();
-//		auth.setAuthority("owner");
-//		auth.setUsername("owner2");
-//		
-//		model.addAttribute("loggedUser", 2);
 
 	@BeforeEach
 	void setup(){
