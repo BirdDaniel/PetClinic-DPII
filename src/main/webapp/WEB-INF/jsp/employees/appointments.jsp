@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
+<%@ page import = "java.time.LocalDateTime" %>
 
 <petclinic:layout pageName="appointmentsEmployee">
     <table id="requestsTable" class="table table-striped">
@@ -20,7 +21,7 @@
         <tbody>
         <c:forEach items="${appointments}" var="request">
             <tr>
-                <td><fmt:formatDate value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></td>
+                <td><javatime:format value="${request.requestDate}" pattern="yyyy/MM/dd HH:mm"/></td>
                 
                 <td><javatime:format value="${request.serviceDate}" pattern="yyyy/MM/dd HH:mm"/></td>
                      
@@ -44,12 +45,12 @@
                        
                         
                         
-                        <c:if test="${request.status == true}">
+                        <c:if test="${request.status == true}">  
                             <c:out value="Accepted"/>
                         </c:if>
-                        |
-                        <c:if test="${(request.status != false) && (now lt request.serviceDate)}">
-                        <a href="${fn:escapeXml(declineUrl)}" class="btn btn-danger">Cancel</a>
+                        <c:if test="${(request.status != false) && (LocalDateTime.now() lt request.serviceDate)}">
+                            |
+                            <a href="${fn:escapeXml(declineUrl)}" class="btn btn-danger">Cancel</a>
                         </c:if>
                         
                     

@@ -31,7 +31,7 @@
 				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/${loggedUser}"
 					title="My Profile">
 					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-					<span>My Profile</span>
+					<span>Profile</span>
 				</petclinic:menuItem>
 				<petclinic:menuItem active="${name eq 'requestsOwner'}" url="/owners/${loggedUser}/myRequestList"
 					title="Requests">
@@ -65,6 +65,13 @@
 					title="clinics">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Clinics</span>
+				</petclinic:menuItem>
+				</sec:authorize>
+				<sec:authorize access="hasAuthority('owner')">
+				<petclinic:menuItem active="${name eq 'parks'}" url="/parks"
+					title="clinics">
+					<span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>
+					<span>Parks</span>
 				</petclinic:menuItem>
 				</sec:authorize>
 				

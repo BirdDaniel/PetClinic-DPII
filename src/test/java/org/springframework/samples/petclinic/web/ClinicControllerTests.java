@@ -75,7 +75,6 @@ class ClinicControllerTests {
 	
 	private Owner david;
 		
-	private Authorities auth;
 	
 	private Clinic c1;
 	private Clinic c2;
@@ -83,39 +82,14 @@ class ClinicControllerTests {
 	@BeforeEach
 	void setup() {
 
-		Clinic c1 = new Clinic();
-		c1.setName("c1");
-		c1.setId(Integer.valueOf(1));
-		c1.setAddress("a1");
-		Clinic c2 = new Clinic();
-		c2.setName("c2");
-		c2.setId(Integer.valueOf(2));
-		c2.setAddress("a2");
-		clinic1=new Clinic();
-		clinic1.setId(TEST_CLINIC_ID);
-		clinic1.setName("Residencia");
-		clinic1.setAddress("a1");
-		clinic1.setDescription("Esto es una residencia");
-		clinic1.setMax(10);
-
-		Calendar c = Calendar.getInstance();
-		c.set(2019, 8, 5, 19, 00);
-		
 		david = new Owner();
 		david.setId(TEST_OWNER_ID);
-		david.setFirstName("David");
-		david.setLastName("Schroeder");
-		david.setAddress("2749 Blackhawk Trail");
-		david.setTelephone("6085559435");
-		auth = new Authorities();
-		auth.setAuthority("owner");
-		auth.setUsername("owner2");
-		given(this.authoritiesService.findById("owner2")).willReturn(auth);
 		given(this.ownerService.findOwnerById(TEST_OWNER_ID)).willReturn(david);
-		given(this.clinicService.findAll()).willReturn(Lists.newArrayList(c1, c2));
+		given(this.ownerService.findOwnerByUsername("owner2")).willReturn(david);
+		//given(this.clinicService.findAll()).willReturn(Lists.newArrayList(c1, c2));
 	}
       
-    @WithMockUser(value = "owner2" , username = "owner2" ,password = "0wn3r",authorities = {"owner"})
+    @WithMockUser(value = "owner2")
 	@Test
 	void testShowClinicListHtml() throws Exception {
 		mockMvc.perform(get("/clinic/findAll")).andExpect(status().isOk())

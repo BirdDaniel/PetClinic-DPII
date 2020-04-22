@@ -43,8 +43,6 @@ public class RequestController {
 		dataBinder.setDisallowedFields("id");
 	}
 
-
-
 	@Autowired
     public RequestController(RequestService requestService,
                             ClinicService clinicService, 
@@ -70,7 +68,7 @@ public class RequestController {
             //CREAR UNA REQUEST Y 
             System.out.println(userLogged);
             Request request = new Request();
-
+            model.addAttribute("loggedUser", LoggedUser().getId());
         //ASIGNARLA AL OWNER LOGGEADO, 
 
             userLogged.addRequest(request);
@@ -98,13 +96,17 @@ public class RequestController {
                 Clinic clinic = this.clinicService.findClinicById(serviceId);
                 clinic.addRequest(request);
 
+                List<Pet> pets = userLogged.getPets();
+
                 Employee emp = clinic.getEmployees().stream()
                 .skip((int) (clinic.getEmployees().size()-1 * Math.random()))
                 .findFirst().get();
 
                 request.setEmployee(emp);
-
-                model.addAttribute("attributeName", "attributeValue");
+                model.addAttribute("request", request);
+                model.addAttribute("service", "clinic");
+                model.addAttribute("pets", pets);
+                model.addAttribute("residence", clinic);
             }
             return "requests/createRequest";
         }

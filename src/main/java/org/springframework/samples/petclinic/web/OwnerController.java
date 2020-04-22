@@ -213,10 +213,12 @@ public class OwnerController {
 		}
 	
 	@GetMapping(value = "/owners/{ownerId}/myRequestList/{requestId}/details")
-	public String servicesForm(@PathVariable("requestId") int requestId,@PathVariable("ownerId") int ownerId, Model model) {
+	public String servicesForm(@PathVariable("requestId") int requestId,
+								@PathVariable("ownerId") int ownerId, Model model) {
 		if(isAuth(ownerId)){
 			Request req = this.requestService.findById(requestId);
-			
+			model.addAttribute("loggedUser", ownerId);
+
 			Clinic clinic = this.clinicService.findClinicByRequest(req);
 			Residence residence = this.residenceService.findResidenceByRequest(req);
 			
