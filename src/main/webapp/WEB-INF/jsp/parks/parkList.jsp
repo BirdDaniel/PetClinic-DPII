@@ -23,20 +23,27 @@
         <c:forEach items="${parks}" var="park">
             <tr>
              	<td> 
-                     <spring:url value="/parks/{parkId}" var="parkUrl">
+                     <!--<spring:url value="/parks/{parkId}" var="parkUrl">
                          <spring:param name="parkId" value="${park.id}"/>
                      </spring:url>
-                     <a href="${fn:escapeXml(parkUrl)}"><c:out value=" ${park.name}"/></a>
+                    <a href="${fn:escapeXml(parkUrl)}"></a>-->
+                    <c:out value="${park.id}"/> <c:out value=" ${park.name}"/>
                 </td>
                 <td>
                     <c:out value="${park.address}"/>
                 </td> 
                 <td>
+                    <spring:url value="/parks/{parkId}/edit" var="parkEditUrl">
+                         <spring:param name="parkId" value="${park.id}"/>
+                     </spring:url>
                     <c:if test="${park.owner.id eq loggedUser}">
-                <a href="" class="btn btn-default">
+                <a href="${fn:escapeXml(parkEditUrl)}" class="btn btn-default">
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 </a>
-                <a href="" class="btn btn-danger">
+                <spring:url value="/parks/{parkId}/delete" var="parkDeleteUrl">
+                         <spring:param name="parkId" value="${park.id}"/>
+                     </spring:url>
+                <a href="${fn:escapeXml(parkDeleteUrl)}" class="btn btn-danger">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </a>
             </c:if>

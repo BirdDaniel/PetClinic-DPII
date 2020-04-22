@@ -13,4 +13,6 @@ public interface ParkRepository {
 
     void save(Park park) throws DataAccessException;
 
+    void deletePark(Integer parkId) throws DataAccessException;
+
 }

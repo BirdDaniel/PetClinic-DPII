@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.repository.springdatajpa;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -17,4 +18,7 @@ public interface SpringDataParkRepository extends ParkRepository, Repository<Par
     @Query("SELECT park FROM Park park")
     List<Park> findAllParks();
 
+    @Modifying
+    @Query("DELETE FROM Park park WHERE park.id=:id")
+    void deletePark(Integer id);
 }

@@ -34,5 +34,10 @@ public class ParkService {
         this.parkRepository.save(park);
     }
 
+    @Transactional
+    public void deletePark(Integer parkId){
+        this.parkRepository.deletePark(parkId);
+    }
+
 
 }

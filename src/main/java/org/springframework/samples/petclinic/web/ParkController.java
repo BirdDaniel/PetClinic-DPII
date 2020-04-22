@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Park;
@@ -17,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -68,26 +70,78 @@ public class ParkController {
     public String createPark(Model model){
 
         Owner loggedUser = this.ownerService.findOwnerById(isAuth());
-        Park park = new Park();
-        park.setOwner(loggedUser);
-        model.addAttribute("loggedUser", loggedUser.getId());
-        model.addAttribute(park);
-        return VIEW_CREATE_OR_EDIT_PARK;
+        if(loggedUser!=null){
+            Park park = new Park();
+            park.setOwner(loggedUser);
+            model.addAttribute("loggedUser", loggedUser.getId());
+            model.addAttribute(park);
+            return VIEW_CREATE_OR_EDIT_PARK;
+        }
+        return "redirect:/oups";
 
     }
 
     @PostMapping("/new")
     public String saveCreatedPark(@Valid Park park, BindingResult result,Model model){
+        Owner loggedUser = this.ownerService.findOwnerById(isAuth());
+
         if(result.hasErrors()){
+            
+            model.addAttribute("loggedUser", loggedUser.getId());
             model.addAttribute(park);
 			return VIEW_CREATE_OR_EDIT_PARK;
         }else {
+            park.setOwner(loggedUser);
             this.parkService.savePark(park);
             model.addAttribute("loggedUser", isAuth());
             return "redirect:/parks";
         }
         
-
     }
 
+    @GetMapping("/{parkId}/edit")
+    public String editPark(@PathVariable("parkId")Integer parkId, Model model){
+
+        Owner loggedUser = this.ownerService.findOwnerById(isAuth());
+        
+        if(loggedUser!=null){
+            Park park = this.parkService.findById(parkId);
+            park.setOwner(loggedUser);
+            model.addAttribute("loggedUser", loggedUser.getId());
+            model.addAttribute(park);
+            return VIEW_CREATE_OR_EDIT_PARK;
+        }
+
+        return "redirect:/oups";
+    }
+
+    @PostMapping("/{parkId}/edit")
+    public String saveUpdatedPark(@PathVariable("parkId")Integer parkId,@Valid Park park, BindingResult result,Model model){
+        if(result.hasErrors()){
+            model.addAttribute("loggedUser", isAuth());
+            model.addAttribute(park);
+			return VIEW_CREATE_OR_EDIT_PARK;
+        }else {
+            System.out.println(park);
+            Park parkToUpdate = this.parkService.findById(parkId);
+            BeanUtils.copyProperties(park, parkToUpdate, "id", "owner");
+            this.parkService.savePark(parkToUpdate);
+            model.addAttribute("loggedUser", isAuth());
+            return "redirect:/parks";
+        }
+        
+    }
+
+    @GetMapping("/{parkId}/delete")
+    public String deletePark(@PathVariable("parkId") Integer parkId, Model model) {
+ 
+        Owner loggedUser = this.ownerService.findOwnerById(isAuth());
+
+        if(loggedUser!=null){
+            this.parkService.deletePark(parkId);
+            return "redirect:/parks";
+        }
+        
+        return "redirect:/oups";
+    }
 }
