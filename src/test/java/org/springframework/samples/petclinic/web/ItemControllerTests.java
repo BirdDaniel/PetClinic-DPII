@@ -1,10 +1,19 @@
 package org.springframework.samples.petclinic.web;
 
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -14,17 +23,17 @@ import org.springframework.samples.petclinic.configuration.SecurityConfiguration
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Item;
-import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.ItemService;
 import org.springframework.samples.petclinic.service.ResidenceService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 
-@WebMvcTest(controllers=OwnerController.class,
+@WebMvcTest(controllers=ItemController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
 public class ItemControllerTests {
@@ -32,9 +41,11 @@ public class ItemControllerTests {
 	
 	private static final int TEST_ITEM_ID = 1;
 	
-	private static final int TEST_CLINIC_ID = 2;
+	private static final int TEST_CLINIC_ID = 1;
 	
-	private static final int TEST_RESIDENCE_ID = 2;
+	private static final int TEST_RESIDENCE_ID = 1;
+	
+	private static final int TEST_EMPLOYEE_ID = 1;
 	
 	@MockBean
 	private ItemService itemService;
@@ -56,6 +67,10 @@ public class ItemControllerTests {
 	
 	private Item item;
 	
+	private Item item1;
+	
+	private Item item2;
+	
 	private Employee employee;
 	
 	private Clinic clinic;
@@ -73,6 +88,22 @@ public class ItemControllerTests {
 		item.setSale(0.3);
 		item.setStock(3);
 		
+		item1 = new Item();
+		item1.setId(2);
+		item1.setName("Collar1");
+		item1.setDescription("Description 3");
+		item1.setPrice(15.);
+		item1.setSale(0.3);
+		item1.setStock(3);
+		
+		item2 = new Item();
+		item2.setId(3);
+		item2.setName("Collar2");
+		item2.setDescription("Description 2");
+		item2.setPrice(15.);
+		item2.setSale(0.3);
+		item2.setStock(3);
+		
 		clinic = new Clinic();
 		clinic.setId(TEST_CLINIC_ID);
 		clinic.setName("Clinica 1");
@@ -83,6 +114,10 @@ public class ItemControllerTests {
 		clinic.setDescription("Description 1");
 		clinic.setMax(10);
 		clinic.setPrice(2.5);
+		
+		Set<Item> items = new HashSet<Item>();
+		items.add(item);
+		clinic.setItems(items);
 		
 		residence = new Residence();
 		residence.setId(TEST_RESIDENCE_ID);
@@ -95,10 +130,204 @@ public class ItemControllerTests {
 		residence.setMax(10);
 		residence.setPrice(2.5);
 		
-		given(this.itemService.findItemById(TEST_ITEM_ID)).willReturn(item);
+		Employee george = new Employee();
+		george.setId(TEST_EMPLOYEE_ID);
 		
+		Employee mikel = new Employee();
+		mikel.setId(2);
+
+		
+		given(this.employeeService.findByUsername("emp1")).willReturn(1);
+		given(this.employeeService.findByUsername("emp2")).willReturn(2);
+		given(this.itemService.findItemById(TEST_ITEM_ID)).willReturn(item);
+		given(this.itemService.findItemById(2)).willReturn(item1);
+		given(this.itemService.findItemById(3)).willReturn(item2);
+		given(this.employeeService.findEmployeeById(TEST_EMPLOYEE_ID)).willReturn(george);
+		given(this.clinicService.findByEmployee(george)).willReturn(clinic);
+		given(this.residenceService.findByEmployee(mikel)).willReturn(residence);
 		
 	}
+	// LISTADO
+	@WithMockUser(value = "emp1")
+	@Test
+	void shouldViewMyItemsList() throws Exception{
+		mockMvc.perform(get("/employees/{employeeId}/itemsList",  TEST_EMPLOYEE_ID))
+		.andExpect(status().isOk())
+		.andExpect(view().name("employees/itemsList"));
+	}
+	
+	@WithMockUser(value = "emp2")
+	@Test
+	void shouldNotViewMyItemsList() throws Exception{
+		mockMvc.perform(get("/employees/{employeeId}/itemsList",  TEST_EMPLOYEE_ID))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/oups"));
+	}
+	
+	//AÑADIR ITEMS
+	
+	@WithMockUser(value = "emp1")
+	@Test
+	void shouldAddItem() throws Exception{
+		mockMvc.perform(get("/employees/{employeeId}/itemsList/new", TEST_EMPLOYEE_ID))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("item"))
+		.andExpect(view().name("employees/createOrUpdateItemsList"));
+	}
+	
+	@WithMockUser(value = "emp2")
+	@Test
+	void shouldNotAddItem() throws Exception{
+		mockMvc.perform(get("/employees/{employeeId}/itemsList/new", TEST_EMPLOYEE_ID))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/oups"));
+	}
+	
+	@WithMockUser(value = "emp1")
+	@Test
+	void shouldSaveNewItem() throws Exception{
+		mockMvc.perform(post("/employees/{employeeId}/itemsList/new", TEST_EMPLOYEE_ID).with(csrf())
+				.param("Name", "Collares chicos")
+				.param("Description", "prueba")
+				.param("Price", "6.0")
+				.param("Sale", "0.2")
+				.param("Stock", "3"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/employees/{employeeId}/itemsList"));
+	}
+	
+	@WithMockUser(value = "emp2")
+	@Test
+	void shouldNotSaveNewItem() throws Exception{
+		mockMvc.perform(post("/employees/{employeeId}/itemsList/new", TEST_EMPLOYEE_ID).with(csrf())
+				.param("Name", "Collares chicos")
+				.param("Description", "prueba")
+				.param("Price", "6.0")
+				.param("Sale", "0.2")
+				.param("Stock", "3"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/oups"));
+	}
+//	
+//	@WithMockUser(value = "emp1")
+//	@Test
+//	void shouldNotSaveDuplicateNameNewItem() throws Exception{
+//		mockMvc.perform(post("/employees/{employeeId}/itemsList/new", TEST_EMPLOYEE_ID).with(csrf())
+//				.param("Name", "collar")
+//				.param("Description", "prueba")
+//				.param("Price", "6.0")
+//				.param("Sale", "0.2")
+//				.param("Stock", "3"))
+//		.andExpect(status().isOk())
+//		.andExpect(view().name("employees/createOrUpdateItemsList"));
+//	}
+	
+	@WithMockUser(value = "emp1")
+	@Test
+	void shouldNotSaveWrongValuesNewItem() throws Exception{
+		mockMvc.perform(post("/employees/{employeeId}/itemsList/new", TEST_EMPLOYEE_ID).with(csrf())
+				.param("Name", "Collares baratos")
+				.param("Description", "prueba")
+				.param("Price", "6.0")
+				.param("Sale", "1.2")
+				.param("Stock", "-3"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("employees/createOrUpdateItemsList"));
+	}
+	
+	
+	
+	//EDITAR ITEM
+	
+	@WithMockUser(value = "emp1")
+	@Test
+	void shouldEditItem() throws Exception{
+		mockMvc.perform(get("/employees/{employeeId}/itemsList/{itemId}/edit", TEST_EMPLOYEE_ID, TEST_ITEM_ID))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("item"))
+		.andExpect(view().name("employees/createOrUpdateItemsList"));
+	}
+	
+	@WithMockUser(value = "emp2")
+	@Test
+	void shouldNotEditItem() throws Exception{
+		mockMvc.perform(get("/employees/{employeeId}/itemsList/{itemId}/edit", TEST_EMPLOYEE_ID, TEST_ITEM_ID))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/oups"));
+	}
+	
+	
+	@WithMockUser(value = "emp1")
+	@Test
+	void shouldSaveEditItem() throws Exception{
+		mockMvc.perform(post("/employees/{employeeId}/itemsList/{itemId}/edit", TEST_EMPLOYEE_ID, TEST_ITEM_ID).with(csrf())
+				.param("Name", "Collares pequeños")
+				.param("Description", "prueba")
+				.param("Price", "6.0")
+				.param("Sale", "0.2")
+				.param("Stock", "3"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/employees/{employeeId}/itemsList"));
+	}
+	
+	@WithMockUser(value = "emp2")
+	@Test
+	void shouldNotSaveEditItem() throws Exception{
+		mockMvc.perform(post("/employees/{employeeId}/itemsList/{itemId}/edit", TEST_EMPLOYEE_ID, TEST_ITEM_ID).with(csrf())
+				.param("Name", "Collares pequeños")
+				.param("Description", "prueba")
+				.param("Price", "6.0")
+				.param("Sale", "0.2")
+				.param("Stock", "3"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/oups"));
+	}
+	
+	@WithMockUser(value = "emp1")
+	@Test
+	void shouldNotSaveWrongValuesEditItem() throws Exception{
+		mockMvc.perform(post("/employees/{employeeId}/itemsList/{itemId}/edit", TEST_EMPLOYEE_ID, TEST_ITEM_ID).with(csrf())
+				.param("Name", "Collares pequeños")
+				.param("Description", "prueba")
+				.param("Price", "6.0")
+				.param("Sale", "1.2")
+				.param("Stock", "-3"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("employees/createOrUpdateItemsList"));
+	}
+	
+//	
+//	@WithMockUser(value = "emp1")
+//	@Test
+//	void shouldNotSaveDuplicateNameEditItem() throws Exception{
+//		mockMvc.perform(post("/employees/{employeeId}/itemsList/new", TEST_EMPLOYEE_ID).with(csrf())
+//				.param("Name", "Pienso")
+//				.param("Description", "prueba")
+//				.param("Price", "6.0")
+//				.param("Sale", "0.2")
+//				.param("Stock", "3"))
+//		.andExpect(status().isOk())
+//		.andExpect(view().name("employees/createOrUpdateItemsList"));
+//	}
+//	
+	//DELETE ITEM
+	
+	@WithMockUser(value = "emp1")
+	@Test
+	void shouldDeleteItem() throws Exception{
+		mockMvc.perform(get("/employees/{employeeId}/itemsList/{itemId}/delete", TEST_EMPLOYEE_ID, TEST_ITEM_ID))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/employees/{employeeId}/itemsList"));
+	}
+	
+	@WithMockUser(value = "emp2")
+	@Test
+	void shouldNotDeleteItem() throws Exception{
+		mockMvc.perform(get("/employees/{employeeId}/itemsList/{itemId}/delete", TEST_EMPLOYEE_ID, TEST_ITEM_ID))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/oups"));
+	}
+	
 	
 
 }

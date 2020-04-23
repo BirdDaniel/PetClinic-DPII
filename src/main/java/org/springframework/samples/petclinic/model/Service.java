@@ -107,6 +107,16 @@ public class Service extends BaseClinic {
 	}
 	
 	public void removeItems(Item item) {
+		System.out.println(item.getName()); 
+		System.out.println(items);
 		if(this.items.contains(item)) this.items.remove(item);
+	}
+	
+	public void addEmployee(Employee employee) {
+		this.employees.add(employee);
+	}
+	
+	public void removeEmployee(Employee employee) {
+		if(this.employees.contains(employee)) this.employees.remove(employee);
 	}
 }

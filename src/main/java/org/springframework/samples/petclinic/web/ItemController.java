@@ -95,12 +95,15 @@ public class ItemController {
 	
 	@GetMapping(value = "/itemsList/new")
 	public String initCreationForm(Employee employee, ModelMap model) {
+		
+		if (!isAuth(employee)) {
+			return "redirect:/oups";
+		}
 		Item item = new Item();
 		
 		Clinic clinic = this.clinicService.findByEmployee(employee);
 		Residence residence = this.residenceService.findByEmployee(employee);
 		
-		System.out.println(item.getId());
 		if(clinic!= null) {
 			clinic.addItems(item);
 			model.put("item", item);
@@ -112,7 +115,10 @@ public class ItemController {
 	}
 
 	@PostMapping(value = "/itemsList/new")
-	public String processCreationForm(Employee employee, @Valid Item item, BindingResult result, ModelMap model) {		
+	public String processCreationForm(Employee employee, @Valid Item item, BindingResult result, ModelMap model) {	
+		if (!isAuth(employee)) {
+			return "redirect:/oups";
+		}
 		if (result.hasErrors()) {
 			model.put("item", item);
 			return CREATE_OR_UPDATE_ITEMLIST;
@@ -137,7 +143,11 @@ public class ItemController {
 	}
 	
 	@GetMapping(value = "/itemsList/{itemId}/edit")
-	public String initUpdateForm(@PathVariable("itemId") int itemId, ModelMap model) {
+	public String initUpdateForm(@PathVariable("itemId") int itemId, Employee employee, ModelMap model) {
+		
+		if (!isAuth(employee)) {
+			return "redirect:/oups";
+		}
 		Item item = this.itemService.findItemById(itemId);
 		model.put("item", item);
 		return CREATE_OR_UPDATE_ITEMLIST;
@@ -146,6 +156,9 @@ public class ItemController {
     
         @PostMapping(value = "/itemsList/{itemId}/edit")
 	public String processUpdateForm(@Valid Item item, BindingResult result, Employee employee, @PathVariable("itemId") int itemId, ModelMap model) {
+        	if (!isAuth(employee)) {
+    			return "redirect:/oups";
+    		}
 		if (result.hasErrors()) {
 			model.put("item", item);
 			return CREATE_OR_UPDATE_ITEMLIST;
@@ -171,9 +184,19 @@ public class ItemController {
         
     @GetMapping(value = "/itemsList/{itemId}/delete")
     public String deletePet(@PathVariable("itemId") int itemId, Employee employee, ModelMap model) {
+    	
+    	if (!isAuth(employee)) {
+			return "redirect:/oups";
+		}
+    	
     	Item item = this.itemService.findItemById(itemId);
+    	
     	Clinic clinic = this.clinicService.findByEmployee(employee);
+    	
         Residence residence = this.residenceService.findByEmployee(employee);
+        
+        
+     
         if(clinic!= null) {
         	clinic.removeItems(item);
         }else if(residence!= null) {                			
