@@ -19,16 +19,9 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Range;
@@ -107,8 +100,6 @@ public class Service extends BaseClinic {
 	}
 	
 	public void removeItems(Item item) {
-		System.out.println(item.getName()); 
-		System.out.println(items);
 		if(this.items.contains(item)) this.items.remove(item);
 	}
 	

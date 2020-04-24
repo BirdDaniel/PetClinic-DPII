@@ -1,14 +1,10 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Item;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.repository.ItemRepository;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedItemNameException;
 import org.springframework.stereotype.Service;
@@ -25,6 +21,7 @@ public class ItemService {
 	public ItemService(ItemRepository itemRepository) {
 		this.itemRepository = itemRepository;
 	}
+	
 	
 	@Transactional(readOnly = true)
 	public Item findItemById(int id) throws DataAccessException {
@@ -44,7 +41,8 @@ public class ItemService {
 			items=this.itemRepository.findItemWithIdDiferent(item.getName().toLowerCase());
 			if(items.size()!=0) otherItem = items.get(0);
 		}
-		
+		System.out.println(items);
+		System.out.println(otherItem.getName());
 		if (StringUtils.hasLength(item.getName()) &&  (otherItem!= null && otherItem.getId()!=item.getId())) {            	
         	throw new DuplicatedItemNameException();
         }else {

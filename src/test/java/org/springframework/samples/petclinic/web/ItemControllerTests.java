@@ -71,8 +71,6 @@ public class ItemControllerTests {
 	
 	private Item item2;
 	
-	private Employee employee;
-	
 	private Clinic clinic;
 	
 	private Residence residence;
@@ -208,20 +206,7 @@ public class ItemControllerTests {
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/oups"));
 	}
-//	
-//	@WithMockUser(value = "emp1")
-//	@Test
-//	void shouldNotSaveDuplicateNameNewItem() throws Exception{
-//		mockMvc.perform(post("/employees/{employeeId}/itemsList/new", TEST_EMPLOYEE_ID).with(csrf())
-//				.param("Name", "collar")
-//				.param("Description", "prueba")
-//				.param("Price", "6.0")
-//				.param("Sale", "0.2")
-//				.param("Stock", "3"))
-//		.andExpect(status().isOk())
-//		.andExpect(view().name("employees/createOrUpdateItemsList"));
-//	}
-	
+
 	@WithMockUser(value = "emp1")
 	@Test
 	void shouldNotSaveWrongValuesNewItem() throws Exception{
@@ -231,7 +216,7 @@ public class ItemControllerTests {
 				.param("Price", "6.0")
 				.param("Sale", "1.2")
 				.param("Stock", "-3"))
-		.andExpect(status().isOk())
+		.andExpect(model().attributeHasErrors("item")).andExpect(status().isOk())
 		.andExpect(view().name("employees/createOrUpdateItemsList"));
 	}
 	
@@ -292,24 +277,10 @@ public class ItemControllerTests {
 				.param("Price", "6.0")
 				.param("Sale", "1.2")
 				.param("Stock", "-3"))
-		.andExpect(status().isOk())
+		.andExpect(model().attributeHasErrors("item")).andExpect(status().isOk())
 		.andExpect(view().name("employees/createOrUpdateItemsList"));
 	}
 	
-//	
-//	@WithMockUser(value = "emp1")
-//	@Test
-//	void shouldNotSaveDuplicateNameEditItem() throws Exception{
-//		mockMvc.perform(post("/employees/{employeeId}/itemsList/new", TEST_EMPLOYEE_ID).with(csrf())
-//				.param("Name", "Pienso")
-//				.param("Description", "prueba")
-//				.param("Price", "6.0")
-//				.param("Sale", "0.2")
-//				.param("Stock", "3"))
-//		.andExpect(status().isOk())
-//		.andExpect(view().name("employees/createOrUpdateItemsList"));
-//	}
-//	
 	//DELETE ITEM
 	
 	@WithMockUser(value = "emp1")

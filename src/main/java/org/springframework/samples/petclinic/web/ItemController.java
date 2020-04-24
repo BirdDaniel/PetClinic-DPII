@@ -159,6 +159,7 @@ public class ItemController {
         	if (!isAuth(employee)) {
     			return "redirect:/oups";
     		}
+        	
 		if (result.hasErrors()) {
 			model.put("item", item);
 			return CREATE_OR_UPDATE_ITEMLIST;
