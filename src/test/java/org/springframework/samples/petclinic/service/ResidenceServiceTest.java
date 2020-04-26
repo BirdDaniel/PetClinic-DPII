@@ -23,8 +23,8 @@ class ResidenceServiceTest {
 		Collection<Residence> residences = (Collection<Residence>) this.residenceService.findAll();
 
 		Residence r1 = EntityUtils.getById(residences, Residence.class, 1);
-		assertThat(r1.getName()).isEqualTo("Residencia 1");
+		assertThat(r1.getName()).isEqualTo("Residence \"Happy Pet\"");
 		Residence r2 = EntityUtils.getById(residences, Residence.class, 3);
-		assertThat(r2.getName()).isEqualTo("Residencia 3");
+		assertThat(r2.getName()).isEqualTo("Pet Stay");
 	}
 }

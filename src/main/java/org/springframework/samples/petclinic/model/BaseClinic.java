@@ -39,7 +39,7 @@ public class BaseClinic extends NamedEntity {
 	private String address;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<Employee> employees;
+	protected Set<Employee> employees;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Payment> payments;
@@ -53,7 +53,7 @@ public class BaseClinic extends NamedEntity {
 	private LocalTime close;
 
 	public String getRating() {
-		return "The rating is " + this.rating + "stars";
+		return "The rating is " + this.rating + " stars";
 	}
 
 	public void setRating(int rating) {
