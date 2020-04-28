@@ -21,12 +21,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class LoginOwnerUITest {
+public class MyPetListPositiveUITest {
 	
 	@LocalServerPort
 	private int port;
 	
-	 private String username;
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -42,36 +41,20 @@ public class LoginOwnerUITest {
   }
 
   @Test
-  public void testLoginAsOwner() throws Exception {
-	    as("owner1").
-	    whenIamLoggedIntheSystem().
-	    thenISeeMyUsernameInTheMenuBar();	
-  }
-
-  private void thenISeeMyUsernameInTheMenuBar() {
-	  assertEquals(username.toUpperCase(), driver.findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a/strong")).getText());
-	
-  }
-
-  private LoginOwnerUITest whenIamLoggedIntheSystem() {	
-	return this;
-}
-  
- private LoginOwnerUITest as(String username){
-	 this.username = username;
+  public void testMyPetListPositiveUI() throws Exception {
     driver.get("http://localhost:" + port);
     driver.findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a")).click();
-    driver.findElement(By.id("password")).clear();
-    driver.findElement(By.id("password")).sendKeys(passwordOf(username));
+    driver.findElement(By.id("username")).click();
     driver.findElement(By.id("username")).clear();
-    driver.findElement(By.id("username")).sendKeys(username);
+    driver.findElement(By.id("username")).sendKeys("owner1");
+    driver.findElement(By.id("password")).click();
+    driver.findElement(By.id("password")).clear();
+    driver.findElement(By.id("password")).sendKeys("0wn3r");
     driver.findElement(By.xpath("//button[@type='submit']")).click();
-    return this;
+    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[2]/a")).click();
+    driver.findElement(By.linkText("My Pets")).click();
   }
 
- private CharSequence passwordOf(String username) {
-		return "0wn3r";
-	}
   @AfterEach
   public void tearDown() throws Exception {
     driver.quit();
