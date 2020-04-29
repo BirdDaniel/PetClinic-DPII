@@ -41,10 +41,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/pets/**").hasAnyAuthority("admin, owner")
 				.antMatchers("/users/newOwner").permitAll()
 				.antMatchers("/users/newEmployee").permitAll()
-
+				.antMatchers("/createRequest/**").hasAuthority("owner")
 				.antMatchers("/admin/**").hasAnyAuthority("admin").antMatchers("/owners/**")
 				.hasAnyAuthority("owner", "admin").antMatchers("/vets/**").hasAnyAuthority("employee")
-				.antMatchers("/employees/**").hasAuthority("employee").anyRequest().denyAll().and().formLogin()
+				.antMatchers("/employees/**").hasAuthority("employee")
+				.antMatchers("/parks/**").hasAuthority("owner")
+				.anyRequest().denyAll().and().formLogin()
 				/* .loginPage("/login") */
 				.failureUrl("/login-error").and().logout().logoutSuccessUrl("/");
 		// Configuración para que funcione la consola de administración

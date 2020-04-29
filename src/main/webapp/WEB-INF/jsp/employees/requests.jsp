@@ -6,6 +6,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
+<%@ page import = "java.time.LocalDateTime" %>
 
 <petclinic:layout pageName="requestsEmployee">
     <table id="requestsTable" class="table table-striped">
@@ -21,7 +22,7 @@
         <tbody>
         <c:forEach items="${requests}" var="request">
             <tr>
-            <td><fmt:formatDate value="${request.requestDate}" type="date" pattern="yyyy/MM/dd HH:mm"/></td>
+            <td><javatime:format value="${request.requestDate}" pattern="yyyy/MM/dd HH:mm"/></td>
             
             <td><javatime:format value="${request.serviceDate}" pattern="yyyy/MM/dd HH:mm"/></td>
                  
@@ -56,23 +57,14 @@
                         <c:if test="${request.status == false}">
                             <c:out value="Declined"/>
                         </c:if>
-                        |
-                        <c:if test="${request.status != true}">
-                         </c:if>
-                          <c:if test="${request.status != false}">
-                        <a href="${fn:escapeXml(declineUrl)}" class="btn btn-danger">Decline</a>
+                        <c:if test="${(request.status != false) && (LocalDateTime.now() lt request.serviceDate)}">
+                            |
+                            <a href="${fn:escapeXml(declineUrl)}" class="btn btn-danger">Decline</a>
                         </c:if>
                         
                     
                 </td>
-        <%-- 		       <td>
-                                <spring:url value="/employees/{employeeId}/requests/{requestId}/edit" var="requestUrl">
-                                    <spring:param name="employeeId" value="${request.employee.id}"/>
-                                    <spring:param name="requestId" value="${request.id}"/>
-                                </spring:url>
-                                <a href="${fn:escapeXml(requestUrl)}">Edit Request</a>
-                            </td>
-     	 --%>	
+      
 <!--
                 <td> 
                     <c:out value="${owner.user.username}"/> 

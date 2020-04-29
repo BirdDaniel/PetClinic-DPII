@@ -38,17 +38,9 @@
            <td><c:out value="${residence.description}"/></td>
         </tr>
       </table>
-    <!--    <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <c:choose>
-                        <c:when test="${requestD==true}">
-                            <button class="btn btn-default" type="submit">Return to Request</button>
-                        </c:when>
-                        <c:otherwise>
-                            <button class="btn btn-default" type="submit">Return to Residences</button>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-            </div>
-            --> 
+        <spring:url value="/createRequest/residence/{residenceId}" var="reqUrl">
+            <spring:param name="residenceId" value="${residence.id}"/>
+        </spring:url>
+      <a href="${fn:escapeXml(reqUrl)}" class="btn btn-default">Make a request</a>
+    
 </petclinic:layout>

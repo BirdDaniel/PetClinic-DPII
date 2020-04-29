@@ -12,6 +12,8 @@ import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.RequestService;
+import org.springframework.samples.petclinic.service.ResidenceService;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedItemNameException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;

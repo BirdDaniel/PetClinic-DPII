@@ -110,7 +110,7 @@ class OwnerControllerTests {
 		reqEmpty.setId(TEST_REQUEST_NULL_ID);
 		Calendar c = Calendar.getInstance();
 		c.set(2019, 8, 5, 19, 00);
-		reqEmpty.setRequestDate(c.getTime());
+		//reqEmpty.setRequestDate(c.getTime());
 		c.set(2030, 8, 8, 17, 00);
 		//reqEmpty.setServiceDate(c.getTime());
 		reqEmpty.setStatus(true);
@@ -118,7 +118,7 @@ class OwnerControllerTests {
 		reqClinic = new Request();
 		reqClinic.setId(TEST_REQUEST_CLINIC_ID);
 		c.set(2019, 8, 1, 18, 00);
-		reqClinic.setRequestDate(c.getTime());
+		//reqClinic.setRequestDate(c.getTime());
 		c.set(2030, 8, 6, 19, 00);
 		//reqClinic.setServiceDate(c.getTime());
 		reqClinic.setStatus(true);
@@ -126,7 +126,7 @@ class OwnerControllerTests {
 		reqResidence = new Request();
 		reqResidence.setId(TEST_REQUEST_RESIDENCE_ID);
 		c.set(2019, 8, 1, 15, 30);
-		reqResidence.setRequestDate(c.getTime());
+		//reqResidence.setRequestDate(c.getTime());
 		c.set(2030, 8, 6, 14, 00);
 		//reqResidence.setServiceDate(c.getTime());
 		reqResidence.setStatus(true);
