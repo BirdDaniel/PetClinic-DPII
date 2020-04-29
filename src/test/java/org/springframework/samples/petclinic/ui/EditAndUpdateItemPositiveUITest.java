@@ -21,7 +21,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class MyRequestsOwnerUITest {
+public class EditAndUpdateItemPositiveUITest {
 	
 	@LocalServerPort
 	private int port;
@@ -34,24 +34,29 @@ public class MyRequestsOwnerUITest {
 	  @BeforeEach
 	  public void setUp() throws Exception {
 		  String pathToGeckoDriver="C:\\Users\\Josan\\OneDrive\\Escritorio\\Selenium"; 
-		  System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
+		  System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe"); 
 	    driver = new FirefoxDriver();
 	    baseUrl = "https://www.google.com/";
 	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	  }
 
 	  @Test
-	  public void testMyRequestsOwnerUI() throws Exception {
+	  public void testEditAndUpdateItemPositiveUI() throws Exception {
 	    driver.get("http://localhost:" + port);
 	    driver.findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a")).click();
 	    driver.findElement(By.id("username")).click();
 	    driver.findElement(By.id("username")).clear();
-	    driver.findElement(By.id("username")).sendKeys("owner1");
+	    driver.findElement(By.id("username")).sendKeys("emp1");
 	    driver.findElement(By.id("password")).click();
 	    driver.findElement(By.id("password")).clear();
-	    driver.findElement(By.id("password")).sendKeys("0wn3r");
+	    driver.findElement(By.id("password")).sendKeys("3mpl0");
 	    driver.findElement(By.xpath("//button[@type='submit']")).click();
-	    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a")).click();
+	    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[4]/a")).click();
+	    driver.findElement(By.linkText("Edit Item")).click();
+	    driver.findElement(By.id("name")).click();
+	    driver.findElement(By.id("name")).clear();
+	    driver.findElement(By.id("name")).sendKeys("Desinfectante");
+	    driver.findElement(By.xpath("//button[@type='submit']")).click();
 	  }
 
 	  @AfterEach

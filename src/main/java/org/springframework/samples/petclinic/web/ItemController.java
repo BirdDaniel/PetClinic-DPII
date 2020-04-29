@@ -166,6 +166,7 @@ public class ItemController {
 		}
 		else {
 			Item itemToUpdate=this.itemService.findItemById(itemId);
+			System.out.println(itemToUpdate + "======================================================================");
 			BeanUtils.copyProperties(item, itemToUpdate, "clinic", "residence", "id");
 			try {
 				Clinic clinic = this.clinicService.findByEmployee(employee);
