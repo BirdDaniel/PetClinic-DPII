@@ -58,11 +58,14 @@ public class ParkController {
         
         Integer userLogged = isAuth();
 
-        List<Park> parks = this.parkService.findAllParks();
-        model.addAttribute("loggedUser", userLogged);
-        model.addAttribute("parks", parks);
-        return VIEW_PARK_LIST;
-        
+        if(isAuth()!=0){
+            List<Park> parks = this.parkService.findAllParks();
+            model.addAttribute("loggedUser", userLogged);
+            model.addAttribute("parks", parks);
+            return VIEW_PARK_LIST;
+        }
+
+        return ":/oups";
 
     }
 

@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.ui;
+package org.springframework.samples.petclinic.ui.Parks;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -7,9 +7,8 @@ import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
-// import org.openqa.selenium.support.ui.Select;
 
-public class ParkListUITest {
+public class DeleteParkUITest {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -22,20 +21,21 @@ public class ParkListUITest {
     System.setProperty("webdriver.gecko.driver",
                         pathToGeckoDriver +
                         "\\geckodriver.exe");
-    
-    driver = new FirefoxDriver(); 
+
+    driver = new FirefoxDriver();
     baseUrl = "https://www.google.com/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
   @Test
-  public void testVerParques() throws Exception {
+  public void testDeleteParkUI() throws Exception {
     driver.get("http://localhost:8080/");
     driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
     driver.findElement(By.id("username")).clear();
     driver.findElement(By.id("username")).sendKeys("owner1");
     driver.findElement(By.id("password")).clear();
     driver.findElement(By.id("password")).sendKeys("0wn3r");
+    driver.findElement(By.id("username")).click();
     driver.findElement(By.xpath("//button[@type='submit']")).click();
     driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[6]/a/span[2]")).click();
     try {
@@ -43,6 +43,9 @@ public class ParkListUITest {
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }
+    driver.findElement(By.xpath("//table[@id='parksTable']/tbody/tr/td[3]/a[2]")).click();
+    // Warning: assertTextNotPresent may require manual changes
+    assertFalse(driver.findElement(By.cssSelector("BODY")).getText().matches("^[\\s\\S]*//table\\[@id='parksTable'\\][\\s\\S]*$"));
   }
 
   @After

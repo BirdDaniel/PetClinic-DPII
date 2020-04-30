@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.ui;
+package org.springframework.samples.petclinic.ui.Parks;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -8,7 +8,7 @@ import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class EditParkUITest {
+public class CreateParkEmptyNameUITest {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -28,23 +28,24 @@ public class EditParkUITest {
   }
 
   @Test
-  public void testEditParkUI() throws Exception {
+  public void testCreateParkEmptyName() throws Exception {
     driver.get("http://localhost:8080/");
     driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
     driver.findElement(By.id("username")).clear();
-    driver.findElement(By.id("username")).sendKeys("owner1");
+    driver.findElement(By.id("username")).sendKeys("owner4");
     driver.findElement(By.id("password")).clear();
     driver.findElement(By.id("password")).sendKeys("0wn3r");
     driver.findElement(By.xpath("//button[@type='submit']")).click();
-    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[6]/a/span[2]")).click();
-    driver.findElement(By.xpath("//table[@id='parksTable']/tbody/tr/td[3]/a")).click();
-    driver.findElement(By.id("name")).click();
-    driver.findElement(By.id("name")).clear();
-    driver.findElement(By.id("name")).sendKeys("Parque");
-    driver.findElement(By.xpath("//body/div")).click();
+    driver.findElement(By.xpath("//a[contains(@href, '/parks')]")).click();
+    driver.findElement(By.xpath("//a[contains(@href, '/parks/new')]")).click();
     driver.findElement(By.xpath("//button[@type='submit']")).click();
     try {
-      assertEquals("1 Parque", driver.findElement(By.xpath("//table[@id='parksTable']/tbody/tr/td")).getText());
+      assertEquals("el tamaño tiene que estar entre 3 y 50", driver.findElement(By.xpath("//form[@id='park']/div/div[2]/div/span[2]")).getText());
+    } catch (Error e) {
+      verificationErrors.append(e.toString());
+    }
+    try {
+      assertEquals("no puede estar vacío", driver.findElement(By.xpath("//form[@id='park']/div/div[3]/div/span[2]")).getText());
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }
