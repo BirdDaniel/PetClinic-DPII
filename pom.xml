@@ -30,6 +30,8 @@
         <jacoco.version>0.8.5</jacoco.version>
         <spring-format.version>0.0.19</spring-format.version>
 
+        <selenium.version>3.141.59</selenium.version>
+        
     </properties>
 
     <dependencies>
@@ -136,6 +138,19 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- SELENIUM WEB DRIVER -->
+        <dependency> 
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-remote-driver</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId> 
+            <artifactId>selenium-firefox-driver</artifactId>
+            <version>${selenium.version}</version> 
+        </dependency> 
+        <!-- /SELENIUM WEB DRIVER -->
+
         <dependency>
             <artifactId>junit</artifactId>
             <groupId>junit</groupId>
