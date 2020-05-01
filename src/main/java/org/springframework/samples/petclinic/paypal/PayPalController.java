@@ -1,7 +1,11 @@
 package org.springframework.samples.petclinic.paypal;
 
+import org.springframework.samples.petclinic.model.Clinic;
+import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Service;
 import org.springframework.samples.petclinic.service.ClinicService;
+import org.springframework.samples.petclinic.service.RequestService;
+import org.springframework.samples.petclinic.service.ResidenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +27,20 @@ public class PayPalController {
 	@Autowired
 	ClinicService clinicService;
 	
+	@Autowired
+	RequestService requestService;
+	
+	@Autowired
+	ResidenceService residenceService; 
+	
 	public static final String SUCCESS_URL = "pay/success";
 	public static final String CANCEL_URL = "pay/cancel";
 
-	@GetMapping("/pay/{clinicId}")
-	public String payment(@PathVariable("clinicId") int clinicId) {
-		Service service = this.clinicService.findClinicById(clinicId);
+	@GetMapping("/pay/{requestId}")
+	public String payment(@PathVariable("requestId") int requestId) {
+		Request rq = this.requestService.findById(requestId);
+		Service service = new Service();
+		service = (this.clinicService.findClinicByRequest(rq)!=null)? this.clinicService.findClinicByRequest(rq):this.residenceService.findResidenceByRequest(rq);
 		try {
 			Payment payment = paypalService.createPayment(Double.valueOf(service.getPrice()), "http://localhost:8080/" + CANCEL_URL,
 					"http://localhost:8080/" + SUCCESS_URL);

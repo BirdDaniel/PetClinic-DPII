@@ -15,6 +15,7 @@
             <th style="width: 200px;">Pet</th>
             <th style="width: 200px;">Owner</th>
             <th style="width: 250px">Status</th>
+            <th style="width: 150px;">Payment</th>
         </tr>
         </thead>
         <tbody>
@@ -33,7 +34,15 @@
                 </td>    
                 <td> 
                      <c:out value="Accepted" />
-                </td>             
+                </td> 
+                
+                 <td>
+                   <spring:url value="/pay/{requestId}" var="payUrl">
+         		   <spring:param name="requestId" value="${request.id}"/>
+       			   </spring:url>
+    	  		   <a href="${fn:escapeXml(payUrl)}" class="btn btn-default">Pay with PayPal</a>
+                 </td>    
+                         
             </tr>
         </c:forEach>
         </tbody>
