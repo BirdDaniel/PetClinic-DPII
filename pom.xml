@@ -31,6 +31,8 @@
         <spring-format.version>0.0.19</spring-format.version>
         <!-- Selenium version -->
 		 <selenium.version>3.141.59</selenium.version> 
+		 <!-- Cucumber version -->
+		 <cucumber.version>5.5.0</cucumber.version>
 		 
     </properties>
 
@@ -120,6 +122,35 @@
             <artifactId>bootstrap</artifactId>
             <version>${webjars-bootstrap.version}</version>
         </dependency>
+        <!-- Cucumber dependences -->
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-spring</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit-platform-engine</artifactId>
+			<version>${cucumber.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.masterthought</groupId>
+			<artifactId>cucumber-reporting</artifactId>
+			<version>4.2.3</version>
+		</dependency>
 
         <!-- Testing -->
         <dependency>
