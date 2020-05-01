@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
@@ -8,8 +9,11 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Request;
+import org.springframework.samples.petclinic.model.Residence;
+import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ResidenceService;
@@ -17,6 +21,7 @@ import org.springframework.samples.petclinic.service.exceptions.DuplicatedItemNa
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -30,16 +35,22 @@ public class EmployeeController {
 
 	private final RequestService requestService;
 	private final EmployeeService employeeService;
+	private final ClinicService clinicService;
+	private final ResidenceService residenceService;
 	private final static String VIEW_MY_REQUESTS = "employees/requests";
 	private final static String VIEW_MY_APPOINTMENTS = "employees/appointments";
+	
 
 	
 
 	@Autowired
-	public EmployeeController(EmployeeService employeeService, RequestService requestService) {
+	public EmployeeController(EmployeeService employeeService, RequestService requestService,
+			ClinicService clinicService,ResidenceService residenceService) {
 		
 		this.requestService = requestService;
 		this.employeeService = employeeService;
+		this.clinicService=clinicService;
+		this.residenceService=residenceService;
 
 	}
 
@@ -81,6 +92,23 @@ public class EmployeeController {
 		return "redirect:/oups";
 
 	}
+	@GetMapping("/colleagues")
+	public String ColleaguesEmployee(Employee employee,
+			Model model) {
+		if(isAuth(employee)  &&(this.clinicService.findByEmployee(employee)!=null )) {
+			Clinic clinic= this.clinicService.findByEmployee(employee);
+			Collection<Employee> colleagues= this.employeeService.findEmployeeByClinicId(clinic.getId());
+			model.addAttribute("colleagues", colleagues);
+			return "employees/colleagues";
+		}else if(isAuth(employee)  &&(this.residenceService.findByEmployee(employee)!=null )) {
+			Residence residence= this.residenceService.findByEmployee(employee);
+			Collection<Employee> colleagues= this.employeeService.findEmployeeByResidenceId(residence.getId());
+			model.addAttribute("colleagues", colleagues);
+			return "employees/colleagues";
+		}
+		return "redirect:/oups";
+	}
+
 
 	@GetMapping("/appointments")
 	public String allAppointments(Employee employee, Map<String, Object> model) {
