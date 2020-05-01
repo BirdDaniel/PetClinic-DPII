@@ -30,7 +30,7 @@ public class PayPalController {
 	public String payment(@PathVariable("clinicId") int clinicId) {
 		Service service = this.clinicService.findClinicById(clinicId);
 		try {
-			Payment payment = paypalService.createPayment(Double.valueOf(service.getPrice()), "http://localhost:8090/" + CANCEL_URL,
+			Payment payment = paypalService.createPayment(Double.valueOf(service.getPrice()), "http://localhost:8080/" + CANCEL_URL,
 					"http://localhost:8080/" + SUCCESS_URL);
 			for(Links link:payment.getLinks()) {
 				if(link.getRel().equals("approval_url")) {
