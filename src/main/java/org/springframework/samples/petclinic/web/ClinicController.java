@@ -81,11 +81,12 @@ public class ClinicController{
 		Integer ownerId = isAuth();
 		if(ownerId!=0){
 		Clinic clinic=this.clinicService.findClinicById(clinicId);
+		if(clinic!=null) {
 		model.addAttribute("loggedUser", ownerId);
 		model.addAttribute("clinic",clinic);
 		return "services/clinicServiceDetails";
 		}
-	
+		}
 		return "redirect:/oups";
 	
 	}
