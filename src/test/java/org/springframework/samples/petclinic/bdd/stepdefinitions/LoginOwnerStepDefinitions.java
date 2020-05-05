@@ -3,12 +3,16 @@ package org.springframework.samples.petclinic.bdd.stepdefinitions;
 import static org.junit.Assert.assertEquals;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.annotation.DirtiesContext;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -17,10 +21,14 @@ import lombok.extern.java.Log;
 
 @Log
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext
 public class LoginOwnerStepDefinitions extends AbstractStep{
 	
 	@LocalServerPort
 	private int port;
+	
+	 
+
 	
 	@Given("I am not logged in the system")
 	public void IamNotLogged() throws Exception{		

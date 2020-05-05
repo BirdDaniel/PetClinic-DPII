@@ -20,6 +20,7 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Item;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.repository.ClinicRepository;
 import org.springframework.samples.petclinic.repository.VetRepository;
@@ -37,4 +38,7 @@ public interface SpringDataClinicRepository extends ClinicRepository, Repository
 	
 	@Query("select c from Clinic c WHERE :employee in elements(c.employees)")
 	public Clinic findByEmployee(@Param("employee") Employee employee);
+	
+	@Query("select c from Clinic c WHERE :item in elements(c.items)")
+	public Clinic findByItem(@Param("item") Item item);
 }

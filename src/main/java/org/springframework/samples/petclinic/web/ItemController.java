@@ -69,7 +69,7 @@ public class ItemController {
 	}
 	
 	@GetMapping("/itemsList")
-	public String allItems(@PathVariable("employeeId") int employeeId, Model model) {
+	public String allItems(@PathVariable("employeeId") int employeeId, ModelMap model) {
 
 		Employee employee = this.employeeService.findEmployeeById(employeeId);
 		
@@ -185,23 +185,26 @@ public class ItemController {
 	}
         
     @GetMapping(value = "/itemsList/{itemId}/delete")
-    public String deletePet(@PathVariable("itemId") int itemId, Employee employee, ModelMap model) {
+    public String deleteItem(@PathVariable("itemId") int itemId, Employee employee, ModelMap model) {
     	
     	if (!isAuth(employee)) {
 			return "redirect:/oups";
 		}
-    	
+    	System.out.println("ITEMID =" + itemId);
     	Item item = this.itemService.findItemById(itemId);
     	
-    	Clinic clinic = this.clinicService.findByEmployee(employee);
-    	
-        Residence residence = this.residenceService.findByEmployee(employee);
-        
-        
-     
+    	System.out.println("ITEM =" +item);
+    	System.out.println(employee.getId());
+    	Clinic clinic = this.clinicService.findByItem(item);
+    	System.out.println("CLINIC =" + clinic);
+        Residence residence = this.residenceService.findByItem(item);
+        System.out.println("RESIDENCE =" +residence);
+    
         if(clinic!= null) {
+        	System.out.println("ENTRA EN CLINICA");
         	clinic.removeItems(item);
-        }else if(residence!= null) {                			
+        }else if(residence!= null) {            
+        	System.out.println("ENTRA EN RESIDENCIA");
         	residence.removeItems(item);
         }
     	if(item!=null){
