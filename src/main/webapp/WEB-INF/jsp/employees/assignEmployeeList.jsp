@@ -9,13 +9,13 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
-<petclinic:layout pageName="colleagues">
+<petclinic:layout pageName="assign">
 	<br/>
 	<br/>
 	<br/>
 	
 	<h2>Colleagues: </h2>
-	<table id="colleagueTable" class="table table-striped">
+	<table id="assignTable" class="table table-striped">
         <thead>
          <tr>
          <th>Id</th>
@@ -23,45 +23,37 @@
             <th>Last Name</th>
             <th>DNI</th>
             <th>Telephone</th>
-           <c:if test="${assign == true}">
-            <th>Assign</th>
-           </c:if>
-          
            
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${colleagues}" var="colleagues">
+        <c:forEach items="${employees}" var="employees">
         	<tr>
         		<td>
-        		<c:out value="${colleagues.id}"/>
+        		<c:out value="${employees.id}"/>
         		</td>
         		<td>
-        		<c:out value="${colleagues.firstName}"/>
+        		<c:out value="${employees.firstName}"/>
         		</td>
         		<td>
-        		<c:out value="${colleagues.lastName}"/>
+        		<c:out value="${employees.lastName}"/>
         		</td>
         		<td>
-        		<c:out value="${colleagues.dni}"/>
+        		<c:out value="${employees.dni}"/>
         		</td>
         		<td>
-        		<c:out value="${colleagues.telephone}"/>
+        		<c:out value="${employees.telephone}"/>
         		</td>
-        		<c:if test="${assign == true}">
         		 <td>
-                     <spring:url value="/employees/{employeeId}/{action}/{requestId}/{colleagueId}/reassign" var="assignUrl">
+                     <spring:url value="/employees/{employeeId}/{action}/{requestId}/assigned" var="assignUrl">
                          <spring:param name="action" value="request"/>
                             <spring:param name="requestId" value="${request.id}"/>
-                            <spring:param name="colleagueId" value="${colleagues.id}"/>
                             <spring:param name="employeeId" value="${request.employee.id}"/>
                         </spring:url>
-                           <c:if test="${request.status != false}">
-                            <a href="${fn:escapeXml(assignUrl)}" class="btn btn-assign">Assign</a>
-                        </c:if>
+                       
                         </td>
-                </c:if>
         </c:forEach>
+       
             </table>
     
 	

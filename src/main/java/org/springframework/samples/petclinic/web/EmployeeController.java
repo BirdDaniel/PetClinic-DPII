@@ -86,7 +86,7 @@ public class EmployeeController {
 			model.put("loggedUser", employee.getId());
 			model.put("requests", res);
 			return VIEW_MY_REQUESTS;
-
+			
 		}
 
 		return "redirect:/oups";
@@ -94,21 +94,52 @@ public class EmployeeController {
 	}
 	@GetMapping("/colleagues")
 	public String ColleaguesEmployee(Employee employee,
-			Model model) {
+			Map<String, Object> model) {
 		if(isAuth(employee)  &&(this.clinicService.findByEmployee(employee)!=null )) {
 			Clinic clinic= this.clinicService.findByEmployee(employee);
 			Collection<Employee> colleagues= this.employeeService.findEmployeeByClinicId(clinic.getId());
-			model.addAttribute("colleagues", colleagues);
+			colleagues.remove(employee);
+			model.put("colleagues", colleagues);
+			model.put("loggedUser", employee.getId());
 			return "employees/colleagues";
 		}else if(isAuth(employee)  &&(this.residenceService.findByEmployee(employee)!=null )) {
 			Residence residence= this.residenceService.findByEmployee(employee);
 			Collection<Employee> colleagues= this.employeeService.findEmployeeByResidenceId(residence.getId());
-			model.addAttribute("colleagues", colleagues);
+			colleagues.remove(employee);
+			model.put("colleagues", colleagues);
+			model.put("loggedUser", employee.getId());
 			return "employees/colleagues";
 		}
 		return "redirect:/oups";
 	}
+	@GetMapping("/{requestType}/{requestId}/assign")
+	public String assignRequest(Employee employee, @PathVariable("requestId") int id,
+			@PathVariable("requestType") String requestType, Map<String, Object> model) {
+		
+		if(isAuth(employee)&&(this.clinicService.findByEmployee(employee)!=null )){
 
+			model.put("loggedUser", employee.getId());
+			Request request = this.requestService.findById(id);
+			Clinic clinic=this.clinicService.findByEmployee(employee);
+			Collection<Employee> colleagues=this.employeeService.findEmployeeByClinicId(clinic.getId());
+			model.put("colleagues", colleagues);
+			model.put("request", request);
+			model.put("assign", true);
+			return "employees/colleagues";
+		}else if(isAuth(employee)  &&(this.residenceService.findByEmployee(employee)!=null )){
+			model.put("loggedUser", employee.getId());
+			Request request = this.requestService.findById(id);
+			Residence residence=this.residenceService.findByEmployee(employee);
+			Collection<Employee> colleagues=this.employeeService.findEmployeeByClinicId(residence.getId());
+			model.put("colleagues", colleagues);
+			model.put("request", request);
+			model.put("assign", true);
+			return "employees/colleagues";	
+			}
+
+		return "redirect:/oups";
+		
+	}
 
 	@GetMapping("/appointments")
 	public String allAppointments(Employee employee, Map<String, Object> model) {
@@ -149,6 +180,32 @@ public class EmployeeController {
 		return "redirect:/oups";
 		
 	}
+	@GetMapping("/{requestType}/{requestId}/{colleagueId}/reassign")
+	public String reassignRequest(Employee employee, @PathVariable("requestId") int id,
+			@PathVariable("requestType") String requestType
+			,@PathVariable("colleagueId") int colleagueId,Map<String, Object> model) {
+
+		if(isAuth(employee)){
+		//	if(model.get("assign").equals(true)) {
+				model.put("loggedUser", employee.getId());
+				Request request = this.requestService.findById(id);
+				Employee colleague= this.employeeService.findEmployeeById(colleagueId);
+				model.put("assign", false);
+				if (request != null) {
+				
+					request.setEmployee(colleague);
+					this.requestService.save(request);
+					
+					
+				}
+				
+					return "redirect:/employees/{employeeId}/requests";
+				}
+			//}
+
+		return "redirect:/oups";
+		
+	}
 
 	@GetMapping("/{requestType}/{requestId}/decline")
 	public String declineRequest(Employee employee, @PathVariable("requestId") int id,
@@ -172,5 +229,7 @@ public class EmployeeController {
 		return "redirect:/oups";
 		
 	}
+	
+
 
 }
