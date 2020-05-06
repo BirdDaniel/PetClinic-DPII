@@ -190,21 +190,15 @@ public class ItemController {
     	if (!isAuth(employee)) {
 			return "redirect:/oups";
 		}
-    	System.out.println("ITEMID =" + itemId);
+    
     	Item item = this.itemService.findItemById(itemId);
-    	
-    	System.out.println("ITEM =" +item);
-    	System.out.println(employee.getId());
+
     	Clinic clinic = this.clinicService.findByItem(item);
-    	System.out.println("CLINIC =" + clinic);
         Residence residence = this.residenceService.findByItem(item);
-        System.out.println("RESIDENCE =" +residence);
     
         if(clinic!= null) {
-        	System.out.println("ENTRA EN CLINICA");
         	clinic.removeItems(item);
-        }else if(residence!= null) {            
-        	System.out.println("ENTRA EN RESIDENCIA");
+        }else if(residence!= null) {                    
         	residence.removeItems(item);
         }
     	if(item!=null){
