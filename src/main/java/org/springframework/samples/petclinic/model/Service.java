@@ -100,7 +100,9 @@ public class Service extends BaseClinic {
 	}
 	
 	public void removeItems(Item item) {
-		if(this.items.contains(item)) this.items.remove(item);
+		if(this.items.contains(item)) 
+			this.items.remove(item);
+			
 	}
 	
 	public void addEmployee(Employee employee) {

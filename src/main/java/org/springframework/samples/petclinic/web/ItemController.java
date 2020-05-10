@@ -69,7 +69,7 @@ public class ItemController {
 	}
 	
 	@GetMapping("/itemsList")
-	public String allItems(@PathVariable("employeeId") int employeeId, Model model) {
+	public String allItems(@PathVariable("employeeId") int employeeId, ModelMap model) {
 
 		Employee employee = this.employeeService.findEmployeeById(employeeId);
 		
@@ -166,6 +166,7 @@ public class ItemController {
 		}
 		else {
 			Item itemToUpdate=this.itemService.findItemById(itemId);
+			System.out.println(itemToUpdate + "======================================================================");
 			BeanUtils.copyProperties(item, itemToUpdate, "clinic", "residence", "id");
 			try {
 				Clinic clinic = this.clinicService.findByEmployee(employee);
@@ -184,23 +185,20 @@ public class ItemController {
 	}
         
     @GetMapping(value = "/itemsList/{itemId}/delete")
-    public String deletePet(@PathVariable("itemId") int itemId, Employee employee, ModelMap model) {
+    public String deleteItem(@PathVariable("itemId") int itemId, Employee employee, ModelMap model) {
     	
     	if (!isAuth(employee)) {
 			return "redirect:/oups";
 		}
-    	
+    
     	Item item = this.itemService.findItemById(itemId);
-    	
-    	Clinic clinic = this.clinicService.findByEmployee(employee);
-    	
-        Residence residence = this.residenceService.findByEmployee(employee);
-        
-        
-     
+
+    	Clinic clinic = this.clinicService.findByItem(item);
+        Residence residence = this.residenceService.findByItem(item);
+    
         if(clinic!= null) {
         	clinic.removeItems(item);
-        }else if(residence!= null) {                			
+        }else if(residence!= null) {                    
         	residence.removeItems(item);
         }
     	if(item!=null){

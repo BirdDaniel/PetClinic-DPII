@@ -24,6 +24,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Item;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.repository.ClinicRepository;
@@ -67,9 +68,15 @@ public class ClinicService {
 		return this.clinicRepository.findByEmployee(employee);
 	}
 	@Transactional
+
+	public Clinic findByItem(Item item) throws DataAccessException{
+		return this.clinicRepository.findByItem(item);
+	}
+
 	public Collection<Employee> findEmployeeById(int id) throws DataAccessException{
 		return this.clinicRepository.findEmployeeById(id);
 	}
+
 
 
 	
