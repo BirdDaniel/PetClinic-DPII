@@ -98,7 +98,7 @@ public class EmployeeController {
 		if(isAuth(employee)  &&(this.clinicService.findByEmployee(employee)!=null )) {
 			Clinic clinic= this.clinicService.findByEmployee(employee);
 			Collection<Employee> colleagues= this.employeeService.findEmployeeByClinicId(clinic.getId());
-			colleagues.remove(employee);
+		colleagues.remove(employee);
 			model.put("colleagues", colleagues);
 			model.put("loggedUser", employee.getId());
 			return "employees/colleagues";
