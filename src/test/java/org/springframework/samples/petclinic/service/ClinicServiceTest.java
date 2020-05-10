@@ -73,6 +73,14 @@ class ClinicServiceTest {
 		Employee employee=this.employeeService.findEmployeeById(-1);
 		assertThat(this.clincService.findByEmployee(employee)).isNull();
 	}
+	@Test
+	void shouldFindEmployeeById() {
+		assertThat(this.employeeService.findEmployeeById(1)).isNotNull();
+	}
+	@Test
+	void shouldNotFindEmployeeById() {
+		assertThat(this.employeeService.findEmployeeById(-1)).isNull();
+	}
 }
 
 

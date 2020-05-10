@@ -45,6 +45,16 @@ class ResidenceServiceTest {
 		assertThat(this.residenceService.findResidenceById(-1)).isNull();
 	}
 	@Test
+	void shouldFindByEmployee() {
+		Employee employee= this.employeeService.findEmployeeById(2);
+		assertThat(this.residenceService.findByEmployee(employee)).isNotNull();
+	}
+	@Test
+	void shouldNotFindByEmployee() {
+		Employee employee= this.employeeService.findEmployeeById(-1);
+		assertThat(this.residenceService.findByEmployee(employee)).isNull();
+	}
+	@Test
 	void shouldFindResidenceByRequest() {
 		Request request = this.requestService.findById(4);
 		assertThat(this.residenceService.findResidenceByRequest(request)).isNotNull();

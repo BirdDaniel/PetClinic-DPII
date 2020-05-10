@@ -68,8 +68,17 @@ public class ClinicService {
 		return this.clinicRepository.findByEmployee(employee);
 	}
 	@Transactional
+
 	public Clinic findByItem(Item item) throws DataAccessException{
 		return this.clinicRepository.findByItem(item);
 	}
+
+	public Collection<Employee> findEmployeeById(int id) throws DataAccessException{
+		return this.clinicRepository.findEmployeeById(id);
+	}
+
+
+
+	
 
 }

@@ -45,6 +45,13 @@
 					title="Requests">
 					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
 					<span>Requests</span>
+					
+				</petclinic:menuItem>
+					<petclinic:menuItem active="${name eq 'colleaguesEmployee'}" url="/employees/${loggedUser}/colleagues"
+					title="Colleagues">
+					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+					<span>Colleagues</span>
+					
 				</petclinic:menuItem>
 				<petclinic:menuItem active="${name eq 'appointmentsEmployee'}" url="/employees/${loggedUser}/appointments"
 					title="Appointments">
