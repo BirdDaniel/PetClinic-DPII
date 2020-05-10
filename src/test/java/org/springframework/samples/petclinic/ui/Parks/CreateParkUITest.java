@@ -25,11 +25,8 @@ public class CreateParkUITest {
 
   @Before
   public void setUp() throws Exception {
-    String pathToGeckoDriver="C:/Users/Aug/Documents/DevStuff/Geckodriver";
-
-    System.setProperty("webdriver.gecko.driver",
-                        pathToGeckoDriver +
-                        "\\geckodriver.exe");
+    
+    System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
 
     driver = new FirefoxDriver();
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -37,7 +34,7 @@ public class CreateParkUITest {
 
   @Test
   public void testCreateParkUI() throws Exception {
-    driver.get("http://localhost:"+port);
+    driver.get("http://localhost:8080");
     driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
     driver.findElement(By.id("username")).clear();
     driver.findElement(By.id("username")).sendKeys("owner3");

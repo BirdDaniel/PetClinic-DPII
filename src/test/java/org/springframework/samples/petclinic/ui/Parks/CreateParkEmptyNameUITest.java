@@ -13,14 +13,11 @@ public class CreateParkEmptyNameUITest {
   private String baseUrl;
   private boolean acceptNextAlert = true;
   private StringBuffer verificationErrors = new StringBuffer();
-
+  
   @Before
   public void setUp() throws Exception {
-    String pathToGeckoDriver="C:/Users/Aug/Documents/DevStuff/Geckodriver";
 
-    System.setProperty("webdriver.gecko.driver",
-                        pathToGeckoDriver +
-                        "\\geckodriver.exe");
+    System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
 
     driver = new FirefoxDriver();
     baseUrl = "https://www.google.com/";

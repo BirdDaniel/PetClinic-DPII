@@ -16,14 +16,10 @@ public class EditParkEmptyNameUITest {
 
   @Before
   public void setUp() throws Exception {
-    String pathToGeckoDriver="C:/Users/Aug/Documents/DevStuff/Geckodriver";
+    
 
-    // String pathToGeckoDriver = System.setProperty("webdriver.gecko.driver", 
-    //               System.getenv("webdriver.gecko.driver"));
-    // System.out.println(System.getenv(".driver"));
-    System.setProperty("webdriver.gecko.driver",
-                        pathToGeckoDriver +
-                        "\\geckodriver.exe");
+    System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
+
 
     driver = new FirefoxDriver();
     baseUrl = "https://www.google.com/";
