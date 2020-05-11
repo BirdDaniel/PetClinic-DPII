@@ -176,12 +176,13 @@ public class EmployeeController {
 	}
 	@GetMapping("/{requestType}/{requestId}/{colleagueId}/reassign")
 	public String reassignRequest(final Employee employee, @PathVariable("requestId") final int id, @PathVariable("requestType") final String requestType, @PathVariable("colleagueId") final int colleagueId, final Map<String, Object> model) {
-		if (this.isAuth(employee) && this.employeeService.getRequests(employee.getId()).contains(id)) {
+
+		if (this.isAuth(employee) && this.employeeService.getRequests(employee.getId()).contains(this.requestService.findById(id))) {
 
 			if (this.clinicService.findByEmployee(employee) != null) {
 				Clinic clinic = this.clinicService.findByEmployee(employee);
 				Collection<Employee> colleagues = this.employeeService.findEmployeeByClinicId(clinic.getId());
-				if (colleagues.contains(colleagueId)) {
+				if (colleagues.contains(this.employeeService.findEmployeeById(colleagueId))) {
 					model.put("loggedUser", employee.getId());
 					Request request = this.requestService.findById(id);
 					Employee colleague = this.employeeService.findEmployeeById(colleagueId);
@@ -198,7 +199,7 @@ public class EmployeeController {
 			} else if (this.residenceService.findByEmployee(employee) != null) {
 				Residence residence = this.residenceService.findByEmployee(employee);
 				Collection<Employee> colleagues = this.employeeService.findEmployeeByResidenceId(residence.getId());
-				if (colleagues.contains(colleagueId)) {
+				if (colleagues.contains(this.employeeService.findEmployeeById(colleagueId))) {
 					model.put("loggedUser", employee.getId());
 					Request request = this.requestService.findById(id);
 					Employee colleague = this.employeeService.findEmployeeById(colleagueId);
@@ -231,7 +232,6 @@ public class EmployeeController {
 			//				return "redirect:/employees/{employeeId}/requests";
 			//			//}
 			//		}
-			//}
 		}
 		return "redirect:/oups";
 
