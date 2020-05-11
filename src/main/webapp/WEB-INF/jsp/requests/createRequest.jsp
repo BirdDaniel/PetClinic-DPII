@@ -49,10 +49,10 @@
     <h2>
         New Request for <c:out value="${residence.name}" />, <c:out value="${request.owner.firstName}"/>
     </h2>
-    <h4>You will be attended by <b><c:out value="${request.employee.firstName} ${request.employee.lastName}" /></b></h4>
     <form:form modelAttribute="request" class="form-horizontal" id="add-request-form">
         <div class="form-group has-feedback">
-            <c:if test="${service eq 'residence'}"> 
+
+            <c:if test="${service eq 'residence'}">
             <petclinic:inputField label="Date to bring your pet" name="serviceDate"/>
             <petclinic:inputField label="Date to pick up your pet" name="finishDate"/>
             </c:if>
@@ -60,7 +60,7 @@
             <petclinic:inputField label="Choose a date" name="serviceDate"/>
             </c:if>
             <div class="control-group">
-                <petclinic:selectField name="pet" label="Pet" names="${pets}" size="2"/>
+                <petclinic:selectFieldv2 name="pet" label="Pet" names="${pets}" size="2"/>
             </div>
         </div>
         <div class="form-group">
