@@ -144,6 +144,14 @@ public class Owner extends Person {
 		this.requests = requests;
 	}
 
+	public void addRequest(Request request){
+		
+		this.requests.add(request);
+
+		request.setOwner(this);
+
+	}
+
 	public String getAddress() {
 		return address;
 	}

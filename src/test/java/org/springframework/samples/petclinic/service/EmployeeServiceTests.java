@@ -18,13 +18,15 @@ import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.stereotype.Service;
+import org.springframework.test.context.TestPropertySource;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-class EmployeeServiceTests {                
+class EmployeeServiceTests {           
         
     @Autowired
     protected EmployeeService employeeService;
-
+ 
+   
 	@Test
 	void shouldFindEmployeesByLastName() {
         
@@ -70,9 +72,26 @@ class EmployeeServiceTests {
 		
 		Collection<Request> req = this.employeeService.getRequests(employee.getId());
 		
-		assertThat(req.size()).isGreaterThanOrEqualTo(3);
+		assertThat(req.size()).isEqualTo(3);
     
 	}
+	@Test
+	void shouldFindEmployeeByClinicId() {
+		assertThat(this.employeeService.findEmployeeByClinicId(1)).isNotNull();
+	}
+	@Test
+	void shouldNotFindEmployeeByClinicId() {
+		assertThat(this.employeeService.findEmployeeByClinicId(-1)).isEmpty();
+	}
+	@Test
+	void shouldFindEmployeeByResidenceId() {
+		assertThat(this.employeeService.findEmployeeByResidenceId(1)).isNotNull();
+	}
+	@Test
+	void shouldNotFindEmployeeByResidenceId() {
+		assertThat(this.employeeService.findEmployeeByResidenceId(-1)).isEmpty();
+	}
+
 
 	@Test
 	void saveEmployee(){

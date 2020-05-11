@@ -15,8 +15,13 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
+import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Item;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -25,6 +30,8 @@ import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.OwnerService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 
 /**
  * @author Juergen Hoeller
@@ -33,34 +40,57 @@ import org.springframework.samples.petclinic.service.OwnerService;
  */
 @Controller
 @RequestMapping("/clinic")
-public class ClinicController extends SecurityController {
+public class ClinicController{
 
 	private final ClinicService clinicService;
+	private final OwnerService ownerService;
 
 	@Autowired
-	public ClinicController(OwnerService ownerService,
-						EmployeeService employeeService,
-						AuthoritiesService authoritiesService,
-						ClinicService clinicService) {
-							
-					super(ownerService, employeeService, authoritiesService);
-					this.clinicService = clinicService;
+	public ClinicController(ClinicService clinicService, OwnerService ownerService) {
+		
+		this.clinicService = clinicService;
+		this.ownerService = ownerService;
 					
+	}
+
+	private Integer isAuth(){
+
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Integer ownerId = this.ownerService.findOwnerByUsername(user.getUsername()).getId();
+
+		return ownerId==null ? 0:ownerId;
+
 	}
 
 	@GetMapping(value = "/findAll")
 	public String clinics(Model model) {
-		Iterable<Clinic> clinics= this.clinicService.findAll();
-		model.addAttribute("clinics", clinics);
-		return "services/clinics";
+
+		Integer ownerId = isAuth();
+		if(ownerId!=0){
+			Iterable<Clinic> clinics= this.clinicService.findAll();
+			model.addAttribute("loggedUser", ownerId);
+			model.addAttribute("clinics", clinics);
+			return "services/clinics";
+		}
+		return "redirect:/oups";
 	}
 
 	@GetMapping("/{clinicId}")
 	public String showClinic(@PathVariable("clinicId") int clinicId,Model model) {
 		
+		Integer ownerId = isAuth();
+		if(ownerId!=0){
 		Clinic clinic=this.clinicService.findClinicById(clinicId);
+		if(clinic!=null) {
+		model.addAttribute("loggedUser", ownerId);
 		model.addAttribute("clinic",clinic);
 		return "services/clinicServiceDetails";
+		}
+		}
+		return "redirect:/oups";
+	
 	}
+	
+
 
 }

@@ -9,21 +9,17 @@ import org.springframework.samples.petclinic.model.Request;
 
 public interface RequestRepository {
 
-	Request findByOwnerId(int id);
-
 	List<Request> findRequestsByEmployeeId(int id);
 
 	Request findById(int id);
 
 	void save(Request request) throws DataAccessException;
 
-	Collection<Request> findAcceptedAll();
-	
 	Collection<Request> findAcceptedByOwnerId(int ownerId);
 
 	Collection<Request> findAcceptedByEmployeeId(int employeeId);
 
 	Collection<Request> findAcceptedResByOwnerId(int ownerId) throws DataAccessException;
-
+	
 
 }

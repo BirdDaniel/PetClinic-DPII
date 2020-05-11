@@ -15,15 +15,16 @@
  */
 package org.springframework.samples.petclinic.repository.springdatajpa;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Clinic;
-import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Item;
 import org.springframework.samples.petclinic.model.Request;
-import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.repository.ClinicRepository;
-import org.springframework.samples.petclinic.repository.RequestRepository;
 import org.springframework.samples.petclinic.repository.VetRepository;
 
 /**
@@ -35,4 +36,14 @@ import org.springframework.samples.petclinic.repository.VetRepository;
 public interface SpringDataClinicRepository extends ClinicRepository, Repository<Clinic, Integer> {
 	@Query("select c from Clinic c WHERE :request in elements(c.requests)")
 	public Clinic findByRequest(@Param("request") Request request);
+	
+	
+	@Query("select c from Clinic c WHERE :employee in elements(c.employees)")
+	public Clinic findByEmployee(@Param("employee") Employee employee);
+
+	
+	@Query("select c from Clinic c WHERE :item in elements(c.items)")
+	public Clinic findByItem(@Param("item") Item item);
+
 }
+

@@ -31,7 +31,7 @@
 				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/${loggedUser}"
 					title="My Profile">
 					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-					<span>My Profile</span>
+					<span>Profile</span>
 				</petclinic:menuItem>
 				<petclinic:menuItem active="${name eq 'requestsOwner'}" url="/owners/${loggedUser}/myRequestList"
 					title="Requests">
@@ -39,12 +39,19 @@
 					<span>Requests</span>
 				</petclinic:menuItem>
 				</sec:authorize>
+
 				<sec:authorize access="hasAuthority('employee')">
-				
 				<petclinic:menuItem active="${name eq 'requestsEmployee'}" url="/employees/${loggedUser}/requests"
 					title="Requests">
 					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
 					<span>Requests</span>
+					
+				</petclinic:menuItem>
+					<petclinic:menuItem active="${name eq 'colleaguesEmployee'}" url="/employees/${loggedUser}/colleagues"
+					title="Colleagues">
+					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+					<span>Colleagues</span>
+					
 				</petclinic:menuItem>
 				<petclinic:menuItem active="${name eq 'appointmentsEmployee'}" url="/employees/${loggedUser}/appointments"
 					title="Appointments">
@@ -65,6 +72,21 @@
 					title="clinics">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Clinics</span>
+				</petclinic:menuItem>
+				</sec:authorize>
+				<sec:authorize access="hasAuthority('owner')">
+				<petclinic:menuItem active="${name eq 'parks'}" url="/parks"
+					title="clinics">
+					<span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>
+					<span>Parks</span>
+				</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="hasAuthority('employee')">
+				<petclinic:menuItem active="${name eq 'items'}" url="/employees/${loggedUser}/itemsList"
+					title="Inventory">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					<span>Inventory</span>
 				</petclinic:menuItem>
 				</sec:authorize>
 				

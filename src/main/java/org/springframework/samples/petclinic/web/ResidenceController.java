@@ -16,17 +16,17 @@
 package org.springframework.samples.petclinic.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.samples.petclinic.service.AuthoritiesService;
-import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.ResidenceService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 
 /**
  * @author Juergen Hoeller
@@ -35,9 +35,10 @@ import org.springframework.samples.petclinic.service.ResidenceService;
  */
 @Controller
 @RequestMapping("/residence")
-public class ResidenceController extends SecurityController{
+public class ResidenceController{
 
 	private final ResidenceService residenceService;
+	private final OwnerService ownerService;
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -45,31 +46,48 @@ public class ResidenceController extends SecurityController{
 	}
 
 	@Autowired
-	public ResidenceController(OwnerService ownerService,
-							EmployeeService employeeService,
-							AuthoritiesService authoritiesService,
-							ResidenceService residenceService) {
+	public ResidenceController(ResidenceService residenceService, OwnerService ownerService) {
 
-		super(ownerService, employeeService, authoritiesService);
 		this.residenceService = residenceService;
+		this.ownerService = ownerService;
+	}
+
+	private Integer isAuth(){
+
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Integer ownerId = this.ownerService.findOwnerByUsername(user.getUsername()).getId();
+
+		return ownerId==null ? 0:ownerId;
 
 	}
 
 	@GetMapping(value = "/findAll")
 	public String residences(ModelMap model) {
-		Iterable<Residence> residences= this.residenceService.findAll();
-		model.addAttribute("residences", residences);
-		return "services/residences";
+		Integer ownerId = isAuth();
+		if(ownerId!=0){
+			Iterable<Residence> residences= this.residenceService.findAll();
+			model.addAttribute("loggedUser", ownerId);
+			model.addAttribute("residences", residences);
+			return "services/residences";
+		}
+		return "redirect:/oups";
 	}
 
 
 	@GetMapping("/{residenceId}")
 	public String showResidence(@PathVariable("residenceId") int residenceId,Model model) {
 		
-		
-		Residence residence=this.residenceService.findResidenceById(residenceId);
-		model.addAttribute("residence",residence);
-		return "services/residenceServiceDetails";
+		Integer ownerId = isAuth();
+		if(ownerId!=0){
+			Residence residence=this.residenceService.findResidenceById(residenceId);
+			if(residence!=null) {
+			model.addAttribute("loggedUser", ownerId);
+			model.addAttribute("residence",residence);
+			return "services/residenceServiceDetails";
+		}}
+		return "redirect:/oups";
 	}
+
+	
 
 }
