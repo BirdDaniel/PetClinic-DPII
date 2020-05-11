@@ -30,7 +30,10 @@ import org.springframework.test.web.servlet.MockMvc;
 public class EmployeeControllerE2E {
     
     private static final int TEST_EMPLOYEE_ID = 1;
+    private static final int TEST_EMPLOYEE_ID4=4;
+    private static final int TEST_EMPLOYEE_ID5=5;
     private static final int TEST_REQUEST_ID = 1;
+    private static final int TEST_REQUEST_ID2 = 2;
     
     @Autowired
     private EmployeeController parkController;
@@ -57,6 +60,21 @@ public class EmployeeControllerE2E {
         .andExpect(status().isOk())
         .andExpect(view().name("employees/requests"));
     }
+    //Colleagues siempre muestra la vista, si no tiene se muestra vacia.
+    @WithMockUser(value = "emp1", authorities = {"employee"})
+    @Test
+    void shouldGetColleagues() throws Exception{
+        mockMvc.perform(get("/employees/{employeeId}/colleagues", TEST_EMPLOYEE_ID))
+        .andExpect(status().isOk())
+        .andExpect(view().name("employees/colleagues"));
+    }
+	@WithMockUser(value="emp5", authorities = {"employee"})
+	@Test
+	void shouldNotGetColleagues() throws Exception {
+		mockMvc.perform(get("/employees/{employeeId}/colleagues", TEST_EMPLOYEE_ID))
+		.andExpect(status().is3xxRedirection()) //Empty page
+		.andExpect(view().name("redirect:/oups"));
+	}
 
     @WithMockUser(value = "emp2", authorities = {"employee"})
     @Test
@@ -65,6 +83,7 @@ public class EmployeeControllerE2E {
         .andExpect(status().is3xxRedirection())
         .andExpect(view().name("redirect:/oups"));
     }
+    
 
     @WithMockUser(value = "emp1", authorities = {"employee"})
     @Test
@@ -111,6 +130,55 @@ public class EmployeeControllerE2E {
         .andExpect(status().is3xxRedirection())
         .andExpect(view().name("redirect:/employees/{employeeId}/requests"));
     }
+//    //ASSIGN
+//    @WithMockUser(value = "emp1", authorities = {"employee"})
+//    @Test
+//    void shouldAssignRequest() throws Exception{
+//        mockMvc.perform(get(
+//                "/employees/{employeeId}/{requestType}/{requestId}/{colleagueId}/assign",
+//                            TEST_EMPLOYEE_ID, TEST_REQUEST_ID,TEST_REQUEST_ID2,TEST_COLLEAGUE_ID5))
+//        .andExpect(status().is3xxRedirection())
+//        .andExpect(view().name("redirect:/employees/{employeeId}/requests"));
+//    }
+//    //Reasign
+//    @WithMockUser(value = "emp1", authorities = {"employee"})
+//    @Test
+//    void shouldReassignRequest() throws Exception{
+//        mockMvc.perform(get(
+//                "/employees/{employeeId}/{requestType}/{requestId}/{colleagueId}/reassign",
+//                            TEST_EMPLOYEE_ID, TEST_REQUEST_ID,TEST_REQUEST_ID2,TEST_COLLEAGUE_ID5))
+//        .andExpect(status().is3xxRedirection())
+//        .andExpect(view().name("redirect:/employees/{employeeId}/requests"));
+//    }
+//    
+	@WithMockUser(value = "emp1",authorities = {"employee"})
+	@Test
+	void shouldGetAssignColleagues() throws Exception {
+		mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/assign", TEST_EMPLOYEE_ID, TEST_REQUEST_ID))
+		.andExpect(status().isOk())
+		.andExpect(view().name("employees/colleagues"));
+	}
+	@WithMockUser(value="emp5",authorities = {"employee"})
+	@Test
+	void shouldNotGetAssignColleagues() throws Exception {
+		mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/assign", TEST_EMPLOYEE_ID, TEST_REQUEST_ID))
+		.andExpect(status().is3xxRedirection()) //Empty page
+		.andExpect(view().name("redirect:/oups"));
+	}
+	@WithMockUser(value = "emp1",authorities = {"employee"})
+	@Test
+	void shouldGetReassignColleagues() throws Exception {
+		mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/{colleagueId}/reassign", TEST_EMPLOYEE_ID, TEST_REQUEST_ID,TEST_EMPLOYEE_ID5))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/employees/{employeeId}/requests"));
+	}
+	@WithMockUser(value="emp5",authorities = {"employee"})
+	@Test
+	void shouldNotGetReassignColleagues() throws Exception {
+		mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/{colleagueId}/reassign", TEST_EMPLOYEE_ID, TEST_REQUEST_ID,TEST_EMPLOYEE_ID4))
+		.andExpect(status().is3xxRedirection()) //Empty page
+		.andExpect(view().name("redirect:/oups"));
+	}
 
     @WithMockUser(value = "emp2", authorities = {"employee"})
     @Test

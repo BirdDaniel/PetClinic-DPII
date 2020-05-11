@@ -23,6 +23,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Item;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.repository.ResidenceRepository;
@@ -70,4 +71,8 @@ public class ResidenceService {
 		return this.residenceRepository.findByEmployee(employee);
 	}
 
+	@Transactional
+	public Residence findByItem(Item item) throws DataAccessException{
+		return this.residenceRepository.findByItem(item);
+	}
 }

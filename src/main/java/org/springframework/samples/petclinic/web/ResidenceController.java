@@ -80,10 +80,11 @@ public class ResidenceController{
 		Integer ownerId = isAuth();
 		if(ownerId!=0){
 			Residence residence=this.residenceService.findResidenceById(residenceId);
+			if(residence!=null) {
 			model.addAttribute("loggedUser", ownerId);
 			model.addAttribute("residence",residence);
 			return "services/residenceServiceDetails";
-		}
+		}}
 		return "redirect:/oups";
 	}
 
