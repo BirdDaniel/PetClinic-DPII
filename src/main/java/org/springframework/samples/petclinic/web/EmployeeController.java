@@ -215,22 +215,6 @@ public class EmployeeController {
 
 			}
 
-			//			if (this.isAuth(employee)) {
-			//				//	if(model.get("assign").equals(true)) {
-			//				model.put("loggedUser", employee.getId());
-			//				Request request = this.requestService.findById(id);
-			//				Employee colleague = this.employeeService.findEmployeeById(colleagueId);
-			//				model.put("assign", false);
-			//				if (request != null) {
-			//
-			//					request.setEmployee(colleague);
-			//					this.requestService.save(request);
-			//
-			//				}
-			//
-			//				return "redirect:/employees/{employeeId}/requests";
-			//			//}
-			//		}
 		}
 		return "redirect:/oups";
 

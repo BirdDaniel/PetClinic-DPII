@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +22,7 @@ import org.springframework.samples.petclinic.configuration.SecurityConfiguration
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Request;
+import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.ItemService;
@@ -34,13 +37,13 @@ import org.springframework.test.web.servlet.MockMvc;
 				excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
 				classes = WebSecurityConfigurer.class),
 				excludeAutoConfiguration= SecurityConfiguration.class)
-	class EmployeeControllerTests {
+public	class EmployeeControllerTests {
 	
 	private static final int TEST_EMPLOYEE_ID = 1;
 	private static final int TEST_EMPLOYEE_ID4 = 4;
 	private static final int TEST_REQUEST_ID = 1;
 	private static final int TEST_CLINIC_ID = 1;
-	
+	private static final int TEST_RESIDENCE_ID=1;
 	@Autowired
 	private EmployeeController employeeController;
 	
@@ -72,12 +75,16 @@ import org.springframework.test.web.servlet.MockMvc;
 
 		Request request = new Request();
 		request.setId(TEST_REQUEST_ID);
-		
+	
+		Residence residence=new Residence();
+		residence.setId(TEST_RESIDENCE_ID);
 		Clinic clinic=new Clinic();
 		clinic.setId(TEST_CLINIC_ID);
 		Collection<Employee> employees= new ArrayList<Employee>();
 		employees.add(george);
 		employees.add(juan);
+		Set<Request> requests=new HashSet<Request>();
+		requests.add(request);
 		// MOCK de los Services
 		given(this.employeeService.findByUsername("emp1")).willReturn(1);
 		given(this.employeeService.findByUsername("emp2")).willReturn(2);
@@ -85,17 +92,18 @@ import org.springframework.test.web.servlet.MockMvc;
 		given(this.employeeService.findEmployeeById(TEST_EMPLOYEE_ID)).willReturn(george);
 		given(this.clinicService.findByEmployee(george)).willReturn(clinic);
 		given(this.employeeService.findEmployeeByClinicId(TEST_CLINIC_ID)).willReturn(employees);
-
+		given(this.employeeService.getRequests(TEST_EMPLOYEE_ID)).willReturn(requests);
 		given(this.requestService.findById(TEST_REQUEST_ID)).willReturn(request);
-
+		given(this.employeeService.findEmployeeByResidenceId(TEST_RESIDENCE_ID)).willReturn(employees);
+		given(this.employeeService.findEmployeeById(TEST_EMPLOYEE_ID4)).willReturn(juan);
 	}
 
 
 	//-----------------------------------REQUESTS:START-----------------------//
-	@WithMockUser(value = "emp1")
+	@WithMockUser(value = "emp4")
 	@Test
 	void shouldGetRequests() throws Exception {
-		mockMvc.perform(get("/employees/{employeeId}/requests", TEST_EMPLOYEE_ID))
+		mockMvc.perform(get("/employees/{employeeId}/requests", TEST_EMPLOYEE_ID4))
 		.andExpect(status().isOk())
 		.andExpect(view().name("employees/requests"));
 	}
@@ -192,6 +200,34 @@ import org.springframework.test.web.servlet.MockMvc;
 			mockMvc.perform(get("/employees/{employeeId}/colleagues", TEST_EMPLOYEE_ID))
 			.andExpect(status().isOk())
 			.andExpect(view().name("employees/colleagues"));
+		}
+		@WithMockUser(value = "emp1")
+		@Test
+		void shouldGetAssignColleagues() throws Exception {
+			mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/assign", TEST_EMPLOYEE_ID, TEST_REQUEST_ID))
+			.andExpect(status().isOk())
+			.andExpect(view().name("employees/colleagues"));
+		}
+		@WithMockUser(value="emp5")
+		@Test
+		void shouldNotGetAssignColleagues() throws Exception {
+			mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/assign", TEST_EMPLOYEE_ID, TEST_REQUEST_ID))
+			.andExpect(status().is3xxRedirection()) //Empty page
+			.andExpect(view().name("redirect:/oups"));
+		}
+		@WithMockUser(value = "emp1")
+		@Test
+		void shouldGetReassignColleagues() throws Exception {
+			mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/{colleagueId}/reassign", TEST_EMPLOYEE_ID, TEST_REQUEST_ID,TEST_EMPLOYEE_ID4))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name("redirect:/employees/{employeeId}/requests"));
+		}
+		@WithMockUser(value="emp5")
+		@Test
+		void shouldNotGetReassignColleagues() throws Exception {
+			mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/{colleagueId}/reassign", TEST_EMPLOYEE_ID, TEST_REQUEST_ID,TEST_EMPLOYEE_ID4))
+			.andExpect(status().is3xxRedirection()) //Empty page
+			.andExpect(view().name("redirect:/oups"));
 		}
 }
 
