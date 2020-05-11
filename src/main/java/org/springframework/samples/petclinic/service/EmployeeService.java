@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.repository.EmployeeRepository;
@@ -59,6 +60,11 @@ public class EmployeeService {
 			saveEmployee(emp);
 		}
 	}
+	
+	@Transactional
+	public Iterable<Employee> findAll(){
+		return employeeRepository.findAll();
+	}
 
 	@Transactional
 	public void saveEmployee(Employee employee) throws DataAccessException {
@@ -69,5 +75,12 @@ public class EmployeeService {
 		// creating authorities
 		authoritiesService.saveAuthorities(employee.getUser().getUsername(), "employee");
 	}
-
+	@Transactional
+	public Collection<Employee> findEmployeeByClinicId(int id){
+		return employeeRepository.findEmployeeByClinicId(id);
+	}
+	@Transactional
+	public Collection<Employee> findEmployeeByResidenceId(int id){
+		return employeeRepository.findEmployeeByResidenceId(id);
+	}
 }

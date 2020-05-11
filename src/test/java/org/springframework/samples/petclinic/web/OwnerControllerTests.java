@@ -84,7 +84,7 @@ class OwnerControllerTests {
 	
 	@MockBean
 	private Model model;
-	
+
 	private Request reqEmpty;
 	
 	private Request reqClinic;
