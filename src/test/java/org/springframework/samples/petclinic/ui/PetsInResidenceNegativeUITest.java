@@ -32,8 +32,7 @@ public class PetsInResidenceNegativeUITest {
 
 	  @BeforeEach
 	  public void setUp() throws Exception {
-		  String pathToGeckoDriver="C:\\Users\\Josan\\OneDrive\\Escritorio\\Selenium"; 
-		  System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe"); 
+        System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver")); 
 	    driver = new FirefoxDriver();
 	    baseUrl = "https://www.google.com/";
 	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
