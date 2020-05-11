@@ -1,6 +1,8 @@
 
 package org.springframework.samples.petclinic.ui;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.concurrent.TimeUnit;
 
 import org.hamcrest.CoreMatchers;
@@ -51,8 +53,8 @@ public class ColleaguePositiveUITest {
 		this.driver.findElement(By.xpath("//div")).click();
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		this.driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a")).click();
-		Assert.assertThat("Something happened...", CoreMatchers.is(CoreMatchers.not(this.driver.findElement(By.xpath("//h2")).getText())));
-	}
+		Assert.assertTrue(isElementPresent(By.xpath("//table[@id='colleagueTable']")));	
+		}
 
 	@AfterEach
 	public void tearDown() throws Exception {

@@ -1,6 +1,8 @@
 
 package org.springframework.samples.petclinic.ui;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
@@ -51,12 +53,12 @@ public class ReAssignPositiveUITest {
 		this.driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[2]/a")).click();
 		this.driver.findElement(By.xpath("//table[@id='requestsTable']/tbody/tr/td[6]/a")).click();
 		this.driver.findElement(By.xpath("//table[@id='colleagueTable']/tbody/tr/td[6]/a")).click();
-
+		Assert.assertTrue(isElementPresent(By.xpath("//table[@id='requestsTable']")));
 	}
 
 	@AfterEach
 	public void tearDown() throws Exception {
-		this.driver.quit();
+		this.driver.quit(); 
 		String verificationErrorString = this.verificationErrors.toString();
 		if (!"".equals(verificationErrorString)) {
 			Assert.fail(verificationErrorString);

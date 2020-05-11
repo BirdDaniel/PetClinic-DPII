@@ -5,6 +5,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.service.ClinicService;
@@ -35,6 +39,7 @@ import org.springframework.test.web.servlet.MockMvc;
 	private static final int TEST_EMPLOYEE_ID = 1;
 	private static final int TEST_EMPLOYEE_ID4 = 4;
 	private static final int TEST_REQUEST_ID = 1;
+	private static final int TEST_CLINIC_ID = 1;
 	
 	@Autowired
 	private EmployeeController employeeController;
@@ -62,16 +67,24 @@ import org.springframework.test.web.servlet.MockMvc;
 
 		Employee george = new Employee();
 		george.setId(TEST_EMPLOYEE_ID);
+		Employee juan = new Employee();
+		juan.setId(TEST_EMPLOYEE_ID4);
 
 		Request request = new Request();
 		request.setId(TEST_REQUEST_ID);
-
+		
+		Clinic clinic=new Clinic();
+		clinic.setId(TEST_CLINIC_ID);
+		Collection<Employee> employees= new ArrayList<Employee>();
+		employees.add(george);
+		employees.add(juan);
 		// MOCK de los Services
 		given(this.employeeService.findByUsername("emp1")).willReturn(1);
 		given(this.employeeService.findByUsername("emp2")).willReturn(2);
 		given(this.employeeService.findByUsername("emp4")).willReturn(4);
 		given(this.employeeService.findEmployeeById(TEST_EMPLOYEE_ID)).willReturn(george);
-		
+		given(this.clinicService.findByEmployee(george)).willReturn(clinic);
+		given(this.employeeService.findEmployeeByClinicId(TEST_CLINIC_ID)).willReturn(employees);
 
 		given(this.requestService.findById(TEST_REQUEST_ID)).willReturn(request);
 
@@ -164,27 +177,21 @@ import org.springframework.test.web.servlet.MockMvc;
 		.andExpect(view().name("redirect:/oups"));
 	}
 	//-----------------------------------Colleagues-----------------------//
-//		@WithMockUser(value="emp4")
-//		@Test
-//		void shouldGetColleagues() throws Exception {
-//			mockMvc.perform(get("/employees/{employeeId}/colleagues", TEST_EMPLOYEE_ID4))
-//			.andExpect(status().isOk())
-//			.andExpect(view().name("/employees/colleagues"));
-//		}
-//
-//		@WithMockUser(value="emp1")
-//		@Test
-//		void shouldNotGetColleagues() throws Exception {
-//			mockMvc.perform(get("/employees/{employeeId}/colleagues", TEST_EMPLOYEE_ID))
-//			.andExpect(status().is3xxRedirection()) //Empty page
-//			.andExpect(view().name("/employees/colleagues"));
-//		}
-//		@WithMockUser(value = "emp1")
-//		@Test
-//		void shouldGetColleagues1() throws Exception {
-//			mockMvc.perform(get("/employees/{employeeId}/colleagues", TEST_EMPLOYEE_ID))
-//			.andExpect(status().isOk())
-//			.andExpect(view().name("employees/colleagues"));
-//		}
+
+
+		@WithMockUser(value="emp5")
+		@Test
+		void shouldNotGetColleagues() throws Exception {
+			mockMvc.perform(get("/employees/{employeeId}/colleagues", TEST_EMPLOYEE_ID))
+			.andExpect(status().is3xxRedirection()) //Empty page
+			.andExpect(view().name("redirect:/oups"));
+		}
+		@WithMockUser(value = "emp1")
+		@Test
+		void shouldGetColleagues1() throws Exception {
+			mockMvc.perform(get("/employees/{employeeId}/colleagues", TEST_EMPLOYEE_ID))
+			.andExpect(status().isOk())
+			.andExpect(view().name("employees/colleagues"));
+		}
 }
 
