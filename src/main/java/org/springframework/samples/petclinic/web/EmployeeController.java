@@ -69,7 +69,6 @@ public class EmployeeController {
 
 	@GetMapping("/requests")
 	public String RequestsEmployee(final Employee employee, final Map<String, Object> model) {
-
 		if (this.isAuth(employee)) {
 
 			SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getRequestDate));

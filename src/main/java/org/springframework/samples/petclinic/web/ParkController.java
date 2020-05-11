@@ -47,7 +47,7 @@ public class ParkController {
     private Integer isAuth(){
 
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Integer ownerId = this.ownerService.findOwnerByUsername(user.getUsername()).getId();
+		Integer ownerId = this.ownerService.findIdByUsername(user.getUsername());
 
 		return ownerId==null ? 0:ownerId;
 
@@ -56,13 +56,11 @@ public class ParkController {
     @GetMapping("")
     public String getParks(Model model){
         
-        Integer userLogged = isAuth();
-
-        List<Park> parks = this.parkService.findAllParks();
-        model.addAttribute("loggedUser", userLogged);
-        model.addAttribute("parks", parks);
-        return VIEW_PARK_LIST;
         
+            List<Park> parks = this.parkService.findAllParks();
+            model.addAttribute("loggedUser", isAuth());
+            model.addAttribute("parks", parks);
+            return VIEW_PARK_LIST;
 
     }
 
@@ -70,6 +68,7 @@ public class ParkController {
     public String createPark(Model model){
 
         Owner loggedUser = this.ownerService.findOwnerById(isAuth());
+        
         if(loggedUser!=null){
             Park park = new Park();
             park.setOwner(loggedUser);
@@ -102,14 +101,16 @@ public class ParkController {
     @GetMapping("/{parkId}/edit")
     public String editPark(@PathVariable("parkId")Integer parkId, Model model){
 
-        Owner loggedUser = this.ownerService.findOwnerById(isAuth());
+        Integer loggedUser = isAuth();
         
-        if(loggedUser!=null){
+        if(loggedUser!=0 ){
             Park park = this.parkService.findById(parkId);
-            park.setOwner(loggedUser);
-            model.addAttribute("loggedUser", loggedUser.getId());
-            model.addAttribute(park);
-            return VIEW_CREATE_OR_EDIT_PARK;
+            // park.setOwner(loggedUser);
+            if(park.getOwner().getId()==loggedUser){
+                model.addAttribute("loggedUser", loggedUser);
+                model.addAttribute(park);
+                return VIEW_CREATE_OR_EDIT_PARK;
+            }
         }
 
         return "redirect:/oups";
@@ -117,29 +118,40 @@ public class ParkController {
 
     @PostMapping("/{parkId}/edit")
     public String saveUpdatedPark(@PathVariable("parkId")Integer parkId,@Valid Park park, BindingResult result,Model model){
+        
         if(result.hasErrors()){
             model.addAttribute("loggedUser", isAuth());
             model.addAttribute(park);
 			return VIEW_CREATE_OR_EDIT_PARK;
-        }else {
-            System.out.println(park);
-            Park parkToUpdate = this.parkService.findById(parkId);
+        }
+
+        Park parkToUpdate = this.parkService.findById(parkId);
+        
+        if(parkToUpdate.getOwner().getId()==isAuth()){
             BeanUtils.copyProperties(park, parkToUpdate, "id", "owner");
             this.parkService.savePark(parkToUpdate);
             model.addAttribute("loggedUser", isAuth());
             return "redirect:/parks";
         }
+
+        return "redirect:/oups";
+        
         
     }
 
     @GetMapping("/{parkId}/delete")
     public String deletePark(@PathVariable("parkId") Integer parkId, Model model) {
  
-        Owner loggedUser = this.ownerService.findOwnerById(isAuth());
+        Integer loggedUser = isAuth();
 
-        if(loggedUser!=null){
-            this.parkService.deletePark(parkId);
-            return "redirect:/parks";
+        if(loggedUser!=0){
+            
+            Park parkToDelete = this.parkService.findById(parkId);
+
+            if(parkToDelete.getOwner().getId()==loggedUser){
+                this.parkService.deletePark(parkId);
+                return "redirect:/parks";
+            }
         }
         
         return "redirect:/oups";
