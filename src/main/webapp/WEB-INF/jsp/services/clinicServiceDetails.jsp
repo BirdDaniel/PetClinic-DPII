@@ -65,5 +65,10 @@
             <spring:param name="clinicId" value="${clinic.id}"/>
         </spring:url>
       <a href="${fn:escapeXml(reqUrl)}" class="btn btn-default">Make a request</a>
+      
+     <spring:url value="/pay/{clinicId}" var="payUrl">
+            <spring:param name="clinicId" value="${clinic.id}"/>
+        </spring:url>
+      <a href="${fn:escapeXml(payUrl)}" class="btn btn-default">Pay with PayPal</a>
 
 </petclinic:layout>

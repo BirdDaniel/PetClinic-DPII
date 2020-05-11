@@ -28,6 +28,7 @@ INSERT INTO users(username,password,enabled) VALUES ('owner3','0wn3r',TRUE);
  INSERT INTO authorities VALUES ('emp3','employee');
  INSERT INTO users(username,password,enabled) VALUES ('emp4','3mpl0',TRUE);
  INSERT INTO authorities VALUES ('emp4','employee');
+
  INSERT INTO users(username,password,enabled) VALUES ('emp5','3mpl0',TRUE);
  INSERT INTO authorities VALUES ('emp5','employee');
  INSERT INTO users(username,password,enabled) VALUES ('emp6','3mpl0',TRUE);
@@ -41,6 +42,7 @@ INSERT INTO users(username,password,enabled) VALUES ('owner3','0wn3r',TRUE);
   INSERT INTO users(username,password,enabled) VALUES ('emp10','3mpl0',TRUE);
  INSERT INTO authorities VALUES ('emp10','employee');
  
+
 
 --INSERT INTO owners VALUES (id, firstName, LastName, telephone, address, username);
  INSERT INTO owners VALUES (1, 'David', 'Seder','6085559435' , '2749 Blackhawk Trail', 'owner1');
@@ -115,6 +117,7 @@ INSERT INTO residences VALUES (3, 'Pet Stay','Avenida Doctor Fedriani, 3, 2ºC',
 INSERT INTO employees VALUES (1, 'Marta', 'Carter', '679845125','65847525H','emp1');
 INSERT INTO employees VALUES (2, 'Jeorge', 'Frank', '6115551023', '87654321A', 'emp2');
 INSERT INTO employees VALUES (3, 'Hoss', 'Mad', '6115551023', '87654721A', 'emp3');
+
 INSERT INTO employees VALUES (4, 'No Hose', 'Mad', '614555623', '87654341A', 'emp4');
 INSERT INTO employees VALUES (5, 'Alicia', 'Ruiz', '679555525','65847525H','emp5');
 INSERT INTO employees VALUES (6, 'Alfred', 'Williams', '698761023', '87654321A', 'emp6');
@@ -122,6 +125,7 @@ INSERT INTO employees VALUES (7, 'Janet', 'Smith', '615453223', '87654721A', 'em
 INSERT INTO employees VALUES (8, 'Raul', 'Gonzalez', '613876603', '87654341A', 'emp8');
 INSERT INTO employees VALUES (9, 'Sarah', 'Gomez', '615453223', '87654721A', 'emp9');
 INSERT INTO employees VALUES (10, 'John', 'Jones', '613876603', '87654341A', 'emp10');
+
 
 --INSERT INTO requests(id,date_finish, date_req, date_ser, status, employee_id, owner_id, pet_id);
 INSERT INTO requests VALUES (4, '2020-12-12 12:00', '2020-01-01 13:00','2020-02-02 17:00', true, 1, 1, 1);
@@ -153,6 +157,7 @@ INSERT INTO clinics_requests VALUES (2, 3);
 --INSERT INTO clinics_employees(clinic_id, employees_id);
   INSERT INTO clinics_employees VALUES (1, 1);
   INSERT INTO clinics_employees VALUES (2, 2);
+
   INSERT INTO clinics_employees VALUES (1, 5);
   INSERT INTO clinics_employees VALUES (2, 6);
   
@@ -163,6 +168,7 @@ INSERT INTO clinics_requests VALUES (2, 3);
   INSERT INTO residences_employees VALUES (2, 8);
    INSERT INTO residences_employees VALUES (1, 9);
   INSERT INTO residences_employees VALUES (1, 10);
+
 
 --INSERT INTO clinics_payments VALUES (clinics_id, payments_id);
 -- INSERT INTO clinics_payments VALUES (1, 1);

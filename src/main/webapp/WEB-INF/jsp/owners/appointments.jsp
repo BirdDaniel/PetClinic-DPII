@@ -7,33 +7,37 @@
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
 <petclinic:layout pageName="appointmentsOwner">
+    <h2>
+        <c:out value="${owner.firstName}" /><span> </span> <c:out value="${owner.lastName}"/>'s requests
+    </h2>
     <table id="requestsTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 150px;">Request Date</th>
-            <th style="width: 150px;">Service Date</th>
-            <th style="width: 200px;">Pet</th>
-            <th style="width: 200px;">Owner</th>
-            <th style="width: 250px">Status</th>
+
+           <th style="width: 100px;">Service Date</th>
+            <th style="width: 120px;">Pet</th>
+            <th style="width: 180px">Status</th>
+            <th style="width: 150px;">Payment</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${requests}" var="request">
             <tr>
-              <td><javatime:format value="${request.requestDate}" pattern="yyyy/MM/dd HH:mm"/></td>
-
               <td><javatime:format value="${request.serviceDate}" pattern="yyyy/MM/dd HH:mm"/></td>
-
-                 
                 <td>
                     <c:out value="${request.pet.name}"/>
-                </td>
-                <td>
-                   <c:out value="${request.owner.firstName} ${request.owner.lastName}"/>
-                </td>    
+                </td>   
                 <td> 
                      <c:out value="Accepted" />
-                </td>             
+                </td> 
+                
+                 <td>
+                   <spring:url value="/pay/{requestId}" var="payUrl">
+         		   <spring:param name="requestId" value="${request.id}"/>
+       			   </spring:url>
+    	  		   <a href="${fn:escapeXml(payUrl)}" class="btn btn-default">Pay with PayPal</a>
+                 </td>    
+                         
             </tr>
         </c:forEach>
         </tbody>

@@ -239,7 +239,6 @@ class OwnerControllerTests {
 	}
 	
 	//OWNER MYREQUESTLIST
-	
 	@WithMockUser(value = "owner1")
 	@Test
 	void shouldViewOwnerMyRequestList() throws Exception{

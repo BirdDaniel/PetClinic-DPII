@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.service;
+package org.springframework.samples.petclinic.dbintegration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,16 +17,16 @@ import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.TestPropertySource;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-class EmployeeServiceTests {           
-        
+@TestPropertySource(locations = "classpath:application-mysql.properties")
+public class EmployeeServiceTest {
     @Autowired
     protected EmployeeService employeeService;
- 
-   
+
 	@Test
 	void shouldFindEmployeesByLastName() {
         
@@ -75,23 +75,6 @@ class EmployeeServiceTests {
 		assertThat(req.size()).isEqualTo(3);
     
 	}
-	@Test
-	void shouldFindEmployeeByClinicId() {
-		assertThat(this.employeeService.findEmployeeByClinicId(1)).isNotNull();
-	}
-	@Test
-	void shouldNotFindEmployeeByClinicId() {
-		assertThat(this.employeeService.findEmployeeByClinicId(-1)).isEmpty();
-	}
-	@Test
-	void shouldFindEmployeeByResidenceId() {
-		assertThat(this.employeeService.findEmployeeByResidenceId(1)).isNotNull();
-	}
-	@Test
-	void shouldNotFindEmployeeByResidenceId() {
-		assertThat(this.employeeService.findEmployeeByResidenceId(-1)).isEmpty();
-	}
-
 
 	@Test
 	void saveEmployee(){
