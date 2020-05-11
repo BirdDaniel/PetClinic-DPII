@@ -25,9 +25,7 @@
             <tr>
                 <td valign="top">
                     <dl class="dl-horizontal">
-                        <dt>Request Date</dt>
-						<dd><javatime:format value="${request.requestDate}" pattern="yyyy/MM/dd HH:mm"/></dd>
-						<dt>Service Date</dt>
+                        <dt>Service Date</dt>
 						<dd><javatime:format value="${request.serviceDate}" pattern="yyyy/MM/dd HH:mm"/></dd>
 						<dt>Employee</dt>
 						<dd><c:out value="With: ${request.employee.firstName} ${request.employee.lastName}"/></dd>

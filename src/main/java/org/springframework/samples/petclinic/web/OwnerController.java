@@ -173,8 +173,10 @@ public class OwnerController {
 	public String appointmentsForm(@PathVariable("ownerId") int ownerId, ModelMap model) {
 		if(isAuth(ownerId)){
 			Collection<Request> requests = this.requestService.findAcceptedByOwnerId(ownerId);
+			Owner owner = this.ownerService.findOwnerById(ownerId);
 			model.addAttribute("requests", requests);
 			model.addAttribute("loggedUser", ownerId);
+			model.addAttribute("owner", owner);
 			return "owners/appointments";
 		}
 

@@ -26,6 +26,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;

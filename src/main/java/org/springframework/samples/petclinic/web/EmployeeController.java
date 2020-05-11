@@ -73,7 +73,7 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/requests")
-	public String RequestsEmployee(Employee employee, Map<String, Object> model) {
+	public String getRequestsEmployee(Employee employee, Map<String, Object> model) {
 
 		if(isAuth(employee)){
 
