@@ -36,6 +36,7 @@ public class RequestService {
 	public void save(Request request) {
 		this.requestRepository.save(request);
 	}
+	
 
 	@Transactional(readOnly = true)
 	public Collection<Request> findAcceptedByOwnerId(int id) throws DataAccessException {

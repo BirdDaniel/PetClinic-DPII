@@ -22,7 +22,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
-import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Request;
@@ -39,12 +38,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -86,11 +83,8 @@ public class OwnerController {
 	}
 
 	private boolean isAuth(int ownerId) {
-		System.out.println(ownerId);
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		System.out.println(user);
 		Integer loggedId = this.ownerService.findIdByUsername(user.getUsername());
-		System.out.println(loggedId);
 		return ownerId == loggedId; 
 	}
 
@@ -99,20 +93,15 @@ public class OwnerController {
 		dataBinder.setDisallowedFields("id");
 	}
 
-	@ModelAttribute("owner")
-	public Owner findOwner(@PathVariable("ownerId") int ownerId) {
-		return this.ownerService.findOwnerById(ownerId);
-	}
-
 	
 	@GetMapping("/owners/{ownerId}")
-	public String showOwner(Owner owner, ModelMap model) {
+	public String showOwner(@PathVariable("ownerId") int ownerId, Model model) {
 
-		System.out.println(owner);
-		if(isAuth(owner.getId())){
+		if(isAuth(ownerId)){
 
+			Owner owner = this.ownerService.findOwnerById(ownerId);
 			model.addAttribute(owner);
-			model.addAttribute("loggedUser", owner.getId());
+			model.addAttribute("loggedUser", ownerId);
 			return "owners/ownerDetails";
 
 		}
@@ -121,7 +110,7 @@ public class OwnerController {
 	}
 
 	@GetMapping(value = "/owners/{ownerId}/edit")
-	public String initEditOwnerForm(@PathVariable("ownerId") int ownerId, ModelMap model) {
+	public String initEditOwnerForm(@PathVariable("ownerId") int ownerId, Model model) {
 
 		if(isAuth(ownerId)){
 			Owner owner = this.ownerService.findOwnerById(ownerId);
@@ -134,7 +123,7 @@ public class OwnerController {
 
 	@PostMapping(value = "/owners/{ownerId}/edit")
 	public String processEditOwnerForm(@Valid Owner owner, BindingResult result,
-			@PathVariable("ownerId") int ownerId, ModelMap model) {
+			@PathVariable("ownerId") int ownerId, Model model) {
 		
 		if(isAuth(ownerId)){
 			if (result.hasErrors()) {
@@ -157,7 +146,7 @@ public class OwnerController {
 	/**Obtain a Request list of a Owner*/
 	//Dani
 	@GetMapping(value = "/owners/{ownerId}/myRequestList")
-	public String requestListForm(@PathVariable("ownerId") int ownerId, ModelMap model) {
+	public String requestListForm(@PathVariable("ownerId") int ownerId, Model model) {
 
 		if(isAuth(ownerId)) {
 			Owner owner = this.ownerService.findOwnerById(ownerId);
@@ -170,7 +159,7 @@ public class OwnerController {
 	
 	/**Obtain a Request list of a Owner only accepted*/
 	@GetMapping(value = "/owners/{ownerId}/appointments")
-	public String appointmentsForm(@PathVariable("ownerId") int ownerId, ModelMap model) {
+	public String appointmentsForm(@PathVariable("ownerId") int ownerId, Model model) {
 		if(isAuth(ownerId)){
 			Collection<Request> requests = this.requestService.findAcceptedByOwnerId(ownerId);
 			Owner owner = this.ownerService.findOwnerById(ownerId);
@@ -186,7 +175,7 @@ public class OwnerController {
 	
 	//Grupo Dani y Josan
 	@GetMapping(value = "/owners/{ownerId}/myPetList/residence")
-	public String requestPetResidence(@PathVariable("ownerId") int ownerId, ModelMap model) {
+	public String requestPetResidence(@PathVariable("ownerId") int ownerId, Model model) {
 
 		if(isAuth(ownerId)){
 			Collection<Request> reqs = this.requestService.findAcceptedResByOwnerId(ownerId);
@@ -199,7 +188,7 @@ public class OwnerController {
 	
 	//Grupo Dani y Josan
 	@GetMapping(value = "/owners/{ownerId}/myPetList")
-	public String processFindForm2(@PathVariable("ownerId") int ownerId, Pet pet,  BindingResult result, ModelMap model) {
+	public String processFindForm2(@PathVariable("ownerId") int ownerId, Pet pet,  BindingResult result, Model model) {
 		if(isAuth(ownerId)){
 			Owner owner = this.ownerService.findOwnerById(ownerId);
 			if (pet.getName() == null) {
@@ -227,7 +216,7 @@ public class OwnerController {
 	
 	@GetMapping(value = "/owners/{ownerId}/myRequestList/{requestId}/details")
 	public String servicesForm(@PathVariable("requestId") int requestId,
-								@PathVariable("ownerId") int ownerId, ModelMap model) {
+								@PathVariable("ownerId") int ownerId, Model model) {
 		if(isAuth(ownerId)){
 			Request req = this.requestService.findById(requestId);
 			model.addAttribute("loggedUser", ownerId);

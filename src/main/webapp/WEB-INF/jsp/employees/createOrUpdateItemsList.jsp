@@ -12,7 +12,6 @@
     </h2>
     <form:form modelAttribute="item" class="form-horizontal" id="add-item-form">
         <div class="form-group has-feedback">
-        	<input type="hidden" name="id" value="${pet.id}"/>
             <petclinic:inputField label="Name" name="name"/>
             <petclinic:inputField label="Price" name="price"/>
             <petclinic:inputField label="Sale" name="sale"/>

@@ -25,8 +25,7 @@ class EmployeeServiceTests {
         
     @Autowired
     protected EmployeeService employeeService;
- 
-   
+
 	@Test
 	void shouldFindEmployeesByLastName() {
         
@@ -75,23 +74,6 @@ class EmployeeServiceTests {
 		assertThat(req.size()).isEqualTo(3);
     
 	}
-	@Test
-	void shouldFindEmployeeByClinicId() {
-		assertThat(this.employeeService.findEmployeeByClinicId(1)).isNotNull();
-	}
-	@Test
-	void shouldNotFindEmployeeByClinicId() {
-		assertThat(this.employeeService.findEmployeeByClinicId(-1)).isEmpty();
-	}
-	@Test
-	void shouldFindEmployeeByResidenceId() {
-		assertThat(this.employeeService.findEmployeeByResidenceId(1)).isNotNull();
-	}
-	@Test
-	void shouldNotFindEmployeeByResidenceId() {
-		assertThat(this.employeeService.findEmployeeByResidenceId(-1)).isEmpty();
-	}
-
 
 	@Test
 	void saveEmployee(){

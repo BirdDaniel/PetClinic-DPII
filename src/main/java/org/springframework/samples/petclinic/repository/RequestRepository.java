@@ -20,6 +20,6 @@ public interface RequestRepository {
 	Collection<Request> findAcceptedByEmployeeId(int employeeId);
 
 	Collection<Request> findAcceptedResByOwnerId(int ownerId) throws DataAccessException;
-	
+
 
 }

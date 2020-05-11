@@ -62,8 +62,5 @@ public interface EmployeeRepository {
 	 * @see BaseEntity#isNew
 	 */
 	void save(Employee employee) throws DataAccessException;
-	Collection<Employee> findAll() throws DataAccessException;
 
-	Collection<Employee> findEmployeeByClinicId(int id) throws DataAccessException;
-	Collection<Employee> findEmployeeByResidenceId(int id) throws DataAccessException;
 }

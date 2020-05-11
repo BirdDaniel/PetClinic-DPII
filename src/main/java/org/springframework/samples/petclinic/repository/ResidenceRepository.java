@@ -6,7 +6,6 @@ import java.util.Collection;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
-import org.springframework.samples.petclinic.model.Item;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
 
@@ -52,6 +51,4 @@ public interface ResidenceRepository {
 	Collection<Request> findReqsResidence() throws DataAccessException;
 	
 	Residence findByEmployee(Employee employee) throws DataAccessException;
-	
-	Residence findByItem(Item item) throws DataAccessException;
 }

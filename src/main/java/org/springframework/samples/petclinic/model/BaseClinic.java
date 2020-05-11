@@ -39,7 +39,7 @@ public class BaseClinic extends NamedEntity {
 	private String address;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	protected Set<Employee> employees;
+	private Set<Employee> employees;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Payment> payments;

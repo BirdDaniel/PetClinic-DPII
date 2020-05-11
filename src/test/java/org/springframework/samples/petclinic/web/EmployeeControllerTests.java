@@ -33,7 +33,6 @@ import org.springframework.test.web.servlet.MockMvc;
 	class EmployeeControllerTests {
 	
 	private static final int TEST_EMPLOYEE_ID = 1;
-	private static final int TEST_EMPLOYEE_ID4 = 4;
 	private static final int TEST_REQUEST_ID = 1;
 	
 	@Autowired
@@ -69,9 +68,7 @@ import org.springframework.test.web.servlet.MockMvc;
 		// MOCK de los Services
 		given(this.employeeService.findByUsername("emp1")).willReturn(1);
 		given(this.employeeService.findByUsername("emp2")).willReturn(2);
-		given(this.employeeService.findByUsername("emp4")).willReturn(4);
 		given(this.employeeService.findEmployeeById(TEST_EMPLOYEE_ID)).willReturn(george);
-		
 
 		given(this.requestService.findById(TEST_REQUEST_ID)).willReturn(request);
 
@@ -163,28 +160,6 @@ import org.springframework.test.web.servlet.MockMvc;
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/oups"));
 	}
-	//-----------------------------------Colleagues-----------------------//
-//		@WithMockUser(value="emp4")
-//		@Test
-//		void shouldGetColleagues() throws Exception {
-//			mockMvc.perform(get("/employees/{employeeId}/colleagues", TEST_EMPLOYEE_ID4))
-//			.andExpect(status().isOk())
-//			.andExpect(view().name("/employees/colleagues"));
-//		}
-//
-//		@WithMockUser(value="emp1")
-//		@Test
-//		void shouldNotGetColleagues() throws Exception {
-//			mockMvc.perform(get("/employees/{employeeId}/colleagues", TEST_EMPLOYEE_ID))
-//			.andExpect(status().is3xxRedirection()) //Empty page
-//			.andExpect(view().name("/employees/colleagues"));
-//		}
-//		@WithMockUser(value = "emp1")
-//		@Test
-//		void shouldGetColleagues1() throws Exception {
-//			mockMvc.perform(get("/employees/{employeeId}/colleagues", TEST_EMPLOYEE_ID))
-//			.andExpect(status().isOk())
-//			.andExpect(view().name("employees/colleagues"));
-//		}
+	
 }
 
