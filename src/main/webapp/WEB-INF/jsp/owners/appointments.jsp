@@ -13,9 +13,11 @@
     <table id="requestsTable" class="table table-striped">
         <thead>
         <tr>
+
            <th style="width: 100px;">Service Date</th>
             <th style="width: 120px;">Pet</th>
             <th style="width: 180px">Status</th>
+            <th style="width: 150px;">Payment</th>
         </tr>
         </thead>
         <tbody>
@@ -27,7 +29,15 @@
                 </td>   
                 <td> 
                      <c:out value="Accepted" />
-                </td>             
+                </td> 
+                
+                 <td>
+                   <spring:url value="/pay/{requestId}" var="payUrl">
+         		   <spring:param name="requestId" value="${request.id}"/>
+       			   </spring:url>
+    	  		   <a href="${fn:escapeXml(payUrl)}" class="btn btn-default">Pay with PayPal</a>
+                 </td>    
+                         
             </tr>
         </c:forEach>
         </tbody>
