@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.paypal;
 
-import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Service;
 import org.springframework.samples.petclinic.service.ClinicService;
@@ -9,9 +8,7 @@ import org.springframework.samples.petclinic.service.ResidenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.paypal.api.payments.Links;

@@ -25,6 +25,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -36,16 +37,19 @@ public class Request extends BaseEntity{
 	
 	@Column(name = "date_req")
 	@Past
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 	private LocalDateTime requestDate;
 
 	@Column(name = "date_ser")
 	@Future
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 	private LocalDateTime serviceDate;
 
 	@Column(name = "date_finish")
 	@Future
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 	private LocalDateTime finishDate;
 	
@@ -59,7 +63,7 @@ public class Request extends BaseEntity{
 
 	private Boolean status = null;
 	
-	private boolean pay = false;
+	private boolean pay;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="pet_id")

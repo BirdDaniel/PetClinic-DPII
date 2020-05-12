@@ -165,16 +165,9 @@ public class ItemController {
 		}
 		else {
 			Item itemToUpdate=this.itemService.findItemById(itemId);
-			System.out.println(itemToUpdate + "======================================================================");
 			BeanUtils.copyProperties(item, itemToUpdate, "clinic", "residence", "id");
 			try {
-				Clinic clinic = this.clinicService.findByEmployee(employee);
-                Residence residence = this.residenceService.findByEmployee(employee);
-	            if(clinic!= null) {
-                	this.itemService.saveItem(itemToUpdate);
-                }else if(residence!= null) {                			
-                	this.itemService.saveItem(itemToUpdate);
-                }
+                this.itemService.saveItem(itemToUpdate);
             }catch (DuplicatedItemNameException ex) {
             	result.rejectValue("name", "duplicate", "already exists");
             	return CREATE_OR_UPDATE_ITEMLIST;
