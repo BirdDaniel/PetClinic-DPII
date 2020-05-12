@@ -61,6 +61,13 @@
                             <c:out value="Declined"/>
                         </c:if>
                         
+                        <c:if test="${request.pay == true}">
+                            <c:out value="Paid"/>
+                        </c:if>
+                        <c:if test="${request.pay == false}">
+                            <c:out value="Don't Pay"/>
+                        </c:if>
+                        
                         <c:if test="${(request.status != false) && (LocalTime.now() lt request.serviceDate)}">
                             |
                             <a href="${fn:escapeXml(declineUrl)}" class="btn btn-danger">Decline</a>

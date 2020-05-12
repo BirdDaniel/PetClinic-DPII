@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.e2e;
+package org.springframework.samples.petclinic.bdd.e2e;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

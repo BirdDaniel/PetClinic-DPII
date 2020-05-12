@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.e2e;
+package org.springframework.samples.petclinic.bdd.e2e;
 import javax.transaction.Transactional;
 
 import org.springframework.samples.petclinic.service.ClinicService;

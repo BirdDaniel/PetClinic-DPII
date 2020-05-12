@@ -1,25 +1,17 @@
 package org.springframework.samples.petclinic.web;
 
-import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 
-import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.OwnerService;
 
-
-import org.springframework.samples.petclinic.model.Residence;
-
-import org.springframework.samples.petclinic.service.ResidenceService;
 
 import org.springframework.test.web.servlet.MockMvc;
 
