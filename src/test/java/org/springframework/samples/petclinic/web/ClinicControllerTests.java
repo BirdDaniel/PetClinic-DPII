@@ -27,9 +27,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-import java.security.Principal;
-import java.util.Calendar;
-
 /**
  * Test class for the {@link ClinicController}
 =======
@@ -68,10 +65,6 @@ class ClinicControllerTests {
 	private static final int TEST_CLINIC_ID2=50;
 	private Owner david;
 		
-	
-	private Clinic c1;
-	private Clinic c2;
-	private Clinic clinic1;
 	@BeforeEach
 	void setup() {
 		Clinic c1= new Clinic();
@@ -85,17 +78,19 @@ class ClinicControllerTests {
       
     @WithMockUser(value = "owner2")
 	@Test
-	
 	void testShowClinicListHtml() throws Exception {
 		mockMvc.perform(get("/clinic/findAll")).andExpect(status().isOk())
 		.andExpect(view().name("services/clinics"))
-		.andExpect(model().attributeExists("clinics"));
+		.andExpect(model().attributeExists("clinics"))
+		.andExpect(model().attributeExists("loggedUser"));
     }
     @WithMockUser(value="owner2")
     @Test
     void testShowClinicPos() throws Exception {
     	 mockMvc.perform(get("/clinic/{clinicId}", TEST_CLINIC_ID))
     	 .andExpect(status().isOk())
+    	 .andExpect(model().attributeExists("clinic"))
+ 		 .andExpect(model().attributeExists("loggedUser"))
     	 .andExpect(view().name("services/clinicServiceDetails"));
     }	
 		
