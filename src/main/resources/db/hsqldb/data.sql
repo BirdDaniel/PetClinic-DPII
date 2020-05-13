@@ -103,7 +103,7 @@ INSERT INTO clinics VALUES (1, 'Clinica 1','Elm Street s/n', '10:10', 'Descripti
 INSERT INTO clinics VALUES (2, 'Clinica 2','Avenida de la reina mercedes 2', '10:10', 'Description 2', 20, '12:00', 3.5, 4, 2);
 INSERT INTO clinics VALUES (3, 'Clinica 3', 'Calle Bami 3', '10:00', 'Description 3', 30, '13:00', 4.5, 5, 3);
 
---INSERT INTO residences(id, name, address, close, description, max, price, open, rating, days);
+--INSERT INTO residences(id, name, address, close, description, max, price, open, rating);
 INSERT INTO residences VALUES (1, 'Residence "Happy Pet"','Madison Square, 51-B', '10:10', 'Description 1', 10, '12:00', 2.5, 3);
 INSERT INTO residences VALUES (2, 'The Pet Residence ','Baker Street 221-B', '10:10', 'Description 2', 20, '12:00', 3.5, 4);
 INSERT INTO residences VALUES (3, 'Pet Stay','Avenida Doctor Fedriani, 3, 2ºC', '10:00:00', 'Description 3', 30, '13:00', 4.5, 5);

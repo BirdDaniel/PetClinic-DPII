@@ -17,6 +17,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -45,6 +46,7 @@ public class ParkControllerTestsE2E {
     void shouldFindAllParks() throws Exception{
         mockMvc.perform(get("/parks"))
         .andExpect(status().isOk())
+        .andExpect(model().attributeExists("parks"))
         .andExpect(view().name("parks/parkList"));
     }
 
@@ -60,6 +62,7 @@ public class ParkControllerTestsE2E {
     void shouldGetCreateParkPage() throws Exception{
         mockMvc.perform(get("/parks/new"))
         .andExpect(status().isOk())
+        .andExpect(model().attributeExists("park"))
         .andExpect(view().name("parks/newPark"));
     }
 
@@ -85,6 +88,7 @@ public class ParkControllerTestsE2E {
     void shouldGetEditParkPage() throws Exception{
         mockMvc.perform(get("/parks/{parkId}/edit", TEST_PARK_ID))
         .andExpect(status().isOk())
+        .andExpect(model().attributeExists("park"))
         .andExpect(view().name("parks/newPark"));
     }
 
