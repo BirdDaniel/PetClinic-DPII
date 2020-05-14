@@ -66,8 +66,8 @@ public class PetService {
 
 
 	@Transactional
-	public void deletePet(int id){
-		this.petRepository.deletePet(id);
+	public void deletePet(Pet pet){
+		this.petRepository.delete(pet);
 	}
 	
 	@Transactional

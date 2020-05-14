@@ -129,10 +129,11 @@ public class OwnerController {
 	@PostMapping(value = "/owners/{ownerId}/edit")
 	public String processEditOwnerForm(@Valid Owner owner, BindingResult result,
 			@PathVariable("ownerId") int ownerId, ModelMap model) {
-		
+		System.out.println(result.hasErrors()+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
 		if(isAuth(ownerId)){
 			if (result.hasErrors()) {
 				model.addAttribute("loggedUser", ownerId);
+				model.put("owner", owner);
 				return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 			}
 			else {
