@@ -18,9 +18,10 @@ import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.stereotype.Service;
+import org.springframework.test.context.TestPropertySource;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-class EmployeeServiceTests {                
+class EmployeeServiceTests {           
         
     @Autowired
     protected EmployeeService employeeService;

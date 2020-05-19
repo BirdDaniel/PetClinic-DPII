@@ -84,7 +84,7 @@ class OwnerControllerTests {
 	
 	@MockBean
 	private Model model;
-		
+
 	private Request reqEmpty;
 	
 	private Request reqClinic;
@@ -177,7 +177,7 @@ class OwnerControllerTests {
 		.andExpect(view().name("redirect:/oups"));
 	}
 	
-	//OWNER EDIT
+	//OWNER GET EDIT PAGE
 	@WithMockUser(value = "owner1")
 	@Test
 	void shouldEditOwnerDetails() throws Exception{
@@ -196,6 +196,7 @@ class OwnerControllerTests {
 	}
 	
 
+	//UPDATE OWNER
 	@WithMockUser(value = "owner1")
 	@Test
 	void shouldSaveEditOwnerDetails() throws Exception{
@@ -238,7 +239,6 @@ class OwnerControllerTests {
 	}
 	
 	//OWNER MYREQUESTLIST
-	
 	@WithMockUser(value = "owner1")
 	@Test
 	void shouldViewOwnerMyRequestList() throws Exception{

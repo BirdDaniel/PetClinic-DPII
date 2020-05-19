@@ -27,7 +27,7 @@
                          <spring:param name="parkId" value="${park.id}"/>
                      </spring:url>
                     <a href="${fn:escapeXml(parkUrl)}"></a>-->
-                    <c:out value="${park.id}"/> <c:out value=" ${park.name}"/>
+                    <c:out value=" ${park.name}"/>
                 </td>
                 <td>
                     <c:out value="${park.address}"/>
