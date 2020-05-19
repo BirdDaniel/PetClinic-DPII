@@ -380,11 +380,12 @@
 						</executions>
 					</plugin>
 				</plugins>
+
 			</build>
 		</profile>
 	</profiles>
 
-    <!-- Selenium browser webdriver -->
+   
 
 
 </project>
