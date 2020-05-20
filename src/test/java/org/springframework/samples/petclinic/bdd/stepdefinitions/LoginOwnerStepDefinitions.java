@@ -28,7 +28,8 @@ public class LoginOwnerStepDefinitions extends AbstractStep{
 
 	
 	@Given("I am not logged in the system")
-	public void IamNotLogged() throws Exception{		
+	public void IamNotLogged() throws Exception{
+		System.out.println("ENTRA EN GIVEN");
 		getDriver().get("http://localhost:"+port);
 		WebElement element=getDriver().findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a"));
 		if(element==null || !element.getText().equalsIgnoreCase("login")) {
@@ -36,6 +37,7 @@ public class LoginOwnerStepDefinitions extends AbstractStep{
 			getDriver().findElement(By.linkText("Logout")).click();
 			getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 		}
+		System.out.println("SALE DEL GIVEN");
 	}
 	
 	@When("I do login as user {string}")
@@ -65,20 +67,24 @@ public class LoginOwnerStepDefinitions extends AbstractStep{
 
 	@Then("{string} appears as the current user")
 	public void asCurretUserAppears(String username) throws Exception {		
-		assertEquals(username.toUpperCase(),
+		assertEquals(username,
 				getDriver().findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a/strong")).getText());
 		stopDriver();
 	}
 	
 	@When("I try to do login as user {string} with an invalid password")
 	public void ItryToDoLoginWithAnInvalidPasswordAs(String username) throws Exception {
+		System.out.println("ENTRA EN WHEN");
 		loginAs(username,UUID.randomUUID().toString(),port,getDriver());
+		System.out.println("ENTRA EN WHEN");
 	}
 	
 	@Then("the login form is shown again")
 	public void theLoginFormIsShownAgain() throws Exception {
+		System.out.println("ENTRA EN THEN");
 		assertEquals(getDriver().getCurrentUrl(),"http://localhost:"+port+"/login-error");
 		stopDriver();
+		System.out.println("ENTRA EN THEN");
 	}
 
 }

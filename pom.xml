@@ -165,6 +165,11 @@
 			<artifactId>cucumber-reporting</artifactId>
 			<version>4.2.3</version>
 		</dependency>
+		<dependency>
+			<groupId>de.monochromata.cucumber</groupId>
+			<artifactId>reporting-plugin</artifactId>
+			<version>4.0.36</version>
+		</dependency>
 
         <!-- Testing -->
         <dependency>
@@ -215,21 +220,25 @@
         <groupId>org.seleniumhq.selenium</groupId> 
         <artifactId>selenium-remote-driver</artifactId> 
         <version>${selenium.version}</version> 
+        <scope>test</scope>
         </dependency> 
         <dependency> 
         <groupId>org.seleniumhq.selenium</groupId> 
         <artifactId>selenium-firefox-driver</artifactId> 
         <version>${selenium.version}</version> 
+        <scope>test</scope>
         </dependency> 
         <dependency> 
         <groupId>org.seleniumhq.selenium</groupId> 
         <artifactId>selenium-chrome-driver</artifactId> 
-        <version>${selenium.version}</version> 
+        <version>${selenium.version}</version>
+        <scope>test</scope> 
         </dependency> 
         <dependency> 
         <groupId>org.seleniumhq.selenium</groupId> 
         <artifactId>selenium-support</artifactId> 
         <version>${selenium.version}</version> 
+        <scope>test</scope>
         </dependency>
         
     </dependencies>
