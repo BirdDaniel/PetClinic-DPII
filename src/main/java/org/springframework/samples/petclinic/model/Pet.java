@@ -92,9 +92,9 @@ public class Pet extends NamedEntity {
 		this.owner = owner;
 	}
 
-	public String toString(){
-		return this.getName();
-	}
+//	public String toString(){
+//		return this.getName();
+//	}
 /*
 	protected Set<Visit> getVisitsInternal() {
 		if (this.visits == null) {

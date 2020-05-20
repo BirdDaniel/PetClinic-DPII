@@ -63,4 +63,5 @@ public interface PetRepository {
 	
 	Collection<Pet> findPetsOfOwnerByName(int ownerId, String name) throws DataAccessException;
 
+	Collection<Pet> findAll() throws DataAccessException;
 }

@@ -16,7 +16,9 @@
 
 package org.springframework.samples.petclinic.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -133,7 +135,18 @@ public class Request extends BaseEntity{
 		this.pay = pay;
 	}
 	
+	public void setActualRequestDate() {
+		this.requestDate = LocalDateTime.of(LocalDate.now(), 
+				LocalTime.of(LocalTime.now().getHour(), 
+						LocalTime.now().getMinute(), LocalTime.now().getSecond() + 1));
+	}
 	
+	public void setFinishDateWithService() {
+		this.finishDate = LocalDateTime.of(this.serviceDate.getYear() + 10, 
+				this.serviceDate.getMonth(), this.serviceDate.getDayOfMonth(), 
+				this.serviceDate.getHour(), this.serviceDate.getMinute(), 
+				this.serviceDate.getSecond());
+	}
 	
 
 }

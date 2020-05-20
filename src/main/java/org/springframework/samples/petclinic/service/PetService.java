@@ -64,7 +64,11 @@ public class PetService {
                 petRepository.save(pet);                
 	}
 
-
+	@Transactional(readOnly = true)
+	public Collection<Pet> findAllPets() throws DataAccessException {
+		return petRepository.findAll();
+	}
+	
 	@Transactional
 	public void deletePet(Pet pet){
 		this.petRepository.delete(pet);
