@@ -106,6 +106,7 @@ public class RequestController {
             }else if(serviceName.equals("clinic")) {                
                 Clinic clinic = this.clinicService.findClinicById(serviceId);
                 
+                request.setFinishDate(LocalDateTime.of(2050, 12, 29, 23, 59));
                 model.addAttribute("request", request);
                 model.addAttribute("service", "clinic");
                 model.addAttribute("residence", clinic);
