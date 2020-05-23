@@ -56,10 +56,9 @@
         New Request for <c:out value="${request.employee.firstName} ${request.owner.firstName}" />, <c:out value="${request.owner.firstName}"/>
     </h2>
 
-			<!-- <div style="display: none;">
-                <petclinic:inputField label="" name="employee"/>
-            </div> -->
-            <petclinic:inputField label="" name="requestDate"/>
+			<div style="display: none;">
+                <petclinic:inputField label="" name="requestDate"/>
+			</div>
             <c:if test="${service eq 'residence'}">
             <petclinic:inputField label="Date to bring your pet" name="serviceDate"/>
             <petclinic:inputField label="Date to pick up your pet" name="finishDate"/>
