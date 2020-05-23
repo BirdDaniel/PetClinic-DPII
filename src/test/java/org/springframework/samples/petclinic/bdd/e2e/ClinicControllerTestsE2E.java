@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.e2e;
+package org.springframework.samples.petclinic.bdd.e2e;
 
 import javax.transaction.Transactional;
 
@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -39,6 +40,8 @@ public class ClinicControllerTestsE2E {
     void shouldGetAllClinics() throws Exception{
         mockMvc.perform(get("/clinic/findAll"))
         .andExpect(status().isOk())
+        .andExpect(model().attributeExists("clinics"))
+		.andExpect(model().attributeExists("loggedUser"))
         .andExpect(view().name("services/clinics"));
     }
 
@@ -54,6 +57,8 @@ public class ClinicControllerTestsE2E {
     void shouldGetClinic() throws Exception{
         mockMvc.perform(get("/clinic/{clinicId}", TEST_CLINIC_ID))
         .andExpect(status().isOk())
+        .andExpect(model().attributeExists("clinic"))
+		.andExpect(model().attributeExists("loggedUser"))
         .andExpect(view().name("services/clinicServiceDetails"));
     }
 

@@ -21,8 +21,10 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.service.PetService;
+import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.stereotype.Component;
 
 /**
@@ -41,29 +43,32 @@ import org.springframework.stereotype.Component;
  * @author Michael Isvy
  */
 @Component
-public class PetTypeFormatter implements Formatter<PetType> {
+public class PetRequestFormatter implements Formatter<Pet> {
 
-	private final PetService peService;
+	private final RequestService requestService;
+	private final PetService petService;
 
 	@Autowired
-	public PetTypeFormatter(PetService petService) {
-		this.peService = petService;
+	public PetRequestFormatter(RequestService requestService, PetService petService) {
+		this.requestService = requestService;
+		this.petService = petService;
+
 	}
 
 	@Override
-	public String print(PetType petType, Locale locale) {
-		return petType.getName();
+	public String print(Pet pet, Locale locale) {
+		return pet.getName();
 	}
 
 	@Override
-	public PetType parse(String text, Locale locale) throws ParseException {
-		Collection<PetType> findPetTypes = this.peService.findPetTypes();
-		for (PetType type : findPetTypes) {
-			if (type.getName().equals(text)) {
-				return type;
+	public Pet parse(String text, Locale locale) throws ParseException {
+		Collection<Pet> pets = this.petService.findAllPets();
+		for (Pet pet : pets) {
+			if (pet.getName().equals(text)) {
+				return pet;
 			}
 		}
-		throw new ParseException("type not found: " + text, 0);
+		throw new ParseException("pet not found: " + text, 0);
 	}
 
 }
