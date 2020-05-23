@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.web;
+package org.springframework.samples.petclinic.bdd.e2e;
 
 /*
  * Copyright 2012-2019 the original author or authors.
@@ -16,7 +16,6 @@ package org.springframework.samples.petclinic.web;
  * limitations under the License.
  */
 
-import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -24,37 +23,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.time.LocalDate;
 
-import org.assertj.core.util.Lists;
-import org.junit.jupiter.api.BeforeEach;
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
+import org.springframework.samples.petclinic.web.PetController;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.ui.Model;
 
 /**
  * Test class for the {@link PetController}
  *
  * @author Colin But
  */
-@WebMvcTest(value = PetController.class,
-		includeFilters = @ComponentScan.Filter(value = PetTypeFormatter.class, type = FilterType.ASSIGNABLE_TYPE),
-		excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
-		excludeAutoConfiguration= SecurityConfiguration.class)
-class PetControllerTests {
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(
+  webEnvironment=SpringBootTest.WebEnvironment.MOCK)
+@AutoConfigureMockMvc
+@Transactional
+class PetControllerE2ETests {
 
 	private static final int TEST_OWNER_ID = 1;
 
@@ -64,46 +58,16 @@ class PetControllerTests {
 	private PetController petController;
 
 
-	@MockBean
+	@Autowired
 	private PetService petService;
         
-    @MockBean
+	@Autowired
 	private OwnerService ownerService;
 
 	@Autowired
 	private MockMvc mockMvc;
 	
-	@MockBean
-	private Model model;
-
-	@BeforeEach
-	void setup() {
-		
-		PetType cat = new PetType();
-		cat.setId(1);
-		cat.setName("cat");
-		
-		Pet pet = new Pet();
-		pet.setId(1);
-		pet.setName("Leo");
-		pet.setBirthDate(LocalDate.of(2010, 9, 7));
-		
-		Owner david = new Owner();
-		david.setId(TEST_OWNER_ID);
-		david.setFirstName("firstName");
-		david.setLastName("LastName");
-		david.setAddress("addressDavid");
-		david.setTelephone("645789456");
-		pet.setType(cat);
-		
-		given(this.ownerService.findIdByUsername("owner1")).willReturn(1);
-		given(this.ownerService.findIdByUsername("owner2")).willReturn(2);
-		given(this.petService.findPetTypes()).willReturn(Lists.newArrayList(cat));
-		given(this.ownerService.findOwnerById(TEST_OWNER_ID)).willReturn(david);
-		given(this.petService.findPetById(TEST_PET_ID)).willReturn(pet);
-	}
-
-	@WithMockUser(value = "owner1")
+	@WithMockUser(value = "owner1", authorities= {"owner"})
     @Test
 	void testInitCreationForm() throws Exception {
 		mockMvc.perform(get("/owners/{ownerId}/pets/new", TEST_OWNER_ID))
@@ -111,7 +75,7 @@ class PetControllerTests {
 		.andExpect(view().name("pets/createOrUpdatePetForm")).andExpect(model().attributeExists("pet"));
 	}
 	
-	@WithMockUser(value = "owner2")
+	@WithMockUser(value = "owner2", authorities= {"owner"})
     @Test
 	void testNotInitCreationForm() throws Exception {
 		mockMvc.perform(get("/owners/{ownerId}/pets/new", TEST_OWNER_ID))
@@ -119,7 +83,7 @@ class PetControllerTests {
 		.andExpect(view().name("redirect:/oups"));
 	}
 
-	@WithMockUser(value = "owner1")
+	@WithMockUser(value = "owner1", authorities= {"owner"})
     @Test
 	void testProcessCreationFormSuccess() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
@@ -131,7 +95,7 @@ class PetControllerTests {
 				.andExpect(view().name("redirect:/owners/{ownerId}"));
 	}
 
-	@WithMockUser(value = "owner2")
+	@WithMockUser(value = "owner2", authorities= {"owner"})
     @Test
 	void testNotProcessCreationForm() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
@@ -143,7 +107,7 @@ class PetControllerTests {
 		.andExpect(view().name("redirect:/oups"));
 	}
 	
-	@WithMockUser(value = "owner1")
+	@WithMockUser(value = "owner1", authorities= {"owner"})
     @Test
 	void testProcessCreationFormHasErrors() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
@@ -156,7 +120,7 @@ class PetControllerTests {
 				.andExpect(view().name("pets/createOrUpdatePetForm"));
 	}
 
-	@WithMockUser(value = "owner1")
+	@WithMockUser(value = "owner1", authorities= {"owner"})
 	@Test
 	void testInitUpdateForm() throws Exception {
 		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID))
@@ -165,7 +129,7 @@ class PetControllerTests {
 				.andExpect(view().name("pets/createOrUpdatePetForm"));
 	}
 	
-	@WithMockUser(value = "owner2")
+	@WithMockUser(value = "owner2", authorities= {"owner"})
 	@Test
 	void testNotInitUpdateForm() throws Exception {
 		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID))
@@ -173,7 +137,7 @@ class PetControllerTests {
 				.andExpect(view().name("redirect:/oups"));
 	}
     
-	@WithMockUser(value = "owner1")
+	@WithMockUser(value = "owner1", authorities= {"owner"})
 	@Test
 	void testProcessUpdateFormSuccess() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
@@ -185,7 +149,7 @@ class PetControllerTests {
 				.andExpect(view().name("redirect:/owners/{ownerId}/myPetList"));
 	}
 	
-	@WithMockUser(value = "owner2")
+	@WithMockUser(value = "owner2", authorities= {"owner"})
 	@Test
 	void testNotProcessUpdateForm() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
@@ -198,7 +162,7 @@ class PetControllerTests {
 	}
     
     
-	@WithMockUser(value = "owner1")
+	@WithMockUser(value = "owner1", authorities= {"owner"})
 	@Test
 	void testProcessUpdateFormHasErrors() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
@@ -210,7 +174,7 @@ class PetControllerTests {
 				.andExpect(view().name("pets/createOrUpdatePetForm"));
 	}
 	
-	@WithMockUser(value = "owner1")
+	@WithMockUser(value = "owner1", authorities= {"owner"})
 	@Test
 	void shouldDeletePet() throws Exception{
 		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/delete", TEST_OWNER_ID, TEST_PET_ID))
@@ -218,7 +182,7 @@ class PetControllerTests {
 		.andExpect(view().name("redirect:/owners/{ownerId}/myPetList"));
 	}
 	
-	@WithMockUser(value = "owner2")
+	@WithMockUser(value = "owner2", authorities= {"owner"})
 	@Test
 	void shouldNotDeletePet() throws Exception{
 		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/delete",  TEST_OWNER_ID, TEST_PET_ID))

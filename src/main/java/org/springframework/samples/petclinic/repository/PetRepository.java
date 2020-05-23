@@ -57,8 +57,11 @@ public interface PetRepository {
 	 */
 	void save(Pet pet) throws DataAccessException;
 	
-	void deletePet(int id) throws DataAccessException;
+	void deletePet(int petId) throws DataAccessException;
+	
+	void delete(Pet pet) throws DataAccessException;
 	
 	Collection<Pet> findPetsOfOwnerByName(int ownerId, String name) throws DataAccessException;
 
+	Collection<Pet> findAll() throws DataAccessException;
 }
