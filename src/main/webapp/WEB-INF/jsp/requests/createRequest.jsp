@@ -52,12 +52,11 @@
     <form:form modelAttribute="request" class="form-horizontal" id="add-request-form">
         <div class="form-group has-feedback">
 
-<h2>
-        New Request for <c:out value="${request.employee.firstName} ${request.owner.firstName}" />, <c:out value="${request.owner.firstName}"/>
-    </h2>
-
 			<div style="display: none;">
                 <petclinic:inputField label="" name="requestDate"/>
+            <c:if test="${service eq 'clinic'}">
+            <petclinic:inputField label="" name="finishDate"/>
+            </c:if>
 			</div>
             <c:if test="${service eq 'residence'}">
             <petclinic:inputField label="Date to bring your pet" name="serviceDate"/>
