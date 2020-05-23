@@ -53,12 +53,13 @@
         <div class="form-group has-feedback">
 
 <h2>
-        New Request for <c:out value="${request.id} ${request.employee.firstName} ${request.owner.firstName}" />, <c:out value="${request.owner.firstName}"/>
+        New Request for <c:out value="${request.employee.firstName} ${request.owner.firstName}" />, <c:out value="${request.owner.firstName}"/>
     </h2>
 
-			<input type="hidden" name="id" value="${request.id}"/>
-			<input type="hidden" name="employee" value="${request.employee}"/>
-            <input type="hidden" name="owner" value="${request.owner}"/>
+			<!-- <div style="display: none;">
+                <petclinic:inputField label="" name="employee"/>
+            </div> -->
+            <petclinic:inputField label="" name="requestDate"/>
             <c:if test="${service eq 'residence'}">
             <petclinic:inputField label="Date to bring your pet" name="serviceDate"/>
             <petclinic:inputField label="Date to pick up your pet" name="finishDate"/>
