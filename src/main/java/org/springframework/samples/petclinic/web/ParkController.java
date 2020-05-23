@@ -64,6 +64,18 @@ public class ParkController {
 
     }
 
+    @GetMapping("/{parkId}")
+    public String getPark(@PathVariable("parkId") Integer parkId, Model model){
+        
+        if(isAuth()!=0){
+            Park park = this.parkService.findById(parkId);
+            model.addAttribute("loggedUser", isAuth());
+            model.addAttribute("park", park);
+            return "parks/parkView";
+        }
+        return "redirect:/oups";
+    }
+
     @GetMapping("/new")
     public String createPark(Model model){
 
