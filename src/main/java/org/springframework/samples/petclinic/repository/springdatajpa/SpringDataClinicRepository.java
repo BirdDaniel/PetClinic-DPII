@@ -15,7 +15,6 @@
  */
 package org.springframework.samples.petclinic.repository.springdatajpa;
 
-import java.util.Collection;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -25,7 +24,6 @@ import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Item;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.repository.ClinicRepository;
-import org.springframework.samples.petclinic.repository.VetRepository;
 
 /**
  * Spring Data JPA specialization of the {@link VetRepository} interface
