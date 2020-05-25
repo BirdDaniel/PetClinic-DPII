@@ -65,6 +65,4 @@ public interface EmployeeRepository {
 
 	Collection<Employee> findEmployeeByClinicId(int id) throws DataAccessException;
 	Collection<Employee> findEmployeeByResidenceId(int id) throws DataAccessException;
-
-	Set<Request> getRequestsPayed(Integer id) throws DataAccessException;
 }

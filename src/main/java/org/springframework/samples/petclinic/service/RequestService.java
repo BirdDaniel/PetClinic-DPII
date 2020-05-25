@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -62,5 +63,10 @@ public class RequestService {
 	 public Collection<Request> findAcceptedResByOwnerId(int ownerId) throws DataAccessException{ 
 		 return requestRepository.findAcceptedResByOwnerId(ownerId);
 	 }
+	 
+	 @Transactional(readOnly = true)
+	 public Collection<Request> getRequestsPayed(Integer id) {
+		return this.requestRepository.findPayedByEmployeeId(id);
+	}
 
 }

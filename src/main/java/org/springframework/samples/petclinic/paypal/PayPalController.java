@@ -42,8 +42,8 @@ public class PayPalController {
 		Service service = new Service();
 		service = (this.clinicService.findClinicByRequest(rq)!=null)? this.clinicService.findClinicByRequest(rq):this.residenceService.findResidenceByRequest(rq);
 		try {
-			Payment payment = paypalService.createPayment(Double.valueOf(service.getPrice()), "http://localhost:8080/" + CANCEL_URL,
-					"http://localhost:8080/" + SUCCESS_URL);
+			Payment payment = paypalService.createPayment(Double.valueOf(service.getPrice()), "http://localhost/" + CANCEL_URL,
+					"http://localhost/" + SUCCESS_URL);
 			for(Links link:payment.getLinks()) {
 				if(link.getRel().equals("approval_url")) {
 					return "redirect:"+link.getHref();
@@ -68,7 +68,8 @@ public class PayPalController {
 	            Payment payment = paypalService.executePayment(paymentId, payerId);
 	            System.out.println(payment.toJSON());
 	            if (payment.getState().equals("approved")) {
-	            	//request.setStatusPay(true);
+	            	request.setPay(true);
+	            	this.requestService.save(request);
 	                return "paypal/success";
 	            }
 	        } catch (PayPalRESTException e) {

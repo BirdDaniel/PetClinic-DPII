@@ -83,7 +83,4 @@ public class EmployeeService {
 		return employeeRepository.findEmployeeByResidenceId(id);
 	}
 
-	public Set<Request> getRequestsPayed(Integer id) {
-		return this.employeeRepository.getRequestsPayed(id);
-	}
 }

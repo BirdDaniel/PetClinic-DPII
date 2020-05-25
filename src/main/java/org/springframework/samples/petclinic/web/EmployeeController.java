@@ -72,7 +72,7 @@ public class EmployeeController {
 		if (this.isAuth(employee)) {
 
 			SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getRequestDate));
-			Set<Request> requests = this.employeeService.getRequestsPayed(employee.getId());
+			Collection<Request> requests = this.requestService.getRequestsPayed(employee.getId());
 
 			if (requests != null) {
 				res.addAll(requests);
