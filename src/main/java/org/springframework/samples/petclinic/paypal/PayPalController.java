@@ -35,10 +35,13 @@ public class PayPalController {
 	
 	public static final String SUCCESS_URL = "pay/success";
 	public static final String CANCEL_URL = "pay/cancel";
+	public static Request request;
 
 	@GetMapping("/pay/{requestId}")
 	public String payment(@PathVariable("requestId") int requestId) {
+		request = new Request();
 		Request rq = this.requestService.findById(requestId);
+		request = rq;
 		Service service = new Service();
 		service = (this.clinicService.findClinicByRequest(rq)!=null)? this.clinicService.findClinicByRequest(rq):this.residenceService.findResidenceByRequest(rq);
 		try {
@@ -68,6 +71,7 @@ public class PayPalController {
 	            Payment payment = paypalService.executePayment(paymentId, payerId);
 	            System.out.println(payment.toJSON());
 	            if (payment.getState().equals("approved")) {
+	            	//request.setStatusPay(true);
 	                return "paypal/success";
 	            }
 	        } catch (PayPalRESTException e) {

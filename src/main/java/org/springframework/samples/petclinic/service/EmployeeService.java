@@ -83,4 +83,8 @@ public class EmployeeService {
 	public Collection<Employee> findEmployeeByResidenceId(int id){
 		return employeeRepository.findEmployeeByResidenceId(id);
 	}
+
+	public Set<Request> getRequestsPayed(Integer id) {
+		return this.employeeRepository.getRequestsPayed(id);
+	}
 }
