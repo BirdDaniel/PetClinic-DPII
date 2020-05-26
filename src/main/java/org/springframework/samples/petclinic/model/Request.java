@@ -41,7 +41,7 @@ public class Request extends BaseEntity{
 	@Past
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
-	private LocalDateTime requestDate;
+	private LocalDateTime requestDate = LocalDateTime.now();
 
 	@Column(name = "date_ser")
 	@Future
@@ -65,7 +65,7 @@ public class Request extends BaseEntity{
 
 	private Boolean status = null;
 	
-	private boolean pay;
+	private boolean paid = false;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="pet_id")
@@ -127,12 +127,12 @@ public class Request extends BaseEntity{
 		this.employee = employee;
 	}
 
-	public boolean isPay() {
-		return pay;
+	public boolean isPaid() {
+		return paid;
 	}
 
-	public void setPay(boolean pay) {
-		this.pay = pay;
+	public void setPaid(boolean paid) {
+		this.paid = paid;
 	}
 	
 	public void setActualRequestDate() {

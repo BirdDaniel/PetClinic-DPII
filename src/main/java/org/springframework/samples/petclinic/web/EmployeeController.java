@@ -189,6 +189,7 @@ public class EmployeeController {
 					if (request != null) {
 
 						request.setEmployee(colleague);
+						request.setStatus(null);
 						this.requestService.save(request);
 
 					}
@@ -206,6 +207,7 @@ public class EmployeeController {
 					if (request != null) {
 
 						request.setEmployee(colleague);
+						request.setStatus(null);
 						this.requestService.save(request);
 
 					}
