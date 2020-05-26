@@ -58,10 +58,6 @@
                <td><c:out value="${residence.description}"/></td>
             </tr>
           </table>
-            <spring:url value="/createRequest/residence/{residenceId}" var="reqUrl">
-                <spring:param name="residenceId" value="${residence.id}"/>
-            </spring:url>
-          <a href="${fn:escapeXml(reqUrl)}" class="btn btn-default">Make a request</a>
             <br>
             <br>
           <h2>Where are we?</h2>

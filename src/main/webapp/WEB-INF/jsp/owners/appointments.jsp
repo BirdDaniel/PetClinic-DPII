@@ -30,6 +30,7 @@
                 <td> 
                      <c:out value="Accepted" />
                 </td> 
+
                 
                  <td>
                 </td>
@@ -44,6 +45,7 @@
                            </spring:url>
                           <a href="${fn:escapeXml(payUrl)}" class="btn btn-default">Pay with PayPal</a>
                         
+
                     </c:if>
                  </td>    
                          

@@ -20,5 +20,7 @@ public interface RequestRepository {
 
 	Collection<Request> findAcceptedResByOwnerId(int ownerId) throws DataAccessException;
 	
+	Collection<Request> findPayedByEmployeeId(int employeeId);
+	
 
 }

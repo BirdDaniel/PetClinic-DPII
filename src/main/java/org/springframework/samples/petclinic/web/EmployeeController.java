@@ -66,6 +66,27 @@ public class EmployeeController {
 	public Employee findEmployee(@PathVariable("employeeId") final int employeeId) {
 		return this.employeeService.findEmployeeById(employeeId);
 	}
+	
+	@GetMapping("/payments")
+	public String paymentsEmployee(final Employee employee, final Map<String, Object> model) {
+		if (this.isAuth(employee)) {
+
+			SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getRequestDate));
+			Collection<Request> requests = this.requestService.getRequestsPayed(employee.getId());
+
+			if (requests != null) {
+				res.addAll(requests);
+			}
+
+			model.put("loggedUser", employee.getId());
+			model.put("requests", res);
+			return EmployeeController.VIEW_MY_REQUESTS;
+
+		}
+
+		return "redirect:/oups";
+
+	}
 
 	@GetMapping("/requests")
 	public String RequestsEmployee(final Employee employee, final Map<String, Object> model) {
