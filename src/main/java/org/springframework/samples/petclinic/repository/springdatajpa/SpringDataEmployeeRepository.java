@@ -17,7 +17,6 @@ package org.springframework.samples.petclinic.repository.springdatajpa;
 
 import java.util.Collection;
 import java.util.Set;
-import java.util.SortedSet;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;

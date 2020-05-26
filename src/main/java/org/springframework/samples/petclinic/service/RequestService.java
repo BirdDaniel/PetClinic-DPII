@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.repository.RequestRepository;
+import org.springframework.samples.petclinic.service.exceptions.RequestWithoutPetException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,16 @@ public class RequestService {
 	public void save(Request request) {
 		this.requestRepository.save(request);
 	}
+	
+//No se si se usa la versión anterior en más sitios, esta versión se usa solo en RequestController	
+	@Transactional(rollbackFor = RequestWithoutPetException.class)
+	public void savePetVal(Request request) throws DataAccessException, RequestWithoutPetException {
+		if(request.getPet()==null) {
+			throw new RequestWithoutPetException();
+		}else {
+			requestRepository.save(request);
+		}
+	}
 
 	@Transactional(readOnly = true)
 	public Collection<Request> findAcceptedByOwnerId(int id) throws DataAccessException {
@@ -51,5 +62,10 @@ public class RequestService {
 	 public Collection<Request> findAcceptedResByOwnerId(int ownerId) throws DataAccessException{ 
 		 return requestRepository.findAcceptedResByOwnerId(ownerId);
 	 }
+	 
+	 @Transactional(readOnly = true)
+	 public Collection<Request> getRequestsPayed(Integer id) {
+		return this.requestRepository.findPayedByEmployeeId(id);
+	}
 
 }
