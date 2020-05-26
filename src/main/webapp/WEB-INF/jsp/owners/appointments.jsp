@@ -30,20 +30,16 @@
                 <td> 
                      <c:out value="Accepted" />
                 </td> 
-                
-                 <td>
-                   <spring:url value="/pay/{requestId}" var="payUrl">
-         		   <spring:param name="requestId" value="${request.id}"/>
-       			   </spring:url>
-    	  		   <a href="${fn:escapeXml(payUrl)}" class="btn btn-default">Pay with PayPal</a>
-                 </td>
                  
                  <td>
                  	<c:if test="${request.pay == true}">
                        	<c:out value="Paid"/>
                     </c:if>
-                    <c:if test="${request.pay == false}">
-                        <c:out value="Don't Pay"/>
+                    <c:if test="${request.pay == false}">                            
+                   <spring:url value="/pay/{requestId}" var="payUrl">
+         		   <spring:param name="requestId" value="${request.id}"/>
+       			   </spring:url>
+    	  		   <a href="${fn:escapeXml(payUrl)}" class="btn btn-default">Pay with PayPal</a>
                     </c:if>
                  </td>    
                          

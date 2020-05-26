@@ -85,11 +85,6 @@
                     <spring:param name="clinicId" value="${clinic.id}"/>
                 </spring:url>
               <a href="${fn:escapeXml(reqUrl)}" class="btn btn-default">Make a request</a>
-              
-             <spring:url value="/pay/{clinicId}" var="payUrl">
-                    <spring:param name="clinicId" value="${clinic.id}"/>
-                </spring:url>
-              <a href="${fn:escapeXml(payUrl)}" class="btn btn-default">Pay with PayPal</a>
         
               <h2>Where are we?</h2>
               <div data-clinicaddress="${clinic.address}" id="map"></div>
