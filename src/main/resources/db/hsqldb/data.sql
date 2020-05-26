@@ -121,7 +121,7 @@ INSERT INTO employees VALUES (9, 'Sarah', 'Gomez', '615453223', '87654721A', 'em
 INSERT INTO employees VALUES (10, 'John', 'Jones', '613876603', '87654341A', 'emp10');
 
 
---INSERT INTO requests(id,date_finish, pay, date_req, date_ser, status, employee_id, owner_id, pet_id);
+--INSERT INTO requests(id,date_finish, paid, date_req, date_ser, status, employee_id, owner_id, pet_id);
 INSERT INTO requests VALUES (4, '2020-12-12 12:00', false, '2020-01-01 13:00','2020-02-02 17:00', true, 1, 1, 1);
 INSERT INTO requests VALUES (2, '2030-08-12 12:00', true, '2019-08-06 19:00','2021-08-01 18:00', true, 2, 1, 3);
 INSERT INTO requests VALUES (3, '2030-08-12 12:00', false, '2019-08-06 18:00','2023-08-01 17:30', false, 2, 2, 2);
@@ -136,6 +136,8 @@ INSERT INTO requests VALUES (9, '2030-08-12 12:00', false, '2019-08-08 17:00','2
 INSERT INTO residences_requests VALUES (1, 4);
 INSERT INTO residences_requests VALUES (1, 5);
 INSERT INTO residences_requests VALUES (3, 6);
+INSERT INTO residences_requests (residence_id, requests_id)VALUES (2, 7);
+
 
 --INSERT INTO clinics_requests VALUES (clinics_id, requests_id);
 INSERT INTO clinics_requests VALUES (1, 1);

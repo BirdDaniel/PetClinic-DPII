@@ -39,6 +39,9 @@ public class RequestValidator implements Validator {
 	public void validate(Object obj, Errors errors) {
 		Request req = (Request) obj;
 
+		// if(req.getServiceDate().isAfter(req.getFinishDate())){
+		// 	errors.rejectValue("finishDate", "La reserva no puede terminar antes de empezar");
+		// }
 		// pet validation
 		if (req.isNew() && req.getPet() == null) {
 			errors.rejectValue("pet", REQUIRED, REQUIRED);
