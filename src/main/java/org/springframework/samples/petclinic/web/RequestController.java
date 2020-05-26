@@ -1,10 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDateTime;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Collection;
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -17,10 +14,8 @@ import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.OwnerService;
-import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ResidenceService;
-import org.springframework.samples.petclinic.service.exceptions.RequestWithoutPetException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;

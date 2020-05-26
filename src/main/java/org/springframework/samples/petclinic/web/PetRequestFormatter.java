@@ -22,9 +22,7 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.service.PetService;
-import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.stereotype.Component;
 
 /**
@@ -45,12 +43,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class PetRequestFormatter implements Formatter<Pet> {
 
-	private final RequestService requestService;
 	private final PetService petService;
 
 	@Autowired
-	public PetRequestFormatter(RequestService requestService, PetService petService) {
-		this.requestService = requestService;
+	public PetRequestFormatter(PetService petService) {
 		this.petService = petService;
 
 	}
