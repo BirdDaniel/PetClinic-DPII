@@ -55,11 +55,11 @@ INSERT INTO users(username,password,enabled) VALUES ('owner3','0wn3r',TRUE);
  INSERT INTO types (id, name) VALUES (6, 'hamster');
 
 
-INSERT INTO parks (id,name,address,owner_id) VALUES(1,'Parque del retiro', 'Plaza de la independencia, Madrid',1);
-INSERT INTO parks (id,name,address,owner_id)VALUES(2,'Parque del Alamillo', 'Callejón Iglesia, Serranillos del Valle',2);
-INSERT INTO parks (id,name,address,owner_id)VALUES(3,'Parque de la urba', 'Calle del Cerro, 36, 28979 Serranillos del Valle, Madrid',3);
-INSERT INTO parks (id,name,address,owner_id)VALUES(4,'Parque Pardo de san Sebastián', '41004 Sevilla',2);
-INSERT INTO parks (id,name,address,owner_id)VALUES(5,'Plaza de américa', 'Plaza América, 3, 41013 Sevilla',1);
+INSERT INTO parks (id,name,address,owner_id) VALUES (1,'Parque del retiro', 'Plaza de la independencia, Madrid',1);
+INSERT INTO parks (id,name,address,owner_id) VALUES (2,'Parque del Alamillo', 'Callejón Iglesia, Serranillos del Valle',2);
+INSERT INTO parks (id,name,address,owner_id) VALUES (3,'Parque de la urba', 'Calle del Cerro, 36, 28979 Serranillos del Valle, Madrid',3);
+INSERT INTO parks (id,name,address,owner_id) VALUES (4,'Parque Pardo de san Sebastián', '41004 Sevilla',2);
+INSERT INTO parks (id,name,address,owner_id) VALUES (5,'Plaza de américa', 'Plaza América, 3, 41013 Sevilla',1);
 
 
 INSERT INTO clinic_types (id,name) VALUES (1, 'The Clinic');
@@ -97,19 +97,19 @@ INSERT INTO employees (id, first_name, last_name, telephone, dni, username) VALU
 INSERT INTO employees (id, first_name, last_name, telephone, dni, username) VALUES (8, 'Luisa', 'Paredes', '6147556023', '87654641A', 'emp8');
 
 
-INSERT INTO requests (id,date_finish, date_req, date_ser, status,paid, employee_id, owner_id, pet_id)VALUES (4, '2020-12-12 12:00', '2020-01-01 13:00','2020-02-02 17:00', true, false, 1, 1, 1);
-INSERT INTO requests (id,date_finish, date_req, date_ser, status,paid, employee_id, owner_id, pet_id)VALUES (2, '2030-08-12 12:00', '2019-08-06 19:00','2021-08-01 18:00', true, false ,2, 1, 3);
-INSERT INTO requests(id,date_finish, date_req, date_ser, status,paid, employee_id, owner_id, pet_id) VALUES (3, '2030-08-12 12:00', '2019-08-06 18:00','2023-08-01 17:30', false, false ,2, 2, 2);
-INSERT INTO requests (id,date_finish, date_req, date_ser, status,paid, employee_id, owner_id, pet_id)VALUES (1, '2030-08-12 12:00', '2019-08-06 20:00','2021-08-05 16:00', true, false, 1, 2, 1);
-INSERT INTO requests (id,date_finish, date_req, date_ser, status,paid, employee_id, owner_id, pet_id)VALUES (5, '2030-08-12 12:00', '2019-08-06 14:00','2024-08-01 15:30', true, false, 3, 3, 3);
-INSERT INTO requests (id,date_finish, date_req, date_ser, status,paid, employee_id, owner_id, pet_id)VALUES (6, '2030-08-12 12:00', '2019-08-06 15:00','2022-08-01 14:30', null, false ,3, 3, 2);
-INSERT INTO requests (id,date_finish, date_req, date_ser, status,paid, employee_id, owner_id, pet_id)VALUES (7, '2030-08-12 12:00', '2019-08-08 17:00','2022-08-05 19:00', true, false, 1, 2, 2);
+INSERT INTO requests (id,date_finish, date_req, date_ser, status,paid, employee_id, owner_id, pet_id) VALUES (4, '2020-12-12 12:00', '2020-01-01 13:00','2020-02-02 17:00', true, false, 1, 1, 1);
+INSERT INTO requests (id,date_finish, date_req, date_ser, status,paid, employee_id, owner_id, pet_id) VALUES (2, '2030-08-12 12:00', '2019-08-06 19:00','2021-08-01 18:00', true, false ,2, 1, 3);
+INSERT INTO requests (id,date_finish, date_req, date_ser, status,paid, employee_id, owner_id, pet_id) VALUES (3, '2030-08-12 12:00', '2019-08-06 18:00','2023-08-01 17:30', false, false ,2, 2, 2);
+INSERT INTO requests (id,date_finish, date_req, date_ser, status,paid, employee_id, owner_id, pet_id) VALUES (1, '2030-08-12 12:00', '2019-08-06 20:00','2021-08-05 16:00', true, false, 1, 2, 1);
+INSERT INTO requests (id,date_finish, date_req, date_ser, status,paid, employee_id, owner_id, pet_id) VALUES (5, '2030-08-12 12:00', '2019-08-06 14:00','2024-08-01 15:30', true, false, 3, 3, 3);
+INSERT INTO requests (id,date_finish, date_req, date_ser, status,paid, employee_id, owner_id, pet_id) VALUES (6, '2030-08-12 12:00', '2019-08-06 15:00','2022-08-01 14:30', null, false ,3, 3, 2);
+INSERT INTO requests (id,date_finish, date_req, date_ser, status,paid, employee_id, owner_id, pet_id) VALUES (7, '2030-08-12 12:00', '2019-08-08 17:00','2022-08-05 19:00', true, false, 1, 2, 2);
 
 
-INSERT INTO residences_requests (residence_id, requests_id)VALUES (1, 4);
-INSERT INTO residences_requests (residence_id, requests_id)VALUES (1, 5);
-INSERT INTO residences_requests (residence_id, requests_id)VALUES (3, 6);
-INSERT INTO residences_requests (residence_id, requests_id)VALUES (2, 7);
+INSERT INTO residences_requests (residence_id, requests_id) VALUES (1, 4);
+INSERT INTO residences_requests (residence_id, requests_id) VALUES (1, 5);
+INSERT INTO residences_requests (residence_id, requests_id) VALUES (3, 6);
+INSERT INTO residences_requests (residence_id, requests_id) VALUES (2, 7);
 
 
 INSERT INTO clinics_requests (clinic_id, requests_id) VALUES (1, 1);
