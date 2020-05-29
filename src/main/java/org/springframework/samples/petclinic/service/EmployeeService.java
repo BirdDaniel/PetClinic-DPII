@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
@@ -83,4 +84,5 @@ public class EmployeeService {
 	public Collection<Employee> findEmployeeByResidenceId(int id){
 		return employeeRepository.findEmployeeByResidenceId(id);
 	}
+
 }

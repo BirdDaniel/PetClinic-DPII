@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.repository.RequestRepository;
 
@@ -31,5 +33,5 @@ public interface SpringDataRequestRepository extends RequestRepository, Reposito
 	//FIND PETS CURRENTLY IN A RESIDENCE
 	@Query("SELECT req,resi FROM Request req,Residence resi WHERE req in elements(resi.requests) AND req.status = true AND req.owner.id = :id  AND CURRENT_TIMESTAMP BETWEEN req.serviceDate AND req.finishDate")
 	public Collection<Request> findAcceptedResByOwnerId(@Param("id") int ownerId);
-
+	
 }

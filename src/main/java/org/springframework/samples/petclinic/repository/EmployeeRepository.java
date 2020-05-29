@@ -22,6 +22,7 @@ import java.util.SortedSet;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Request;
 
 /**
@@ -66,4 +67,6 @@ public interface EmployeeRepository {
 
 	Collection<Employee> findEmployeeByClinicId(int id) throws DataAccessException;
 	Collection<Employee> findEmployeeByResidenceId(int id) throws DataAccessException;
+	
 }
+

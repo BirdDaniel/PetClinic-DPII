@@ -47,4 +47,6 @@ public interface SpringDataEmployeeRepository extends EmployeeRepository, Reposi
     public Collection<Employee> findEmployeeByClinicId(@Param("id") int clinicId);
 	@Query("SELECT emp,r FROM Employee emp,Residence r WHERE emp in elements(r.employees) and r.id=:id")
     public Collection<Employee> findEmployeeByResidenceId(@Param("id") int residenceId);
+
+
 }

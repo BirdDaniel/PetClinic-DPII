@@ -1,25 +1,31 @@
 
 package org.springframework.samples.petclinic.web;
 
+
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
+import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ResidenceService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -35,17 +41,19 @@ public class EmployeeController {
 	private final EmployeeService	employeeService;
 	private final ClinicService		clinicService;
 	private final ResidenceService	residenceService;
+	private final PetService	petService;
 	private final static String		VIEW_MY_REQUESTS		= "employees/requests";
 	private final static String		VIEW_MY_APPOINTMENTS	= "employees/appointments";
 
 
 	@Autowired
-	public EmployeeController(final EmployeeService employeeService, final RequestService requestService, final ClinicService clinicService, final ResidenceService residenceService) {
+	public EmployeeController(final EmployeeService employeeService, final RequestService requestService, final ClinicService clinicService, final ResidenceService residenceService, final PetService	petService) {
 
 		this.requestService = requestService;
 		this.employeeService = employeeService;
 		this.clinicService = clinicService;
 		this.residenceService = residenceService;
+		this.petService=	petService;
 
 	}
 
@@ -106,73 +114,6 @@ public class EmployeeController {
 		}
 		return "redirect:/oups";
 	}
-	@GetMapping("/{requestType}/{requestId}/assign")
-	public String assignRequest(final Employee employee, @PathVariable("requestId") final int id, @PathVariable("requestType") final String requestType, final Map<String, Object> model) {
-
-		if (this.isAuth(employee) && this.clinicService.findByEmployee(employee) != null) {
-
-			model.put("loggedUser", employee.getId());
-			Request request = this.requestService.findById(id);
-			Clinic clinic = this.clinicService.findByEmployee(employee);
-			Collection<Employee> colleagues = this.employeeService.findEmployeeByClinicId(clinic.getId());
-			colleagues.remove(employee);
-			model.put("colleagues", colleagues);
-			model.put("request", request);
-			model.put("assign", true);
-			return "employees/colleagues";
-		} else if (this.isAuth(employee) && this.residenceService.findByEmployee(employee) != null) {
-			model.put("loggedUser", employee.getId());
-			Request request = this.requestService.findById(id);
-			Residence residence = this.residenceService.findByEmployee(employee);
-			Collection<Employee> colleagues = this.employeeService.findEmployeeByResidenceId(residence.getId());
-			colleagues.remove(employee);
-			model.put("colleagues", colleagues);
-			model.put("request", request);
-			model.put("assign", true);
-			return "employees/colleagues";
-		}
-
-		return "redirect:/oups";
-
-	}
-
-	@GetMapping("/appointments")
-	public String allAppointments(final Employee employee, final Map<String, Object> model) {
-
-		if (this.isAuth(employee)) {
-			Collection<Request> appointments = this.requestService.findAcceptedByEmployeeId(employee.getId());
-
-			if (appointments != null) {
-				model.put("appointments", appointments);
-			}
-
-			model.put("loggedUser", employee.getId());
-			return EmployeeController.VIEW_MY_APPOINTMENTS;
-		}
-
-		return "redirect:/oups";
-
-	}
-
-	@GetMapping("/requests/{requestId}/accept")
-	public String acceptRequest(final Employee employee, @PathVariable("requestId") final Integer id, final Map<String, Object> model) {
-
-		if (this.isAuth(employee)) {
-
-			model.put("loggedUser", employee.getId());
-			Request request = this.requestService.findById(id);
-
-			if (request != null) {
-				request.setStatus(true);
-				this.requestService.save(request);
-			}
-
-			return "redirect:/employees/{employeeId}/requests";
-		}
-
-		return "redirect:/oups";
-
-	}
 	@GetMapping("/{requestType}/{requestId}/{colleagueId}/reassign")
 	public String reassignRequest(final Employee employee, @PathVariable("requestId") final int id, @PathVariable("requestType") final String requestType, @PathVariable("colleagueId") final int colleagueId, final Map<String, Object> model) {
 
@@ -216,6 +157,95 @@ public class EmployeeController {
 			}
 
 		}
+		return "redirect:/oups";
+
+	}
+
+	@GetMapping(value = "/pets")
+	public String pets(final Employee employee, final Map<String, Object> model) {
+		
+		if (this.isAuth(employee)) {
+		
+//			Collection<Request> reqAcep= this.requestService.findAcceptedByEmployeeId(employee.getId())
+//					.stream().filter(x->x.getServiceDate().isBefore(LocalDateTime.now()) &&
+//					x.getRequestDate().isAfter(LocalDateTime.now())).collect(Collectors.toList());
+//			
+			Collection<Pet> pets=this.petService.findPetResByEmployeeId(employee);
+			//Collection<Pet> pets=reqAcep.stream().map(x->x.getPet()).collect(Collectors.toList());
+			
+			model.put("loggedUser", employee.getId());
+			model.put("pets", pets);
+			return "employees/pets";
+		}
+		return "redirect:/oups";
+	}
+
+	@GetMapping("/{requestType}/{requestId}/assign")
+	public String assignRequest(final Employee employee, @PathVariable("requestId") final int id, @PathVariable("requestType") final String requestType, final Map<String, Object> model) {
+
+		if (this.isAuth(employee) && this.clinicService.findByEmployee(employee) != null) {
+
+			model.put("loggedUser", employee.getId());
+			Request request = this.requestService.findById(id);
+			Clinic clinic = this.clinicService.findByEmployee(employee);
+			Collection<Employee> colleagues = this.employeeService.findEmployeeByClinicId(clinic.getId());
+			colleagues.remove(employee);
+			model.put("colleagues", colleagues);
+			model.put("request", request);
+			model.put("assign", true);
+			return "employees/colleagues";
+		} else if (this.isAuth(employee) && this.residenceService.findByEmployee(employee) != null) {
+			model.put("loggedUser", employee.getId());
+			Request request = this.requestService.findById(id);
+			Residence residence = this.residenceService.findByEmployee(employee);
+			Collection<Employee> colleagues = this.employeeService.findEmployeeByResidenceId(residence.getId());
+			colleagues.remove(employee);
+			model.put("colleagues", colleagues);
+			model.put("request", request);
+			model.put("assign", true);
+			return "employees/colleagues";
+		}
+
+		return "redirect:/oups";
+
+	}
+
+
+
+	@GetMapping("/appointments")
+	public String allAppointments(final Employee employee, final Map<String, Object> model) {
+
+		if (this.isAuth(employee)) {
+			Collection<Request> appointments = this.requestService.findAcceptedByEmployeeId(employee.getId());
+
+			if (appointments != null) {
+				model.put("appointments", appointments);
+			}
+
+			model.put("loggedUser", employee.getId());
+			return EmployeeController.VIEW_MY_APPOINTMENTS;
+		}
+
+		return "redirect:/oups";
+
+	}
+
+	@GetMapping("/requests/{requestId}/accept")
+	public String acceptRequest(final Employee employee, @PathVariable("requestId") final Integer id, final Map<String, Object> model) {
+
+		if (this.isAuth(employee)) {
+
+			model.put("loggedUser", employee.getId());
+			Request request = this.requestService.findById(id);
+
+			if (request != null) {
+				request.setStatus(true);
+				this.requestService.save(request);
+			}
+
+			return "redirect:/employees/{employeeId}/requests";
+		}
+
 		return "redirect:/oups";
 
 	}
