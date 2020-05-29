@@ -164,7 +164,7 @@ public class EmployeeController {
 	@GetMapping(value = "/pets")
 	public String pets(final Employee employee, final Map<String, Object> model) {
 		
-		if (this.isAuth(employee)) {
+		if (this.isAuth(employee) ) {
 		
 //			Collection<Request> reqAcep= this.requestService.findAcceptedByEmployeeId(employee.getId())
 //					.stream().filter(x->x.getServiceDate().isBefore(LocalDateTime.now()) &&
