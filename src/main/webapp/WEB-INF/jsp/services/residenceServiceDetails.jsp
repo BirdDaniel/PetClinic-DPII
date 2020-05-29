@@ -60,6 +60,10 @@
           </table>
             <br>
             <br>
+             <spring:url value="/createRequest/residence/{residenceId}" var="reqUrl">
+                    <spring:param name="residenceId" value="${residence.id}"/>
+                </spring:url>
+              <a href="${fn:escapeXml(reqUrl)}" class="btn btn-default">Make a request</a>
           <h2>Where are we?</h2>
           <div data-residenceaddress="${residence.address}" id="map"></div>
 
