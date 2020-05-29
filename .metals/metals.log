@@ -194,3 +194,10 @@ INFORMACIÓN: Unsupported notification method: $/setTraceNotification
 2020.05.29 13:06:29 WARN  no build target for: C:\Users\Aug\Documents\UniStuff\Tercero\2o Cuatrimestre\DP II\gatling-charts-highcharts-bundle-3.3.1\user-files\simulations\Historia1PetList.scala
 2020.05.29 13:10:00 WARN  no build target for: C:\Users\Aug\Documents\UniStuff\Tercero\2o Cuatrimestre\DP II\gatling-charts-highcharts-bundle-3.3.1\user-files\simulations\Historia1PetList.scala
 2020.05.29 13:28:53 INFO  shutting down Metals
+2020.05.29 17:39:08 INFO  started: Metals version 0.9.0 in workspace 'C:\Users\Aug\Documents\UniStuff\Tercero\2o Cuatrimestre\DP II\Project\PetClinic-DPII'
+2020.05.29 17:39:08 INFO  time: initialize in 0.61s
+2020.05.29 17:39:10 INFO  skipping build import with status 'Requested'
+2020.05.29 17:41:36 INFO  shutting down Metals
+2020.05.29 17:41:58 INFO  started: Metals version 0.9.0 in workspace 'C:\Users\Aug\Documents\UniStuff\Tercero\2o Cuatrimestre\DP II\Project\PetClinic-DPII'
+2020.05.29 17:41:58 INFO  time: initialize in 0.39s
+2020.05.29 17:41:59 INFO  skipping build import with status 'Requested'
