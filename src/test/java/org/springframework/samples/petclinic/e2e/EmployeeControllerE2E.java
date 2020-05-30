@@ -60,6 +60,13 @@ public class EmployeeControllerE2E {
         .andExpect(status().isOk())
         .andExpect(view().name("employees/requests"));
     }
+    @WithMockUser(value = "emp1", authorities = {"employee"})
+    @Test
+    void shouldGetPets() throws Exception{
+        mockMvc.perform(get("/employees/{employeeId}/pets", TEST_EMPLOYEE_ID))
+        .andExpect(status().isOk())
+        .andExpect(view().name("employees/pets"));
+    }
     //Colleagues siempre muestra la vista, si no tiene se muestra vacia.
     @WithMockUser(value = "emp1", authorities = {"employee"})
     @Test
@@ -165,7 +172,7 @@ public class EmployeeControllerE2E {
 		.andExpect(status().is3xxRedirection()) //Empty page
 		.andExpect(view().name("redirect:/oups"));
 	}
-	@WithMockUser(value = "emp1",authorities = {"employee"})
+	@WithMockUser(value = "emp5",authorities = {"employee"})
 	@Test
 	void shouldGetReassignColleagues() throws Exception {
 		mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/{colleagueId}/reassign", TEST_EMPLOYEE_ID, TEST_REQUEST_ID,TEST_EMPLOYEE_ID5))

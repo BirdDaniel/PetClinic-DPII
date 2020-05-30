@@ -165,14 +165,7 @@ public class EmployeeController {
 	public String pets(final Employee employee, final Map<String, Object> model) {
 		
 		if (this.isAuth(employee) ) {
-		
-//			Collection<Request> reqAcep= this.requestService.findAcceptedByEmployeeId(employee.getId())
-//					.stream().filter(x->x.getServiceDate().isBefore(LocalDateTime.now()) &&
-//					x.getRequestDate().isAfter(LocalDateTime.now())).collect(Collectors.toList());
-//			
 			Collection<Pet> pets=this.petService.findPetResByEmployeeId(employee);
-			//Collection<Pet> pets=reqAcep.stream().map(x->x.getPet()).collect(Collectors.toList());
-			
 			model.put("loggedUser", employee.getId());
 			model.put("pets", pets);
 			return "employees/pets";
