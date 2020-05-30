@@ -136,7 +136,7 @@ INSERT INTO requests VALUES (9, '2030-08-12 12:00', false, '2019-08-08 17:00','2
 INSERT INTO residences_requests VALUES (1, 4);
 INSERT INTO residences_requests VALUES (1, 5);
 INSERT INTO residences_requests VALUES (3, 6);
-INSERT INTO residences_requests (residence_id, requests_id)VALUES (2, 7);
+INSERT INTO residences_requests (residence_id, requests_id) VALUES (2, 7);
 
 
 --INSERT INTO clinics_requests VALUES (clinics_id, requests_id);
