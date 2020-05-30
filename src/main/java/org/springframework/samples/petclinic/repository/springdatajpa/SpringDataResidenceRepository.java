@@ -25,6 +25,7 @@ import org.springframework.samples.petclinic.model.Item;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.repository.ResidenceRepository;
+import org.springframework.samples.petclinic.repository.VetRepository;
 
 /**
  * Spring Data JPA specialization of the {@link VetRepository} interface

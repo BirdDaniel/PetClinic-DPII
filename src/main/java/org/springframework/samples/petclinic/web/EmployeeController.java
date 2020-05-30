@@ -74,27 +74,6 @@ public class EmployeeController {
 	public Employee findEmployee(@PathVariable("employeeId") final int employeeId) {
 		return this.employeeService.findEmployeeById(employeeId);
 	}
-	
-	@GetMapping("/payments")
-	public String paymentsEmployee(final Employee employee, final Map<String, Object> model) {
-		if (this.isAuth(employee)) {
-
-			SortedSet<Request> res = new TreeSet<>(Comparator.comparing(Request::getRequestDate));
-			Collection<Request> requests = this.requestService.getRequestsPayed(employee.getId());
-
-			if (requests != null) {
-				res.addAll(requests);
-			}
-
-			model.put("loggedUser", employee.getId());
-			model.put("requests", res);
-			return EmployeeController.VIEW_MY_REQUESTS;
-
-		}
-
-		return "redirect:/oups";
-
-	}
 
 	@GetMapping("/requests")
 	public String RequestsEmployee(final Employee employee, final Map<String, Object> model) {
@@ -263,56 +242,6 @@ public class EmployeeController {
 		return "redirect:/oups";
 
 	}
-
-	@GetMapping("/{requestType}/{requestId}/{colleagueId}/reassign")
-	public String reassignRequest(final Employee employee, @PathVariable("requestId") final int id, @PathVariable("requestType") final String requestType, @PathVariable("colleagueId") final int colleagueId, final Map<String, Object> model) {
-
-		if (this.isAuth(employee) && this.employeeService.getRequests(employee.getId()).contains(this.requestService.findById(id))) {
-
-			if (this.clinicService.findByEmployee(employee) != null) {
-				Clinic clinic = this.clinicService.findByEmployee(employee);
-				Collection<Employee> colleagues = this.employeeService.findEmployeeByClinicId(clinic.getId());
-				if (colleagues.contains(this.employeeService.findEmployeeById(colleagueId))) {
-					model.put("loggedUser", employee.getId());
-					Request request = this.requestService.findById(id);
-					Employee colleague = this.employeeService.findEmployeeById(colleagueId);
-					model.put("assign", false);
-					if (request != null) {
-
-						request.setEmployee(colleague);
-						request.setStatus(null);
-						this.requestService.save(request);
-
-					}
-
-					return "redirect:/employees/{employeeId}/requests";
-				}
-			} else if (this.residenceService.findByEmployee(employee) != null) {
-				Residence residence = this.residenceService.findByEmployee(employee);
-				Collection<Employee> colleagues = this.employeeService.findEmployeeByResidenceId(residence.getId());
-				if (colleagues.contains(this.employeeService.findEmployeeById(colleagueId))) {
-					model.put("loggedUser", employee.getId());
-					Request request = this.requestService.findById(id);
-					Employee colleague = this.employeeService.findEmployeeById(colleagueId);
-					model.put("assign", false);
-					if (request != null) {
-
-						request.setEmployee(colleague);
-						request.setStatus(null);
-						this.requestService.save(request);
-
-					}
-
-					return "redirect:/employees/{employeeId}/requests";
-				}
-
-			}
-
-		}
-		return "redirect:/oups";
-
-	}
-
 
 	@GetMapping("/{requestType}/{requestId}/decline")
 	public String declineRequest(final Employee employee, @PathVariable("requestId") final int id, @PathVariable("requestType") final String requestType, final Map<String, Object> model) {

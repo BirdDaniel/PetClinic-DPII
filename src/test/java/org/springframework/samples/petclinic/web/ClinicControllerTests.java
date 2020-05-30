@@ -1,17 +1,25 @@
 package org.springframework.samples.petclinic.web;
 
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 
+import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.OwnerService;
 
+
+import org.springframework.samples.petclinic.model.Residence;
+
+import org.springframework.samples.petclinic.service.ResidenceService;
 
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -26,6 +34,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+
+import java.security.Principal;
+import java.util.Calendar;
 
 /**
  * Test class for the {@link ClinicController}
@@ -65,6 +76,10 @@ class ClinicControllerTests {
 	private static final int TEST_CLINIC_ID2=50;
 	private Owner david;
 		
+	
+	private Clinic c1;
+	private Clinic c2;
+	private Clinic clinic1;
 	@BeforeEach
 	void setup() {
 		Clinic c1= new Clinic();
@@ -78,19 +93,17 @@ class ClinicControllerTests {
       
     @WithMockUser(value = "owner2")
 	@Test
+	
 	void testShowClinicListHtml() throws Exception {
 		mockMvc.perform(get("/clinic/findAll")).andExpect(status().isOk())
 		.andExpect(view().name("services/clinics"))
-		.andExpect(model().attributeExists("clinics"))
-		.andExpect(model().attributeExists("loggedUser"));
+		.andExpect(model().attributeExists("clinics"));
     }
     @WithMockUser(value="owner2")
     @Test
     void testShowClinicPos() throws Exception {
     	 mockMvc.perform(get("/clinic/{clinicId}", TEST_CLINIC_ID))
     	 .andExpect(status().isOk())
-    	 .andExpect(model().attributeExists("clinic"))
- 		 .andExpect(model().attributeExists("loggedUser"))
     	 .andExpect(view().name("services/clinicServiceDetails"));
     }	
 		

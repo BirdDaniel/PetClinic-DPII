@@ -45,12 +45,6 @@
 					title="Requests">
 					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
 					<span>Requests</span>
-					</petclinic:menuItem>
-					
-					<petclinic:menuItem active="${name eq 'requestsPayEmployee'}" url="/employees/${loggedUser}/payments"
-					title="Payments">
-					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-					<span>Payments</span>
 					
 				</petclinic:menuItem>
 							

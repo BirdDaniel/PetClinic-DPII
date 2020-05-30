@@ -25,10 +25,8 @@ import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Visit;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
-
 import org.springframework.samples.petclinic.repository.PetRepository;
+import org.springframework.samples.petclinic.repository.VisitRepository;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,16 +43,24 @@ public class PetService {
 
 	private PetRepository petRepository;
 	
+	private VisitRepository visitRepository;
 	
 
 	@Autowired
-	public PetService(PetRepository petRepository) {
+	public PetService(PetRepository petRepository,
+			VisitRepository visitRepository) {
 		this.petRepository = petRepository;
+		this.visitRepository = visitRepository;
 	}
 
 	@Transactional(readOnly = true)
 	public Collection<PetType> findPetTypes() throws DataAccessException {
 		return petRepository.findPetTypes();
+	}
+	
+	@Transactional
+	public void saveVisit(Visit visit) throws DataAccessException {
+		visitRepository.save(visit);
 	}
 
 	@Transactional(readOnly = true)
@@ -71,14 +77,14 @@ public class PetService {
                 petRepository.save(pet);                
 	}
 
-	@Transactional(readOnly = true)
-	public Collection<Pet> findAllPets() throws DataAccessException {
-		return petRepository.findAll();
+
+	public Collection<Visit> findVisitsByPetId(int petId) {
+		return visitRepository.findByPetId(petId);
 	}
-	
+
 	@Transactional
-	public void deletePet(Pet pet){
-		this.petRepository.delete(pet);
+	public void deletePet(int id){
+		this.petRepository.deletePet(id);
 	}
 	
 	@Transactional
