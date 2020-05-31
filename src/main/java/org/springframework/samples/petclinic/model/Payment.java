@@ -39,7 +39,7 @@ public class Payment extends BaseEntity {
 	private String creditCard;
 	
 	@Range(min=(long)0.1)
-	private double pay;
+	private double paid;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="owner_id")
@@ -61,11 +61,11 @@ public class Payment extends BaseEntity {
 	}
 
 	public double getPay() {
-		return pay;
+		return paid;
 	}
 
 	public void setPay(double pay) {
-		this.pay = pay;
+		this.paid = paid;
 	}
 
 	public Owner getOwner() {

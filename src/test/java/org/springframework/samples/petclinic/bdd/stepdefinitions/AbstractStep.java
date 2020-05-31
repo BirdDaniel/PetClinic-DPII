@@ -4,13 +4,8 @@ import static org.junit.Assert.fail;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.ActiveProfiles;
-
 
 public class AbstractStep {
 	private static WebDriver driver;
@@ -19,6 +14,7 @@ public class AbstractStep {
 	
 	public WebDriver getDriver() {
 		if(driver==null) {
+			System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
 			driver = new FirefoxDriver();		    
 		    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		}
