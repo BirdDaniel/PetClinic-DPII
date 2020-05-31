@@ -23,11 +23,10 @@
         <c:forEach items="${parks}" var="park">
             <tr>
              	<td> 
-                     <!--<spring:url value="/parks/{parkId}" var="parkUrl">
+                    <spring:url value="/parks/{parkId}" var="parkUrl">
                          <spring:param name="parkId" value="${park.id}"/>
                      </spring:url>
-                    <a href="${fn:escapeXml(parkUrl)}"></a>-->
-                    <c:out value="${park.id}"/> <c:out value=" ${park.name}"/>
+                    <a href="${fn:escapeXml(parkUrl)}"><c:out value=" ${park.name}"/></a>
                 </td>
                 <td>
                     <c:out value="${park.address}"/>

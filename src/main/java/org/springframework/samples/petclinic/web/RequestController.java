@@ -1,7 +1,9 @@
 package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Collection;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
@@ -17,27 +19,30 @@ import org.springframework.samples.petclinic.service.ResidenceService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class RequestController {
 
+    private final static String VIEW_CREATE_REQUEST = "requests/createRequest";
     private final RequestService requestService;
     private final ClinicService clinicService;
     private final ResidenceService residenceService;
     private final OwnerService ownerService;
 
-    private Owner LoggedUser() {
+    private Owner loggedUser() {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Owner loggedUser = this.ownerService.findOwnerByUsername(user.getUsername());
 		return loggedUser; 
 	}
-
+    
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
@@ -55,71 +60,111 @@ public class RequestController {
 		this.requestService = requestService;
 
     }
+	
+	@ModelAttribute("pets")
+	public Collection<Pet> populatePets() {
+		return loggedUser().getPets();
+	}
+	
+//	@InitBinder("request")
+//	public void initPetBinder(WebDataBinder dataBinder) {
+//		dataBinder.setValidator(new RequestValidator());
+//	}
     
     @GetMapping("/createRequest/{serviceName}/{serviceId}")
     public String createRequestForm(@PathVariable("serviceName") String serviceName, 
-                                    @PathVariable("serviceId") int serviceId, Model model){
+                                    @PathVariable("serviceId") int serviceId, ModelMap model){
             
-        System.out.println("Service: "+ serviceName + ", Id: "+ serviceId);
-        //COMPROOBAR QUE SE ESTÁ LOGUEADO
-        Owner userLogged = LoggedUser();
-
+        //COMPROBAR QUE SE ESTÁ LOGUEADO
+        Owner userLogged = loggedUser();
         if(userLogged!=null){
-            //CREAR UNA REQUEST Y 
-            System.out.println(userLogged);
+
+            //CREAR UNA REQUEST
             Request request = new Request();
-            model.addAttribute("loggedUser", LoggedUser().getId());
-        //ASIGNARLA AL OWNER LOGGEADO, 
 
-            userLogged.addRequest(request);
+            model.addAttribute("loggedUser", userLogged.getId());
+            
+            //ASIGNAR OWNER A LA REQUEST
+            request.setOwner(userLogged);
 
-        //AL SERVICE DESDE EL QUE SE HACE
+            //ASIGNAR HORA Y FECHA DE SOLICITUD
+            request.setRequestDate(LocalDateTime.now());
+
+            //Coger el SERVICE DESDE EL QUE SE HACE
             if(serviceName.equals("residence")){
-                Residence residence = this.residenceService.findResidenceById(serviceId);
-                residence.addRequest(request);
-                System.out.println(residence.getRequests());
-                Employee emp = residence.getEmployees().stream()
-                .skip((int) (residence.getEmployees().size()-1 * Math.random()))
-                .findFirst().get();
-
-                List<Pet> pets = userLogged.getPets();
-
-                //Y A UN EMPLOYEE ALEATORIO
-                request.setEmployee(emp);
-
+                Residence residence = this.residenceService.findResidenceById(serviceId); 
+                
                 model.addAttribute("request", request);
                 model.addAttribute("service", "residence");
-                model.addAttribute("pets", pets);
                 model.addAttribute("residence", residence);
-
-            }else if(serviceName.equals("clinic")) {
+                
+            }else if(serviceName.equals("clinic")) {                
                 Clinic clinic = this.clinicService.findClinicById(serviceId);
-                clinic.addRequest(request);
-
-                List<Pet> pets = userLogged.getPets();
-
-                Employee emp = clinic.getEmployees().stream()
-                .skip((int) (clinic.getEmployees().size()-1 * Math.random()))
-                .findFirst().get();
-
-                request.setEmployee(emp);
+                
+                request.setFinishDate(LocalDateTime.of(2050, 12, 29, 23, 59));
                 model.addAttribute("request", request);
                 model.addAttribute("service", "clinic");
-                model.addAttribute("pets", pets);
                 model.addAttribute("residence", clinic);
             }
-            return "requests/createRequest";
+            
+            return VIEW_CREATE_REQUEST;
         }
         return "redirect:/oups";
     }
-
+    
     @PostMapping("/createRequest/{serviceName}/{serviceId}")
     public String processRequestForm(@PathVariable("serviceName") String serviceName,
-                                    @PathVariable("serviceId") Integer serviceId, Request request){
+                                    @PathVariable("serviceId") Integer serviceId,
+                                    @Valid Request request, BindingResult result,
+                                    ModelMap model){
+        
+        //Comprobar que está loggeado        
+        Owner owner = loggedUser();
+    
+        if(owner!=null){
 
-        request.setRequestDate(LocalDateTime.now());
-        this.requestService.save(request);
-        return "redirect:/";
+            if(result.hasErrors()){
+                model.addAttribute("service", serviceName);
+                model.addAttribute("request",request);
+                model.addAttribute("loggedUser", loggedUser().getId());
+                return VIEW_CREATE_REQUEST;
+            }
 
+            //Asignar request a Owner
+            owner.addRequest(request);
+            request.setOwner(owner);
+
+            //Añadir request al service
+            //Asignar Employee
+            if(serviceName.equals("residence")){
+                Residence residence = this.residenceService.findResidenceById(serviceId);
+                
+                residence.addRequest(request);
+
+                Employee emp = residence.getEmployees().stream()
+                		.skip((int) (residence.getEmployees().size()-1 * Math.random()))
+                        .findFirst().get();
+
+                request.setEmployee(emp);
+            
+            }else if(serviceName.equals("clinic")){
+                Clinic clinic = this.clinicService.findClinicById(serviceId);
+                
+                clinic.addRequest(request);
+
+                Employee emp = clinic.getEmployees().stream()
+                		.skip((int) (clinic.getEmployees().size()-1 * Math.random()))
+                        .findFirst().get();
+
+                request.setEmployee(emp);
+            }
+            this.requestService.save(request);
+            return "redirect:/owners/"+owner.getId()+"/myRequestList";
+        }
+        
+        
+        return "redirect:/oups";
+        
     }
 }
+//http://localhost:8080/createRequest/clinic/1

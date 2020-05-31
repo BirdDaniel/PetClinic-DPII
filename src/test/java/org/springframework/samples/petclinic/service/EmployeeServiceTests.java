@@ -1,17 +1,13 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Collection;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.dao.DataAccessException;
 
 import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Employee;
@@ -20,11 +16,12 @@ import org.springframework.samples.petclinic.model.User;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-class EmployeeServiceTests {                
+class EmployeeServiceTests {           
         
     @Autowired
     protected EmployeeService employeeService;
-
+ 
+   
 	@Test
 	void shouldFindEmployeesByLastName() {
         
@@ -73,6 +70,23 @@ class EmployeeServiceTests {
 		assertThat(req.size()).isEqualTo(3);
     
 	}
+	@Test
+	void shouldFindEmployeeByClinicId() {
+		assertThat(this.employeeService.findEmployeeByClinicId(1)).isNotNull();
+	}
+	@Test
+	void shouldNotFindEmployeeByClinicId() {
+		assertThat(this.employeeService.findEmployeeByClinicId(-1)).isEmpty();
+	}
+	@Test
+	void shouldFindEmployeeByResidenceId() {
+		assertThat(this.employeeService.findEmployeeByResidenceId(1)).isNotNull();
+	}
+	@Test
+	void shouldNotFindEmployeeByResidenceId() {
+		assertThat(this.employeeService.findEmployeeByResidenceId(-1)).isEmpty();
+	}
+
 
 	@Test
 	void saveEmployee(){

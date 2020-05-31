@@ -250,3 +250,4 @@ ADVERTENCIA: Unmatched cancel notification for request id 902
 2020.05.31 12:11:08 INFO  skipping build import with status 'Requested'
 may 31, 2020 12:11:26 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
 INFORMACIÓN: Unsupported notification method: $/setTraceNotification
+2020.05.31 12:17:42 INFO  no build target: using presentation compiler with only scala-library

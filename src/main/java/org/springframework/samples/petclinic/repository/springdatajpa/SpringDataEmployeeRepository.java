@@ -17,7 +17,6 @@ package org.springframework.samples.petclinic.repository.springdatajpa;
 
 import java.util.Collection;
 import java.util.Set;
-import java.util.SortedSet;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -42,6 +41,9 @@ public interface SpringDataEmployeeRepository extends EmployeeRepository, Reposi
 
 	@Query("SELECT employee.id FROM Employee employee WHERE employee.user.username=:username")
 	public Integer findByUsername(@Param("username") String username);
-
-
+	
+	@Query("SELECT emp,c FROM Employee emp,Clinic c WHERE emp in elements(c.employees) and c.id=:id")
+    public Collection<Employee> findEmployeeByClinicId(@Param("id") int clinicId);
+	@Query("SELECT emp,r FROM Employee emp,Residence r WHERE emp in elements(r.employees) and r.id=:id")
+    public Collection<Employee> findEmployeeByResidenceId(@Param("id") int residenceId);
 }

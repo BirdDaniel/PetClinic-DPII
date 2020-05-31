@@ -16,7 +16,6 @@ import org.springframework.samples.petclinic.service.exceptions.DuplicatedItemNa
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -69,7 +68,7 @@ public class ItemController {
 	}
 	
 	@GetMapping("/itemsList")
-	public String allItems(@PathVariable("employeeId") int employeeId, Model model) {
+	public String allItems(@PathVariable("employeeId") int employeeId, ModelMap model) {
 
 		Employee employee = this.employeeService.findEmployeeById(employeeId);
 		
@@ -168,13 +167,7 @@ public class ItemController {
 			Item itemToUpdate=this.itemService.findItemById(itemId);
 			BeanUtils.copyProperties(item, itemToUpdate, "clinic", "residence", "id");
 			try {
-				Clinic clinic = this.clinicService.findByEmployee(employee);
-                Residence residence = this.residenceService.findByEmployee(employee);
-	            if(clinic!= null) {
-                	this.itemService.saveItem(itemToUpdate);
-                }else if(residence!= null) {                			
-                	this.itemService.saveItem(itemToUpdate);
-                }
+                this.itemService.saveItem(itemToUpdate);
             }catch (DuplicatedItemNameException ex) {
             	result.rejectValue("name", "duplicate", "already exists");
             	return CREATE_OR_UPDATE_ITEMLIST;
@@ -184,23 +177,20 @@ public class ItemController {
 	}
         
     @GetMapping(value = "/itemsList/{itemId}/delete")
-    public String deletePet(@PathVariable("itemId") int itemId, Employee employee, ModelMap model) {
+    public String deleteItem(@PathVariable("itemId") int itemId, Employee employee, ModelMap model) {
     	
     	if (!isAuth(employee)) {
 			return "redirect:/oups";
 		}
-    	
+    
     	Item item = this.itemService.findItemById(itemId);
-    	
-    	Clinic clinic = this.clinicService.findByEmployee(employee);
-    	
-        Residence residence = this.residenceService.findByEmployee(employee);
-        
-        
-     
+
+    	Clinic clinic = this.clinicService.findByItem(item);
+        Residence residence = this.residenceService.findByItem(item);
+    
         if(clinic!= null) {
         	clinic.removeItems(item);
-        }else if(residence!= null) {                			
+        }else if(residence!= null) {                    
         	residence.removeItems(item);
         }
     	if(item!=null){

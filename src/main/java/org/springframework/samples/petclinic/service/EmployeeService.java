@@ -59,6 +59,11 @@ public class EmployeeService {
 			saveEmployee(emp);
 		}
 	}
+	
+	@Transactional
+	public Iterable<Employee> findAll(){
+		return employeeRepository.findAll();
+	}
 
 	@Transactional
 	public void saveEmployee(Employee employee) throws DataAccessException {
@@ -68,6 +73,14 @@ public class EmployeeService {
 		userService.saveUser(employee.getUser());
 		// creating authorities
 		authoritiesService.saveAuthorities(employee.getUser().getUsername(), "employee");
+	}
+	@Transactional
+	public Collection<Employee> findEmployeeByClinicId(int id){
+		return employeeRepository.findEmployeeByClinicId(id);
+	}
+	@Transactional
+	public Collection<Employee> findEmployeeByResidenceId(int id){
+		return employeeRepository.findEmployeeByResidenceId(id);
 	}
 
 }

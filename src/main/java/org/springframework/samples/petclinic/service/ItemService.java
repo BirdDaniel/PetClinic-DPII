@@ -35,14 +35,11 @@ public class ItemService {
 		List<Item> items;
 		if(item.getId()!=null) {
 			items=this.itemRepository.findItemWithIdDiferent(item.getName().toLowerCase(), item.getId());
-			System.out.print(items);
 			if(items.size()!=0) otherItem = items.get(0);
 		}else {
 			items=this.itemRepository.findItemWithIdDiferent(item.getName().toLowerCase());
 			if(items.size()!=0) otherItem = items.get(0);
 		}
-		System.out.println(items);
-		System.out.println(otherItem.getName());
 		if (StringUtils.hasLength(item.getName()) &&  (otherItem!= null && otherItem.getId()!=item.getId())) {            	
         	throw new DuplicatedItemNameException();
         }else {

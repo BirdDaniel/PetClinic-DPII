@@ -17,6 +17,7 @@
             <th style="width: 200px;">Pet</th>
             <th style="width: 200px;">Owner</th>
             <th style="width: 250px">Accept or Decline</th>
+            <th style="width: 250px">Assign</th>
         </tr>
         </thead>
         <tbody>
@@ -44,26 +45,50 @@
                             <spring:param name="requestId" value="${request.id}"/>
                             <spring:param name="employeeId" value="${request.employee.id}"/>
                         </spring:url>
+            
                        
                         
                         <c:if test="${request.status == null}">
                          <c:out value="Pending  "/>       
                         <a href="${fn:escapeXml(acceptUrl)}" class="btn btn-success">Accept</a>
+                        
 
                         </c:if>
                         <c:if test="${request.status == true}">
-                            <c:out value="Accepted"/>
+                            <c:out value="Accepted | "/>
+                            <c:if test="${request.paid == true}">
+                                <c:out value="Paid"/>
+                            </c:if>
+                            <c:if test="${request.paid == false}">
+                                <c:out value="Not Paid"/>
+                            </c:if>
                         </c:if>
                         <c:if test="${request.status == false}">
                             <c:out value="Declined"/>
                         </c:if>
-                        <c:if test="${(request.status != false) && (LocalDateTime.now() lt request.serviceDate)}">
+                        
+                        
+                        <c:if test="${(request.status != false) && (LocalTime.now() lt request.serviceDate)}">
                             |
                             <a href="${fn:escapeXml(declineUrl)}" class="btn btn-danger">Decline</a>
                         </c:if>
                         
                     
                 </td>
+                
+                 <td>
+                     <spring:url value="/employees/{employeeId}/{action}/{requestId}/assign" var="assignUrl">
+                         <spring:param name="action" value="requests"/>
+                            <spring:param name="requestId" value="${request.id}"/>
+                            <spring:param name="employeeId" value="${request.employee.id}"/>
+                        </spring:url>
+                        
+                        <c:if test="${request.status != false}">
+                            <a href="${fn:escapeXml(assignUrl)}" class="btn btn-assign">Assign</a>
+                        </c:if>
+                        </td>
+                
+                        
       
 <!--
                 <td> 

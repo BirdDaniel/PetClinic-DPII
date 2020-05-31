@@ -16,8 +16,9 @@
 
 package org.springframework.samples.petclinic.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,6 +27,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,16 +39,19 @@ public class Request extends BaseEntity{
 	
 	@Column(name = "date_req")
 	@Past
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
-	private LocalDateTime requestDate;
+	private LocalDateTime requestDate = LocalDateTime.now();
 
 	@Column(name = "date_ser")
 	@Future
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 	private LocalDateTime serviceDate;
 
 	@Column(name = "date_finish")
 	@Future
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 	private LocalDateTime finishDate;
 	
@@ -59,6 +64,8 @@ public class Request extends BaseEntity{
 	private Owner owner;
 
 	private Boolean status = null;
+	
+	private boolean paid = false;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="pet_id")
@@ -118,6 +125,27 @@ public class Request extends BaseEntity{
 
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
+	}
+
+	public boolean isPaid() {
+		return paid;
+	}
+
+	public void setPaid(boolean paid) {
+		this.paid = paid;
+	}
+	
+	public void setActualRequestDate() {
+		this.requestDate = LocalDateTime.of(LocalDate.now(), 
+				LocalTime.of(LocalTime.now().getHour(), 
+						LocalTime.now().getMinute(), LocalTime.now().getSecond() + 1));
+	}
+	
+	public void setFinishDateWithService() {
+		this.finishDate = LocalDateTime.of(this.serviceDate.getYear() + 10, 
+				this.serviceDate.getMonth(), this.serviceDate.getDayOfMonth(), 
+				this.serviceDate.getHour(), this.serviceDate.getMinute(), 
+				this.serviceDate.getSecond());
 	}
 	
 
