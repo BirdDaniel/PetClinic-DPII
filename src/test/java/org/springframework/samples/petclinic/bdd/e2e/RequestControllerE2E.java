@@ -1,107 +1,58 @@
-package org.springframework.samples.petclinic.web;
+package org.springframework.samples.petclinic.bdd.e2e;
 
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.model.Employee;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.Residence;
-import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ResidenceService;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.transaction.Transactional;
 
 
-@WebMvcTest(controllers = RequestController.class,
-            excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
-            classes = WebSecurityConfigurer.class),
-            excludeAutoConfiguration= SecurityConfiguration.class)
-public class RequestControllerTests {
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@AutoConfigureMockMvc
+@Transactional
+public class RequestControllerE2E {
 
     private static final int TEST_OWNER_ID = 1;
     private static final int TEST_SERVICE_ID = 1;
     private static final String TEST_SERVICE_NAME = "clinic";
 
-    private Pet pet;
-    
-    private Owner owner;
-
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Autowired
     private PetService petService;
     
-    @MockBean
+    @Autowired
     private RequestService requestService;
 
-    @MockBean
+    @Autowired
     private OwnerService ownerService;
 
-    @MockBean
+    @Autowired
     private ResidenceService residenceService;
     
-    @MockBean
+    @Autowired
     private ClinicService clinicService;
+
     
-//    @MockBean
-//    private AuthoritiesService authoritiesService;
-
-    @BeforeEach
-    void setup() {
-        
-        Employee employee = new Employee();
-        employee.setId(1);
-        employee.setFirstName("Jose luis");
-
-        Set<Employee> employees = new HashSet<>();
-        employees.add(employee);
-
-        Residence residence = new Residence();
-        residence.setId(1);
-        residence.setEmployees(employees);
-
-        pet = new Pet();
-        pet.setId(1);
-        pet.setName("Mimi");
-
-        owner = new Owner();
-        owner.setId(1);
-        owner.addPet(pet);
-        
-        given(this.petService.findPetById(1)).willReturn(pet);
-        given(this.ownerService.findOwnerByUsername("owner1")).willReturn(owner);
-		given(this.ownerService.findIdByUsername("owner1")).willReturn(1);
-		given(this.ownerService.findIdByUsername("owner2")).willReturn(2);
-        given(this.ownerService.findOwnerById(1)).willReturn(owner);
-        given(this.residenceService.findResidenceById(1)).willReturn(residence);
-        
-    }
-    
-    @WithMockUser(value = "owner1")
+    @WithMockUser(value = "owner1", authorities={"employee"})
     @Test
     void shouldGetRequestForm() throws Exception{
         mockMvc.perform(get("/createRequest/{serviceName}/{serviceId}", 
@@ -113,7 +64,7 @@ public class RequestControllerTests {
         .andExpect(view().name("requests/createRequest"));
     }
 
-    @WithMockUser(value = "emp1")
+    @WithMockUser(value = "emp1", authorities={"employee"})
     @Test
     void shouldNotGetRequestForm() throws Exception{
         mockMvc.perform(get("/createRequest/{serviceName}/{serviceId}", 
@@ -122,7 +73,7 @@ public class RequestControllerTests {
 		.andExpect(view().name("redirect:/oups"));
     }
 
-    @WithMockUser(value = "owner1")
+    @WithMockUser(value = "owner1", authorities= {"owner"})
     @Test
     void shouldSaveCreatedRequest() throws Exception{
         mockMvc.perform(post("/createRequest/{serviceName}/{serviceId}", 
@@ -137,7 +88,7 @@ public class RequestControllerTests {
 		.andExpect(view().name("redirect:/owners/"+TEST_OWNER_ID+"/myRequestList"));
     }
 
-    @WithMockUser(value = "owner1")
+    @WithMockUser(value = "owner1", authorities= {"owner"})
     @Test
     void shouldNotSaveCreatedRequest() throws Exception{
         mockMvc.perform(post("/createRequest/{serviceName}/{serviceId}", 
