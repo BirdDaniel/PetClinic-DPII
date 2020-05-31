@@ -116,9 +116,9 @@ INSERT INTO clinics_requests (clinic_id, requests_id) VALUES (1, 1);
 INSERT INTO clinics_requests (clinic_id, requests_id) VALUES (1, 2);
 INSERT INTO clinics_requests (clinic_id, requests_id) VALUES (2, 3);
 
-INSERT INTO payments (id, credit_card, pay, date_pay, owner_id) VALUES (1, '1234 1234 1234 1234', 0.5, '2012-06-08', 1);
-INSERT INTO payments (id, credit_card, pay, date_pay, owner_id) VALUES (2, '4234 1234 1234 5234', 1, '2012-06-08', 1);
-INSERT INTO payments (id, credit_card, pay, date_pay, owner_id) VALUES (3, '3234 1234 1234 6234', 2, '2012-06-08', 1);
+INSERT INTO payments (id, credit_card, paid, date_pay, owner_id) VALUES (1, '1234 1234 1234 1234', 0.5, '2012-06-08', 1);
+INSERT INTO payments (id, credit_card, paid, date_pay, owner_id) VALUES (2, '4234 1234 1234 5234', 1, '2012-06-08', 1);
+INSERT INTO payments (id, credit_card, paid, date_pay, owner_id) VALUES (3, '3234 1234 1234 6234', 2, '2012-06-08', 1);
 
 
   INSERT INTO clinics_employees (clinic_id, employees_id) VALUES (1, 1);
