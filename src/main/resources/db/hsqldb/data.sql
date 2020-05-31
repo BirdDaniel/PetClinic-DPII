@@ -143,10 +143,6 @@ INSERT INTO residences_requests VALUES (1, 4);
 INSERT INTO residences_requests VALUES (1, 5);
 INSERT INTO residences_requests VALUES (3, 6);
 
-INSERT INTO residences_requests (residence_id, requests_id) VALUES (2, 7);
-
-
-
 --INSERT INTO clinics_requests VALUES (clinics_id, requests_id);
 INSERT INTO clinics_requests VALUES (1, 1);
 INSERT INTO clinics_requests VALUES (1, 2);
