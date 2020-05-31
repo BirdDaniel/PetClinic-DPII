@@ -67,5 +67,4 @@ _site/
 .metadata/.plugins/org.eclipse.ui.workbench/dialog_settings.xml
 .metadata/.plugins/org.eclipse.ui.workbench/workingsets.xml
 /bin/
-.metals/metals.lock.db
-.metals/metals.lock.db
+.metals/
