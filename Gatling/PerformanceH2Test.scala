@@ -37,18 +37,34 @@ class PerformanceH2Test extends Simulation {
 		.pause(10)
 	}
 
-	object Login{
+	object LoginOwner{
 
 		val login = exec(http("LOGIN")
 			.get("/login")
 			.headers(headers_0)
 			.check(css("input[name=_csrf]", "value").saveAs("stoken")))
 		.pause(15)
-		.exec(http("LOGGED")
+		.exec(http("LOGGED_AS_OWNER")
 			.post("/login")
 			.headers(headers_3)
 			.formParam("username", "owner1")
 			.formParam("password", "0wn3r")
+			.formParam("_csrf", "${stoken}"))
+		.pause(15)
+	}
+
+	object LoginEmp{
+
+		val login = exec(http("LOGIN")
+			.get("/login")
+			.headers(headers_0)
+			.check(css("input[name=_csrf]", "value").saveAs("stoken")))
+		.pause(15)
+		.exec(http("LOGGED_AS_EMP")
+			.post("/login")
+			.headers(headers_3)
+			.formParam("username", "emp1")
+			.formParam("password", "3mpl0")
 			.formParam("_csrf", "${stoken}"))
 		.pause(15)
 	}
@@ -61,19 +77,12 @@ class PerformanceH2Test extends Simulation {
 		.pause(5)
 	}
 
-	object ResidenceDetails{
-		
-		val residenceD = exec(http("DETAILS")
-			.get("/residence/1")
-			.headers(headers_0))
-		.pause(5)
-	}
-
 	object ResidenceErrors{
 		
 		val residenceE = exec(http("ERROR_RESIDENCE")
-			.get("/residence/0")
-			.headers(headers_0))
+			.get("/residence/findAll")
+			.headers(headers_0)
+			.check(status.is(403)))
 		.pause(5)
 		
 	}
@@ -86,42 +95,31 @@ class PerformanceH2Test extends Simulation {
 		.pause(5)
 	}
 
-	object ClinicDetails{
-		
-		val clinicD = exec(http("DETAILS")
-			.get("/clinic/1")
-			.headers(headers_0))
-		.pause(5)
-	}
-
 	object ClinicErrors{
 		
 		val clinicC = exec(http("ERROR_CLINIC")
-			.get("/clinic/0")
-			.headers(headers_0))
+			.get("/clinic/findAll")
+			.headers(headers_0)
+			.check(status.is(403)))
 		.pause(5)
 		
 	}
 
 
 	val residenceSnc = scenario("Residence").exec(Home.home,
-						Login.login,
-						Residences.residences,
-						ResidenceDetails.residenceD)
+						LoginOwner.login,
+						Residences.residences)
 	
 	val noResidenceSnc = scenario("Residence_Negative").exec(Home.home,
-						Login.login,
-						Residences.residences,
+						LoginEmp.login,
 						ResidenceErrors.residenceE)
 	
 	val clinicSnc = scenario("Clinic").exec(Home.home,
-						Login.login,
-						Clinics.clinics,
-						ClinicDetails.clinicD)
+						LoginOwner.login,
+						Clinics.clinics)
 
 	val noClinicSnc = scenario("Clinic_Negative").exec(Home.home,
-						Login.login,
-						Clinics.clinics,
+						LoginEmp.login,
 						ClinicErrors.clinicC)
 	
 	setUp(residenceSnc.inject(atOnceUsers(1)),
