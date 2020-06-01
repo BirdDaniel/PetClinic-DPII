@@ -55,18 +55,11 @@
 
                         </c:if>
                         <c:if test="${request.status == true}">
-                            <c:out value="Accepted | "/>
-                            <c:if test="${request.paid == true}">
-                                <c:out value="Paid"/>
-                            </c:if>
-                            <c:if test="${request.paid == false}">
-                                <c:out value="Not Paid"/>
-                            </c:if>
+                            <c:out value="Accepted"/>
                         </c:if>
                         <c:if test="${request.status == false}">
                             <c:out value="Declined"/>
                         </c:if>
-                        
                         
                         <c:if test="${(request.status != false) && (LocalTime.now() lt request.serviceDate)}">
                             |

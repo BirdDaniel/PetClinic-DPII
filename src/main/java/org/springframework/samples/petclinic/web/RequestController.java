@@ -1,9 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDateTime;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Collection;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,7 +15,6 @@ import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.OwnerService;
-import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ResidenceService;
 import org.springframework.samples.petclinic.service.exceptions.RequestWithoutPetException;
@@ -26,12 +22,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -44,14 +39,12 @@ public class RequestController {
     private final ResidenceService residenceService;
     private final OwnerService ownerService;
 
-    private Owner loggedUser() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
-        Owner loggedUser = this.ownerService.findOwnerByUsername(user.getUsername());
-        return loggedUser; 
-        
-    }
-    
+    private Owner LoggedUser() {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Owner loggedUser = this.ownerService.findOwnerByUsername(user.getUsername());
+		return loggedUser; 
+	}
+
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
@@ -69,30 +62,24 @@ public class RequestController {
 		this.requestService = requestService;
 
     }
-	
-	@ModelAttribute("pets")
-	public Collection<Pet> populatePets() {
-		return loggedUser().getPets();
-	}
     
     @GetMapping("/createRequest/{serviceName}/{serviceId}")
     public String createRequestForm(@PathVariable("serviceName") String serviceName, 
-                                    @PathVariable("serviceId") int serviceId, ModelMap model){
+                                    @PathVariable("serviceId") int serviceId, Model model){
             
         //COMPROBAR QUE SE ESTÁ LOGUEADO
-        Owner userLogged = loggedUser();
+        Owner userLogged = LoggedUser();
+
         if(userLogged!=null){
 
-            //CREAR UNA REQUEST
+            //CREAR UNA REQUEST Y 
             Request request = new Request();
-
             model.addAttribute("loggedUser", userLogged.getId());
             
-            //ASIGNAR OWNER A LA REQUEST
             request.setOwner(userLogged);
 
-            //ASIGNAR HORA Y FECHA DE SOLICITUD
-            request.setRequestDate(LocalDateTime.now());
+            List<Pet> pets = userLogged.getPets();
+            model.addAttribute("pets", pets);
 
             //Coger el SERVICE DESDE EL QUE SE HACE
             if(serviceName.equals("residence")){
@@ -104,13 +91,11 @@ public class RequestController {
                 
             }else if(serviceName.equals("clinic")) {                
                 Clinic clinic = this.clinicService.findClinicById(serviceId);
-                
-                request.setFinishDate(LocalDateTime.of(2050, 12, 29, 23, 59));
+
                 model.addAttribute("request", request);
                 model.addAttribute("service", "clinic");
                 model.addAttribute("residence", clinic);
             }
-            
             return VIEW_CREATE_REQUEST;
         }
         return "redirect:/oups";
@@ -120,55 +105,57 @@ public class RequestController {
     public String processRequestForm(@PathVariable("serviceName") String serviceName,
                                     @PathVariable("serviceId") Integer serviceId,
                                     @Valid Request request, BindingResult result,
-                                    ModelMap model){
+                                    Model model){
         
-        //Comprobar que está loggeado        
-        Owner owner = loggedUser();
-    
-        if(owner!=null){
-
-            if(result.hasErrors()){
-                model.addAttribute("service", serviceName);
-                model.addAttribute("request",request);
-                model.addAttribute("loggedUser", loggedUser().getId());
-                return VIEW_CREATE_REQUEST;
-            }
-
-            //Asignar request a Owner
-            owner.addRequest(request);
+        if (result.hasErrors()) {
+            model.addAttribute("Request", request);
+            return VIEW_CREATE_REQUEST;
+        }
+        //Asignar owner
+        Owner owner = LoggedUser();
+        
+        if(owner!= null){
+            
             request.setOwner(owner);
-
-            //Añadir request al service
-            //Asignar Employee
+            
+            //Añadir request para Owner
+            owner.addRequest(request);
+            
+            //Asignar employee
             if(serviceName.equals("residence")){
+                
                 Residence residence = this.residenceService.findResidenceById(serviceId);
                 
-                residence.addRequest(request);
-
                 Employee emp = residence.getEmployees().stream()
-                		.skip((int) (residence.getEmployees().size()-1 * Math.random()))
-                        .findFirst().get();
-
+                .skip((int) (residence.getEmployees().size()-1 * Math.random()))
+                .findFirst().get();
+                
                 request.setEmployee(emp);
-            
-            }else if(serviceName.equals("clinic")){
+                
+                //Añadir request para Service
+                residence.addRequest(request);
+                
+            } else if(serviceName.equals("clinic")){
                 Clinic clinic = this.clinicService.findClinicById(serviceId);
                 
-                clinic.addRequest(request);
-
                 Employee emp = clinic.getEmployees().stream()
-                		.skip((int) (clinic.getEmployees().size()-1 * Math.random()))
-                        .findFirst().get();
-
+                .skip((int) (clinic.getEmployees().size()-1 * Math.random()))
+                .findFirst().get();
+                
                 request.setEmployee(emp);
+                
+                //Añadir request para Service
+                clinic.addRequest(request);
             }
+            
+            request.setRequestDate(LocalDateTime.now());
             this.requestService.save(request);
+            System.out.println("MASCOTA: ->>>>" +request.getPet());
             return "redirect:/owners/"+owner.getId()+"/myRequestList";
+            
         }
-        
         
         return "redirect:/oups";
         
     }
 }
-//http://localhost:8080/createRequest/clinic/1

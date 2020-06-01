@@ -150,7 +150,7 @@ public class ItemControllerTests {
 	@Test
 	void shouldViewMyItemsList() throws Exception{
 		mockMvc.perform(get("/employees/{employeeId}/itemsList",  TEST_EMPLOYEE_ID))
-		.andExpect(status().isOk()).andExpect(model().attributeExists("items"))
+		.andExpect(status().isOk())
 		.andExpect(view().name("employees/itemsList"));
 	}
 	

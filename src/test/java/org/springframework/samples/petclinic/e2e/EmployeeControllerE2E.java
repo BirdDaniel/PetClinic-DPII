@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.bdd.e2e;
+package org.springframework.samples.petclinic.e2e;
 
 import javax.transaction.Transactional;
 
@@ -7,9 +7,10 @@ import org.springframework.samples.petclinic.service.ResidenceService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ItemService;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -57,9 +58,14 @@ public class EmployeeControllerE2E {
     void shouldGetRequests() throws Exception{
         mockMvc.perform(get("/employees/{employeeId}/requests", TEST_EMPLOYEE_ID))
         .andExpect(status().isOk())
-        .andExpect(model().attributeExists("requests"))
-		.andExpect(model().attributeExists("loggedUser"))
         .andExpect(view().name("employees/requests"));
+    }
+    @WithMockUser(value = "emp1", authorities = {"employee"})
+    @Test
+    void shouldGetPets() throws Exception{
+        mockMvc.perform(get("/employees/{employeeId}/pets", TEST_EMPLOYEE_ID))
+        .andExpect(status().isOk())
+        .andExpect(view().name("employees/pets"));
     }
     //Colleagues siempre muestra la vista, si no tiene se muestra vacia.
     @WithMockUser(value = "emp1", authorities = {"employee"})
@@ -67,8 +73,6 @@ public class EmployeeControllerE2E {
     void shouldGetColleagues() throws Exception{
         mockMvc.perform(get("/employees/{employeeId}/colleagues", TEST_EMPLOYEE_ID))
         .andExpect(status().isOk())
-        .andExpect(model().attributeExists("colleagues"))
-		.andExpect(model().attributeExists("loggedUser"))
         .andExpect(view().name("employees/colleagues"));
     }
 	@WithMockUser(value="emp5", authorities = {"employee"})
@@ -93,7 +97,6 @@ public class EmployeeControllerE2E {
     void shouldGetAppointments() throws Exception{
         mockMvc.perform(get("/employees/{employeeId}/appointments", TEST_EMPLOYEE_ID))
         .andExpect(status().isOk())
-        .andExpect(model().attributeExists("loggedUser"))
         .andExpect(view().name("employees/appointments"));
     }
 
@@ -160,10 +163,6 @@ public class EmployeeControllerE2E {
 	void shouldGetAssignColleagues() throws Exception {
 		mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/assign", TEST_EMPLOYEE_ID, TEST_REQUEST_ID))
 		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("colleagues"))
-		.andExpect(model().attributeExists("loggedUser"))
-		.andExpect(model().attributeExists("request"))
-		.andExpect(model().attributeExists("assign"))
 		.andExpect(view().name("employees/colleagues"));
 	}
 	@WithMockUser(value="emp5",authorities = {"employee"})
@@ -173,7 +172,7 @@ public class EmployeeControllerE2E {
 		.andExpect(status().is3xxRedirection()) //Empty page
 		.andExpect(view().name("redirect:/oups"));
 	}
-	@WithMockUser(value = "emp1",authorities = {"employee"})
+	@WithMockUser(value = "emp5",authorities = {"employee"})
 	@Test
 	void shouldGetReassignColleagues() throws Exception {
 		mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/{colleagueId}/reassign", TEST_EMPLOYEE_ID, TEST_REQUEST_ID,TEST_EMPLOYEE_ID5))
