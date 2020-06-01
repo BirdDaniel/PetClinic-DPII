@@ -1,7 +1,9 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.EmployeeService;

@@ -185,7 +185,7 @@ ADVERTENCIA: Unmatched cancel notification for request id 2
 2020.05.29 13:00:49 WARN  no build target for: C:\Users\Aug\Documents\UniStuff\Tercero\2o Cuatrimestre\DP II\gatling-charts-highcharts-bundle-3.3.1\user-files\simulations\Historia1PetList.scala
 2020.05.29 13:00:52 WARN  no build target for: C:\Users\Aug\Documents\UniStuff\Tercero\2o Cuatrimestre\DP II\gatling-charts-highcharts-bundle-3.3.1\user-files\simulations\Historia1PetList.scala
 may 29, 2020 1:03:01 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
-INFORMACIÓN: Unsupported notification method: $/setTraceNotification
+INFORMACIÃ“N: Unsupported notification method: $/setTraceNotification
 2020.05.29 13:04:52 WARN  code navigation does not work for the file 'C:\Users\Aug\Documents\UniStuff\Tercero\2o Cuatrimestre\DP II\gatling-charts-highcharts-bundle-3.3.1\user-files\simulations\Historia1PetList.scala' because it doesn't belong to a build target.
 2020.05.29 13:05:08 WARN  no build target for: C:\Users\Aug\Documents\UniStuff\Tercero\2o Cuatrimestre\DP II\gatling-charts-highcharts-bundle-3.3.1\user-files\simulations\Historia1PetList.scala
 2020.05.29 13:05:24 WARN  code navigation does not work for the file 'C:\Users\Aug\Documents\UniStuff\Tercero\2o Cuatrimestre\DP II\gatling-charts-highcharts-bundle-3.3.1\user-files\simulations\Historia1PetList.scala' because it doesn't belong to a build target.
@@ -249,4 +249,6 @@ ADVERTENCIA: Unmatched cancel notification for request id 902
 2020.05.31 12:11:07 INFO  time: initialize in 0.44s
 2020.05.31 12:11:08 INFO  skipping build import with status 'Requested'
 may 31, 2020 12:11:26 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
-INFORMACIÓN: Unsupported notification method: $/setTraceNotification
+INFORMACIÃ“N: Unsupported notification method: $/setTraceNotification
+2020.05.31 12:17:42 INFO  no build target: using presentation compiler with only scala-library
+

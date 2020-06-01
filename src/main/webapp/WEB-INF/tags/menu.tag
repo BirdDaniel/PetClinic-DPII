@@ -45,14 +45,16 @@
 					title="Requests">
 					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
 					<span>Requests</span>
-					</petclinic:menuItem>
-					
-					<petclinic:menuItem active="${name eq 'requestsPayEmployee'}" url="/employees/${loggedUser}/payments"
-					title="Payments">
-					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-					<span>Payments</span>
 					
 				</petclinic:menuItem>
+							
+				<sec:authorize access="hasAuthority('employee')">
+				<petclinic:menuItem active="${name eq 'pets'}" url="/employees/${loggedUser}/pets"
+					title="Pets">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					<span>My Pets</span>
+				</petclinic:menuItem>
+				</sec:authorize>
 					<petclinic:menuItem active="${name eq 'colleaguesEmployee'}" url="/employees/${loggedUser}/colleagues"
 					title="Colleagues">
 					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
@@ -95,6 +97,7 @@
 					<span>Inventory</span>
 				</petclinic:menuItem>
 				</sec:authorize>
+	
 				
 			</ul>
 
