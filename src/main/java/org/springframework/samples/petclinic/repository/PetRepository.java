@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 
@@ -64,4 +65,5 @@ public interface PetRepository {
 	Collection<Pet> findPetsOfOwnerByName(int ownerId, String name) throws DataAccessException;
 
 	Collection<Pet> findAll() throws DataAccessException;
+	Collection<Pet> findPetResByEmployeeId(Employee employee) throws DataAccessException;
 }

@@ -44,7 +44,7 @@ private static final int TEST_OWNER_ID = 1;
 	
 	private static final int TEST_REQUEST_RESIDENCE_ID = 5;
 	
-	private static final int TEST_REQUEST_NULL_ID = 7;
+	private static final int TEST_REQUEST_NULL_ID = 9;
 	
 	
 	@Autowired
@@ -263,7 +263,7 @@ private static final int TEST_OWNER_ID = 1;
 		.andExpect(model().attributeExists("residence"))
 		.andExpect(model().attribute("residence", hasProperty("name", is("Residence \"Happy Pet\""))))
 		.andExpect(model().attribute("residence", hasProperty("rating", is("The rating is 3 stars"))))
-		.andExpect(model().attribute("residence", hasProperty("address", is("Madison Square, 51-B"))))
+		.andExpect(model().attribute("residence", hasProperty("address", is("c/Bailén 18"))))
 		.andExpect(model().attribute("residence", hasProperty("close", is(LocalTime.of(10, 10)))))
 		.andExpect(view().name("services/residenceServiceDetails"));
 	}

@@ -11,10 +11,12 @@ import java.util.TreeSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
+import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ResidenceService;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,18 +37,19 @@ public class EmployeeController {
 	private final EmployeeService	employeeService;
 	private final ClinicService		clinicService;
 	private final ResidenceService	residenceService;
+	private final PetService		petService;
 	private final static String		VIEW_MY_REQUESTS		= "employees/requests";
 	private final static String		VIEW_MY_APPOINTMENTS	= "employees/appointments";
-
+	
 
 	@Autowired
-	public EmployeeController(final EmployeeService employeeService, final RequestService requestService, final ClinicService clinicService, final ResidenceService residenceService) {
+	public EmployeeController(final EmployeeService employeeService, final RequestService requestService, final ClinicService clinicService, final ResidenceService residenceService, final PetService	petService) {
 
 		this.requestService = requestService;
 		this.employeeService = employeeService;
 		this.clinicService = clinicService;
 		this.residenceService = residenceService;
-
+		this.petService=	petService;
 	}
 
 	private boolean isAuth(final Employee employee) {
@@ -156,6 +159,17 @@ public class EmployeeController {
 		return "redirect:/oups";
 
 	}
+	@GetMapping(value = "/pets")
+ 	public String pets(final Employee employee, final Map<String, Object> model) {
+
+ 		if (this.isAuth(employee)) {
+ 			Collection<Pet> pets=this.petService.findPetResByEmployeeId(employee);
+ 			model.put("loggedUser", employee.getId());
+ 			model.put("pets", pets);
+ 			return "employees/pets";
+ 		}
+ 		return "redirect:/oups";
+ 	}
 
 	@GetMapping("/appointments")
 	public String allAppointments(final Employee employee, final Map<String, Object> model) {
