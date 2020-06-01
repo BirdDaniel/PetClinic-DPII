@@ -42,9 +42,11 @@ public class PayPalController {
 		Service service = new Service();
 		service = (this.clinicService.findClinicByRequest(rq)!=null)? this.clinicService.findClinicByRequest(rq):this.residenceService.findResidenceByRequest(rq);
 		try {
-			Payment payment = paypalService.createPayment(Double.valueOf(service.getPrice()), "http://localhost:8080/" + CANCEL_URL,
-					"http://localhost:8080/" + SUCCESS_URL);
-			for(Links link:payment.getLinks()) {
+      
+			Payment payment = paypalService.createPayment(Double.valueOf(service.getPrice()), "http://www.dp2.com/" + CANCEL_URL,
+					"http://www.dp2.com/" + SUCCESS_URL);
+      
+      for(Links link:payment.getLinks()) {
 				if(link.getRel().equals("approval_url")) {
 					return "redirect:"+link.getHref();
 				}
