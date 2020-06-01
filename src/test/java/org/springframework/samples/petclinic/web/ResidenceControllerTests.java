@@ -54,39 +54,36 @@ public class ResidenceControllerTests {
 	private static final int  TEST_RESIDENCE_ID2=50;
 	private Owner david;
 	private Residence r1;
-	
 	@BeforeEach
 	void setup() {
 	    r1=new Residence();
 		r1.setId( TEST_RESIDENCE_ID);
 		this.david=new Owner();
-		david.setId(TEST_OWNER_ID);
+		 david.setId(TEST_OWNER_ID);
 		given(this.ownerService.findOwnerById(TEST_OWNER_ID)).willReturn(david);
 		given(this.ownerService.findOwnerByUsername("owner2")).willReturn(david);
 		given(this.residenceService.findResidenceById(TEST_RESIDENCE_ID)).willReturn(r1);
 	}
-	
-	@WithMockUser(value = "owner2")
-	@Test
-	void testShowResidenceListHtml() throws Exception {
-		mockMvc.perform(get("/residence/findAll")).andExpect(status().isOk())
-		.andExpect(view().name("services/residences"))
-		.andExpect(model().attributeExists("residences"));
-	}
-	
-	@WithMockUser(value="owner2")
-	@Test
-	void testShowResidencePos() throws Exception {
-	    mockMvc.perform(get("/residence/{residenceId}", TEST_RESIDENCE_ID))
-	    .andExpect(status().isOk())
-	    .andExpect(view().name("services/residenceServiceDetails"));
-	}	
-	
-	@WithMockUser(value="owner2")
-	@Test
-	void testShowClinicNeg() throws Exception {
-		mockMvc.perform(get("/residence/{residenceId}", TEST_RESIDENCE_ID2))
-		.andExpect(status().is3xxRedirection())
-	 	.andExpect(view().name("redirect:/oups"));
-	}
+	 @WithMockUser(value = "owner2")
+		@Test
+		void testShowResidenceListHtml() throws Exception {
+			mockMvc.perform(get("/residence/findAll")).andExpect(status().isOk())
+			.andExpect(view().name("services/residences"))
+			.andExpect(model().attributeExists("residences"));
+		}
+	    @WithMockUser(value="owner2")
+	    @Test
+	    void testShowResidencePos() throws Exception {
+	    	 mockMvc.perform(get("/residence/{residenceId}", TEST_RESIDENCE_ID))
+	    	 .andExpect(status().isOk())
+	    	 .andExpect(view().name("services/residenceServiceDetails"));
+	    }	
+	    @WithMockUser(value="owner2")
+	    @Test
+	  
+	    void testShowClinicNeg() throws Exception {
+	    	 mockMvc.perform(get("/residence/{residenceId}", TEST_RESIDENCE_ID2))
+	    	 .andExpect(status().is3xxRedirection())
+	 		.andExpect(view().name("redirect:/oups"));
+	 	}
 }

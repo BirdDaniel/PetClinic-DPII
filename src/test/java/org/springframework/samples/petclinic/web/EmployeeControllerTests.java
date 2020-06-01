@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.web;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -11,6 +10,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,7 @@ import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.ItemService;
+import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ResidenceService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -104,8 +105,6 @@ public	class EmployeeControllerTests {
 	void shouldGetRequests() throws Exception {
 		mockMvc.perform(get("/employees/{employeeId}/requests", TEST_EMPLOYEE_ID4))
 		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("requests"))
-		.andExpect(model().attributeExists("loggedUser"))
 		.andExpect(view().name("employees/requests"));
 	}
 
@@ -124,7 +123,6 @@ public	class EmployeeControllerTests {
 	void shouldGetAppointments() throws Exception{
 		mockMvc.perform(get("/employees/{employeeId}/appointments", TEST_EMPLOYEE_ID))
 		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("loggedUser"))
 		.andExpect(view().name("employees/appointments"));
 	}
 
@@ -201,8 +199,6 @@ public	class EmployeeControllerTests {
 		void shouldGetColleagues1() throws Exception {
 			mockMvc.perform(get("/employees/{employeeId}/colleagues", TEST_EMPLOYEE_ID))
 			.andExpect(status().isOk())
-			.andExpect(model().attributeExists("colleagues"))
-			.andExpect(model().attributeExists("loggedUser"))
 			.andExpect(view().name("employees/colleagues"));
 		}
 		@WithMockUser(value = "emp1")
@@ -210,10 +206,6 @@ public	class EmployeeControllerTests {
 		void shouldGetAssignColleagues() throws Exception {
 			mockMvc.perform(get("/employees/{employeeId}/requests/{requestId}/assign", TEST_EMPLOYEE_ID, TEST_REQUEST_ID))
 			.andExpect(status().isOk())
-			.andExpect(model().attributeExists("colleagues"))
-			.andExpect(model().attributeExists("loggedUser"))
-			.andExpect(model().attributeExists("request"))
-			.andExpect(model().attributeExists("assign"))
 			.andExpect(view().name("employees/colleagues"));
 		}
 		@WithMockUser(value="emp5")
