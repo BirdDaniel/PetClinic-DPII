@@ -12,10 +12,13 @@ import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Residence;
+import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ResidenceService;
+import org.springframework.samples.petclinic.service.exceptions.RequestWithoutPetException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -35,6 +38,7 @@ public class RequestController {
     private final ClinicService clinicService;
     private final ResidenceService residenceService;
     private final OwnerService ownerService;
+    private final AuthoritiesService authoritiesService;
 
     private Owner LoggedUser() {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
