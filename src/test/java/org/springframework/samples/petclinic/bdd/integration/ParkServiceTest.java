@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.dbintegration;
+package org.springframework.samples.petclinic.bdd.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;

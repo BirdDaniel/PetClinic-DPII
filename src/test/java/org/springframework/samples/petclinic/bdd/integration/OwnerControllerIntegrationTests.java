@@ -30,7 +30,7 @@ private static final int TEST_REQUEST_CLINIC_ID = 2;
 	
 	private static final int TEST_REQUEST_RESIDENCE_ID = 5;
 	
-	private static final int TEST_REQUEST_NULL_ID = 7;
+	private static final int TEST_REQUEST_NULL_ID = 9;
 	
 	private static final int TEST_CLINIC_ID = 2;
 	

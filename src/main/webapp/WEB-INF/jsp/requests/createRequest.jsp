@@ -52,6 +52,12 @@
     <form:form modelAttribute="request" class="form-horizontal" id="add-request-form">
         <div class="form-group has-feedback">
 
+			<div style="display: none;">
+                <petclinic:inputField label="" name="requestDate"/>
+            <c:if test="${service eq 'clinic'}">
+            <petclinic:inputField label="" name="finishDate"/>
+            </c:if>
+			</div>
             <c:if test="${service eq 'residence'}">
             <petclinic:inputField label="Date to bring your pet" name="serviceDate"/>
             <petclinic:inputField label="Date to pick up your pet" name="finishDate"/>
@@ -60,7 +66,7 @@
             <petclinic:inputField label="Choose a date" name="serviceDate"/>
             </c:if>
             <div class="control-group">
-                <petclinic:selectFieldv2 name="pet" label="Pet" names="${pets}" size="2"/>
+                <petclinic:selectField name="pet" label="Pet" names="${pets}" size="2"/>
             </div>
         </div>
         <div class="form-group">

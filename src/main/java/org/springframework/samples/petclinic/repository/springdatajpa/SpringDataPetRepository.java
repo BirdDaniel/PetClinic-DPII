@@ -23,7 +23,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.repository.PetRepository;
@@ -47,8 +46,5 @@ public interface SpringDataPetRepository extends PetRepository, Repository<Pet, 
 	@Override
 	@Query("SELECT pet FROM Pet pet WHERE pet.name = :name AND pet.owner.id = :id")
 	Collection<Pet> findPetsOfOwnerByName(@Param("id") int ownerId, @Param("name") String name);
-	@Query("SELECT pet FROM Pet pet, Request req,Residence resi, Employee emp WHERE req in elements(resi.requests) AND req.pet=pet AND emp=:employee AND req.status = true  AND CURRENT_TIMESTAMP BETWEEN req.serviceDate AND req.finishDate AND emp in elements(resi.employees) ")
-	
-	public Collection<Pet> findPetResByEmployeeId(@Param("employee") Employee employee);
-	//@Query("SELECT pet FROM Pet pet, Request req,Residence resi, Employee emp WHERE req in elements(resi.requests) AND pet in elements (req.pets=pet) AND emp=:employee AND req.status = true  AND CURRENT_TIMESTAMP BETWEEN req.serviceDate AND req.finishDate AND emp in elements(resi.employees) ")
+
 }

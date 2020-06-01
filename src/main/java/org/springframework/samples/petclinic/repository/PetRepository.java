@@ -20,10 +20,8 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.BaseEntity;
-import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
-import org.springframework.samples.petclinic.model.Request;
 
 /**
  * Repository class for <code>Pet</code> domain objects All method names are compliant
@@ -59,8 +57,11 @@ public interface PetRepository {
 	 */
 	void save(Pet pet) throws DataAccessException;
 	
-	void deletePet(int id) throws DataAccessException;
+	void deletePet(int petId) throws DataAccessException;
+	
+	void delete(Pet pet) throws DataAccessException;
 	
 	Collection<Pet> findPetsOfOwnerByName(int ownerId, String name) throws DataAccessException;
-	Collection<Pet> findPetResByEmployeeId(Employee employee) throws DataAccessException;
+
+	Collection<Pet> findAll() throws DataAccessException;
 }

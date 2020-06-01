@@ -24,18 +24,12 @@ import java.util.logging.Logger;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
-import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.model.Visit;
-import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
 import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Service;
@@ -79,8 +73,7 @@ class PetServiceTests {
         @Autowired
 	protected OwnerService ownerService;	
         
-        @Autowired
-    	protected EmployeeService employeeService;
+
 	@Test
 	void shouldFindPetWithCorrectId() {
 		Pet pet7 = this.petService.findPetById(7);
@@ -98,23 +91,7 @@ class PetServiceTests {
 		PetType petType4 = EntityUtils.getById(petTypes, PetType.class, 4);
 		assertThat(petType4.getName()).isEqualTo("snake");
 	}
-	@Test
-	void shouldNotFindPetEmployee() {
-		Employee emp=new Employee();
-		emp.setId(1);
-		Collection<Pet> pets=this.petService.findPetResByEmployeeId(emp);
-		assertThat(pets.isEmpty()).isTrue();
-		assertThat(pets.size()).isEqualTo(0);
-	}
-	@Test
-	void shouldFindPetEmployee() {
-		Employee emp=new Employee();
-		//Emp 5 tiene un pet.
-		emp.setId(5);
-		Collection<Pet> pets=this.petService.findPetResByEmployeeId(emp);
-		assertThat(pets.isEmpty()).isFalse();
-		assertThat(pets.size()).isEqualTo(1);
-	}
+
 	@Test
 	@Transactional
 	public void shouldInsertPetIntoDatabaseAndGenerateId() {
@@ -261,5 +238,4 @@ class PetServiceTests {
 		pets = this.petService.findPetsOfOwnerByName(owner.getId(), "Iggy");
         assertThat(pets.size()).isEqualTo(0);
 	}
-
 }
