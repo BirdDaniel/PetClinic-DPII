@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.repository.RequestRepository;
 import org.springframework.stereotype.Service;
@@ -51,5 +52,7 @@ public class RequestService {
 	 public Collection<Request> findAcceptedResByOwnerId(int ownerId) throws DataAccessException{ 
 		 return requestRepository.findAcceptedResByOwnerId(ownerId);
 	 }
+
+
 
 }

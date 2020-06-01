@@ -79,7 +79,8 @@ class PetServiceTests {
         @Autowired
 	protected OwnerService ownerService;	
         
-
+        @Autowired
+    	protected EmployeeService employeeService;
 	@Test
 	void shouldFindPetWithCorrectId() {
 		Pet pet7 = this.petService.findPetById(7);
@@ -97,7 +98,23 @@ class PetServiceTests {
 		PetType petType4 = EntityUtils.getById(petTypes, PetType.class, 4);
 		assertThat(petType4.getName()).isEqualTo("snake");
 	}
-
+	@Test
+	void shouldNotFindPetEmployee() {
+		Employee emp=new Employee();
+		emp.setId(1);
+		Collection<Pet> pets=this.petService.findPetResByEmployeeId(emp);
+		assertThat(pets.isEmpty()).isTrue();
+		assertThat(pets.size()).isEqualTo(0);
+	}
+	@Test
+	void shouldFindPetEmployee() {
+		Employee emp=new Employee();
+		//Emp 5 tiene un pet.
+		emp.setId(5);
+		Collection<Pet> pets=this.petService.findPetResByEmployeeId(emp);
+		assertThat(pets.isEmpty()).isFalse();
+		assertThat(pets.size()).isEqualTo(1);
+	}
 	@Test
 	@Transactional
 	public void shouldInsertPetIntoDatabaseAndGenerateId() {
@@ -244,4 +261,5 @@ class PetServiceTests {
 		pets = this.petService.findPetsOfOwnerByName(owner.getId(), "Iggy");
         assertThat(pets.size()).isEqualTo(0);
 	}
+
 }
