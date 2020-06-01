@@ -71,6 +71,13 @@ public class EmployeeControllerE2E {
 		.andExpect(model().attributeExists("loggedUser"))
         .andExpect(view().name("employees/colleagues"));
     }
+    @WithMockUser(value = "emp1", authorities = {"employee"})
+    @Test
+    void shouldGetPets() throws Exception{
+        mockMvc.perform(get("/employees/{employeeId}/pets", TEST_EMPLOYEE_ID))
+        .andExpect(status().isOk())
+        .andExpect(view().name("employees/pets"));
+    }
 	@WithMockUser(value="emp5", authorities = {"employee"})
 	@Test
 	void shouldNotGetColleagues() throws Exception {

@@ -44,18 +44,6 @@ public class PayPalController {
 
 	public static Request request;
 
-	@GetMapping("/pay/{requestId}")
-	public String payment(@PathVariable("requestId") int requestId) {
-		request = new Request();
-		Request rq = this.requestService.findById(requestId);
-		request = rq;
-		Service service = new Service();
-		service = (this.clinicService.findClinicByRequest(rq)!=null)? this.clinicService.findClinicByRequest(rq):this.residenceService.findResidenceByRequest(rq);
-		try {
-
-			Payment payment = paypalService.createPayment(Double.valueOf(service.getPrice()), "http://localhost/" + CANCEL_URL,
-					"http://localhost/" + SUCCESS_URL);
-			for(Links link:payment.getLinks()) {
 
 
 	@GetMapping("/pay/{requestId}")

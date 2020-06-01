@@ -39,7 +39,7 @@ public class RequestController {
     private final ClinicService clinicService;
     private final ResidenceService residenceService;
     private final OwnerService ownerService;
-    private final AuthoritiesService authoritiesService;
+
 
     private Owner loggedUser() {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
