@@ -43,18 +43,14 @@ public class RequestController {
     private final ClinicService clinicService;
     private final ResidenceService residenceService;
     private final OwnerService ownerService;
-    private final AuthoritiesService authoritiesService;
 
     private Owner loggedUser() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String rol = this.authoritiesService.findById(user.getUsername()).getAuthority();
         
-        if(rol.equals("owner")){
         Owner loggedUser = this.ownerService.findOwnerByUsername(user.getUsername());
         return loggedUser; 
-        }
-        return null;
-	}
+        
+    }
     
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -78,11 +74,6 @@ public class RequestController {
 	public Collection<Pet> populatePets() {
 		return loggedUser().getPets();
 	}
-	
-//	@InitBinder("request")
-//	public void initPetBinder(WebDataBinder dataBinder) {
-//		dataBinder.setValidator(new RequestValidator());
-//	}
     
     @GetMapping("/createRequest/{serviceName}/{serviceId}")
     public String createRequestForm(@PathVariable("serviceName") String serviceName, 

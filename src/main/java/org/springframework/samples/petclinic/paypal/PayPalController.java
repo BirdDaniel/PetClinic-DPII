@@ -69,7 +69,7 @@ public class PayPalController {
 	            Payment payment = paypalService.executePayment(paymentId, payerId);
 	            System.out.println(payment.toJSON());
 	            if (payment.getState().equals("approved")) {
-	            	request.setPay(true);
+	            	request.setPaid(true);
 	            	this.requestService.save(request);
 	                return "paypal/success";
 	            }
