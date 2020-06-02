@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -91,6 +92,23 @@ class PetServiceTests {
 		PetType petType4 = EntityUtils.getById(petTypes, PetType.class, 4);
 		assertThat(petType4.getName()).isEqualTo("snake");
 	}
+	@Test
+ 	void shouldNotFindPetEmployee() {
+ 		Employee emp=new Employee();
+ 		emp.setId(1);
+ 		Collection<Pet> pets=this.petService.findPetResByEmployeeId(emp);
+ 		assertThat(pets.isEmpty()).isTrue();
+ 		assertThat(pets.size()).isEqualTo(0);
+ 	}
+ 	@Test
+ 	void shouldFindPetEmployee() {
+ 		Employee emp=new Employee();
+ 		//Emp 5 tiene un pet.
+ 		emp.setId(5);
+ 		Collection<Pet> pets=this.petService.findPetResByEmployeeId(emp);
+ 		assertThat(pets.isEmpty()).isFalse();
+ 		assertThat(pets.size()).isEqualTo(1);
+ 	}
 
 	@Test
 	@Transactional
