@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -35,7 +34,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/", "/oups").permitAll()
 				.antMatchers("/residence/findAll").hasAnyAuthority("admin, owner")
-				.antMatchers("/pay/{clinicId}").permitAll()
+				.antMatchers("/pay/**").permitAll()
+				.antMatchers("/payments/**").hasAnyAuthority("admin, employee")
 				.antMatchers("/residence/{residenceId}").hasAnyAuthority("admin, owner")
 				.antMatchers("/clinic/{clinicId}").hasAnyAuthority("admin, owner")
 				.antMatchers("/clinic/findAll").hasAnyAuthority("admin, owner")

@@ -68,11 +68,6 @@ INSERT INTO users(username,password,enabled) VALUES ('owner3','0wn3r',TRUE);
 
 -- 
 
---INSERT INTO vet_specialties VALUES (2, 1);
---INSERT INTO vet_specialties VALUES (3, 2);
---INSERT INTO vet_specialties VALUES (3, 3);
---INSERT INTO vet_specialties VALUES (4, 2);
---INSERT INTO vet_specialties VALUES (5, 1);
 INSERT INTO PARKS VALUES(1,'Parque del retiro', 'Plaza de la independencia, Madrid',1);
 INSERT INTO PARKS VALUES(2,'Parque del Alamillo', 'Callejón Iglesia, Serranillos del Valle',2);
 INSERT INTO PARKS VALUES(3,'Parque de la urba', 'Calle del Cerro, 36, 28979 Serranillos del Valle, Madrid',3);
@@ -101,17 +96,16 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (10, 'Mulligan', '2
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (11, 'Freddy', '2010-03-09', 5, 1);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010-06-24', 2, 4);
 
-
-
 --INSERT INTO clinics(id, name, address, close, open, rating, description, max, price, type_id);
-INSERT INTO clinics VALUES (1, 'Clinica 1','Elm Street s/n', '10:10', '12:00', 3, 'Description 1', 10, 2.5, 1);
-INSERT INTO clinics VALUES (2, 'Clinica 2','Avenida de la reina mercedes 2', '10:10', '12:00', 4, 'Description 2', 20, 3.5, 2);
-INSERT INTO clinics VALUES (3, 'Clinica 3', 'Calle Bami 3', '10:00', '13:00', 5, 'Description 3', 30, 4.5, 3);
+
+INSERT INTO clinics (id, name, address, close, open, rating, description, max, price, type_id)VALUES (1, 'Clinica 1','Elm Street s/n', '10:10', '12:00', 3, 'Description 1', 10, 2.5, 1);
+INSERT INTO clinics (id, name, address, close, open, rating, description, max, price, type_id)VALUES (2, 'Clinica 2','Avenida de la reina mercedes 2', '10:10', '12:00', 4, 'Description 2', 20, 3.5, 2);
+INSERT INTO clinics (id, name, address, close, open, rating, description, max, price, type_id)VALUES (3, 'Clinica 3', 'Calle Bami 3', '10:00', '13:00', 5, 'Description 3', 30, 4.5, 3);
 
 --INSERT INTO residences(id, name, address, close, open, rating, description, max, price,days);
-INSERT INTO residences VALUES (1, 'Residence "Happy Pet"','Madison Square, 51-B', '10:10', '12:00', 3, 'Description 1', 10, 2.5);
-INSERT INTO residences VALUES (2, 'The Pet Residence ','Baker Street 221-B', '10:10', '12:00', 4, 'Description 2', 20, 3.5);
-INSERT INTO residences VALUES (3, 'Pet Stay','Avenida Doctor Fedriani, 3, 2ºC', '10:00:00', '13:00', 5, 'Description 3', 30, 4.5);
+INSERT INTO residences (id, name, address, close, open, rating, description, max, price)VALUES (1, 'Residence "Happy Pet"','c/Bailén 18', '10:10', '12:00', 3, 'Description 1', 10, 2.5);
+INSERT INTO residences (id, name, address, close, open, rating, description, max, price)VALUES (2, 'The Pet Residence ','c/Bami, 12', '10:10', '12:00', 4, 'Description 2', 20, 3.5);
+INSERT INTO residences (id, name, address, close, open, rating, description, max, price)VALUES (3, 'Pet Stay','Avenida Doctor Fedriani, 3', '10:00:00', '13:00', 5, 'Description 3', 30, 4.5);
 
 --INSERT INTO employees(id, first_name, last_name, telephone, dni, username);
 INSERT INTO employees VALUES (1, 'Marta', 'Carter', '679845125','65847525H','emp1');
@@ -127,21 +121,23 @@ INSERT INTO employees VALUES (9, 'Sarah', 'Gomez', '615453223', '87654721A', 'em
 INSERT INTO employees VALUES (10, 'John', 'Jones', '613876603', '87654341A', 'emp10');
 
 
---INSERT INTO requests(id,date_finish, date_req, date_ser, status, employee_id, owner_id, pet_id);
-INSERT INTO requests VALUES (4, '2020-12-12 12:00', '2020-01-01 13:00','2020-02-02 17:00', true, 5, 1, 1);
-INSERT INTO requests VALUES (2, '2030-08-12 12:00', '2019-08-06 19:00','2021-08-01 18:00', true, 2, 1, 3);
-INSERT INTO requests VALUES (3, '2030-08-12 12:00', '2019-08-06 18:00','2023-08-01 17:30', false, 2, 2, 2);
-INSERT INTO requests VALUES (1, '2030-08-12 12:00', '2019-08-06 20:00','2021-08-05 16:00', true, 1, 2, 1);
-INSERT INTO requests VALUES (5, '2030-08-12 12:00', '2019-08-06 14:00','2024-08-01 15:30', true, 3, 3, 3);
-INSERT INTO requests VALUES (6, '2030-08-12 12:00', '2019-08-06 15:00','2022-08-01 14:30', null, 3, 3, 2);
-INSERT INTO requests VALUES (7, '2030-08-12 12:00', '2019-08-08 17:00','2022-08-05 19:00', true, 1, 2, 2);
-INSERT INTO requests VALUES (8, '2030-08-12 12:00', '2019-08-06 15:00','2022-08-01 14:30', true, 4, 3, 2);
-INSERT INTO requests VALUES (9, '2030-08-12 12:00', '2019-08-08 17:00','2022-08-05 19:00', true, 4, 2, 2);
+--INSERT INTO requests(id,date_finish, paid, date_req, date_ser, status, employee_id, owner_id, pet_id);
+INSERT INTO requests VALUES (4, '2020-12-12 12:00', false, '2020-01-01 13:00','2020-02-02 17:00', true, 5, 1, 1);
+INSERT INTO requests VALUES (2, '2030-08-12 12:00', true, '2019-08-06 19:00','2021-08-01 18:00', true, 2, 1, 3);
+INSERT INTO requests VALUES (3, '2030-08-12 12:00', false, '2019-08-06 18:00','2023-08-01 17:30', false, 2, 2, 2);
+INSERT INTO requests VALUES (1, '2030-08-12 12:00', true, '2019-08-06 20:00','2021-08-05 16:00', true, 1, 2, 1);
+INSERT INTO requests VALUES (5, '2030-08-12 12:00', false, '2019-08-06 14:00','2024-08-01 15:30', true, 3, 3, 3);
+INSERT INTO requests VALUES (6, '2030-08-12 12:00', false, '2019-08-06 15:00','2022-08-01 14:30', null, 3, 3, 2);
+INSERT INTO requests VALUES (7, '2030-08-12 12:00', false, '2019-08-08 17:00','2022-08-05 19:00', true, 1, 2, 2);
+INSERT INTO requests VALUES (8, '2030-08-12 12:00', false, '2019-08-06 15:00','2022-08-01 14:30', true, 4, 3, 2);
+INSERT INTO requests VALUES (9, '2030-08-12 12:00', false, '2019-08-08 17:00','2022-08-05 19:00', true, 4, 2, 2);
 
 --INSERT INTO residences_requests VALUES (residence_id, request_id);
 INSERT INTO residences_requests VALUES (1, 4);
 INSERT INTO residences_requests VALUES (1, 5);
 INSERT INTO residences_requests VALUES (3, 6);
+INSERT INTO residences_requests (residence_id, requests_id) VALUES (2, 7);
+
 
 --INSERT INTO clinics_requests VALUES (clinics_id, requests_id);
 INSERT INTO clinics_requests VALUES (1, 1);
@@ -175,19 +171,6 @@ INSERT INTO clinics_requests VALUES (2, 3);
 -- INSERT INTO clinics_payments VALUES (1, 2);
 -- INSERT INTO clinics_payments VALUES (3, 3);
 
-
---INSERT INTO residences_payments VALUES (residence_id, payments_id);
-
---UPDATE requests SET employee_id = 1  WHERE (id = 1); UPDATE requests SET owner_id = 1  WHERE (id = 1);
---UPDATE requests SET employee_id = 2  WHERE (id = 2); UPDATE requests SET owner_id = 1  WHERE (id = 2);
---UPDATE requests SET employee_id = 2  WHERE (id = 3); UPDATE requests SET owner_id = 3  WHERE (id = 3);
-
-
---INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
---INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
---INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
-
---INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');*/
 
 --INSERT INTO items (items_id, description, price, sale, stock)
   INSERT INTO items VALUES (1,'Collar','Description 1',10., 0.5, 3);

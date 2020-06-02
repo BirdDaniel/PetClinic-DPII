@@ -16,7 +16,6 @@ import org.springframework.samples.petclinic.service.exceptions.DuplicatedItemNa
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -166,16 +165,9 @@ public class ItemController {
 		}
 		else {
 			Item itemToUpdate=this.itemService.findItemById(itemId);
-			System.out.println(itemToUpdate + "======================================================================");
 			BeanUtils.copyProperties(item, itemToUpdate, "clinic", "residence", "id");
 			try {
-				Clinic clinic = this.clinicService.findByEmployee(employee);
-                Residence residence = this.residenceService.findByEmployee(employee);
-	            if(clinic!= null) {
-                	this.itemService.saveItem(itemToUpdate);
-                }else if(residence!= null) {                			
-                	this.itemService.saveItem(itemToUpdate);
-                }
+                this.itemService.saveItem(itemToUpdate);
             }catch (DuplicatedItemNameException ex) {
             	result.rejectValue("name", "duplicate", "already exists");
             	return CREATE_OR_UPDATE_ITEMLIST;
