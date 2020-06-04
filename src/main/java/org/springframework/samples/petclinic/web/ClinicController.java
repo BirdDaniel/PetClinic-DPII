@@ -49,7 +49,7 @@ public class ClinicController{
 	private Integer isAuth(){
 
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Integer ownerId = this.ownerService.findOwnerByUsername(user.getUsername()).getId();
+		Integer ownerId = this.ownerService.findIdByUsername(user.getUsername());
 
 		return ownerId==null ? 0:ownerId;
 
