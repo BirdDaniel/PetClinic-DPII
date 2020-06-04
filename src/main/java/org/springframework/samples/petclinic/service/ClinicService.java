@@ -53,21 +53,22 @@ public class ClinicService {
 		return this.clinicRepository.findByRequest(request);
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public Iterable<Clinic> findAll(){
 		return clinicRepository.findAll();
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public Clinic findByEmployee(Employee employee)  throws DataAccessException{
 		return this.clinicRepository.findByEmployee(employee);
 	}
-	@Transactional
 
+	@Transactional(readOnly = true)
 	public Clinic findByItem(Item item) throws DataAccessException{
 		return this.clinicRepository.findByItem(item);
 	}
 
+	@Transactional(readOnly = true)
 	public Collection<Employee> findEmployeeById(int id) throws DataAccessException{
 		return this.clinicRepository.findEmployeeById(id);
 	}

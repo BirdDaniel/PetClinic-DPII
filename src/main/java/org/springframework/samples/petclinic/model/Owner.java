@@ -53,13 +53,13 @@ public class Owner extends Person {
 	@NotEmpty
 	protected String address;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.LAZY)
 	private Set<Pet> pets;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.LAZY)
 	private Set<Payment> payments;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",fetch = FetchType.LAZY)
 	private Set<Request> requests;
 
 	protected Set<Pet> getPetsInternal() {

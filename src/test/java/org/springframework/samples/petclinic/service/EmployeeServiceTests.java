@@ -67,7 +67,7 @@ class EmployeeServiceTests {
 		
 		Collection<Request> req = this.employeeService.getRequests(employee.getId());
 		
-		assertThat(req.size()).isEqualTo(3);
+		assertThat(req.size()).isEqualTo(2);
     
 	}
 	@Test
