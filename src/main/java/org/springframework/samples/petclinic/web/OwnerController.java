@@ -82,9 +82,7 @@ public class OwnerController {
 	private boolean isAuth(int ownerId) {
 		System.out.println(ownerId);
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		System.out.println(user);
 		Integer loggedId = this.ownerService.findIdByUsername(user.getUsername());
-		System.out.println(loggedId);
 		return ownerId == loggedId; 
 	}
 
@@ -102,7 +100,6 @@ public class OwnerController {
 	@GetMapping("/owners/{ownerId}")
 	public String showOwner(Owner owner, ModelMap model) {
 
-		System.out.println(owner);
 		if(isAuth(owner.getId())){
 
 			model.addAttribute(owner);
