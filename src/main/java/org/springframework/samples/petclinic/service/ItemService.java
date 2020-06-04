@@ -3,6 +3,8 @@ package org.springframework.samples.petclinic.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Item;
 import org.springframework.samples.petclinic.repository.ItemRepository;
@@ -24,11 +26,14 @@ public class ItemService {
 	
 	
 	@Transactional(readOnly = true)
+	@Cacheable("GetItem")
 	public Item findItemById(int id) throws DataAccessException {
 		return itemRepository.findById(id);
 	}
 
 	@Transactional(rollbackFor = DuplicatedItemNameException.class)
+	//@CacheEvict(cacheNames= {"GetAllResidences", "GetAllClinics"}, allEntries=true)
+	@CacheEvict(cacheNames= {"GetItem"}, allEntries=true)
 	public void saveItem(Item item) throws DataAccessException, DuplicatedItemNameException {
 		//creating item
 		Item otherItem = null;
@@ -48,9 +53,9 @@ public class ItemService {
 	}
 	
 	@Transactional
+	@Cacheable("DeleteItem")
 	public void deleteItem(Item item){
 		this.itemRepository.delete(item);
 	}
 }
-
 

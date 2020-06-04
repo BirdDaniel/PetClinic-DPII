@@ -60,6 +60,8 @@ public class Service extends NamedEntity {
 	@Range(min = (long)0.1)
 	private double price;
 	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Request> requests;
 	
 	@NotEmpty
 	@Column(length = 1024)

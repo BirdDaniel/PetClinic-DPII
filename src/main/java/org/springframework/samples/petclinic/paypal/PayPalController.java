@@ -5,6 +5,8 @@ import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Request;
 import org.springframework.samples.petclinic.model.Service;
 import org.springframework.samples.petclinic.service.ClinicService;
+import org.springframework.samples.petclinic.service.EmployeeService;
+import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ResidenceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import com.paypal.base.rest.PayPalRESTException;
 
 @Controller
 public class PayPalController {
+//<<<<<<< HEAD
 
 	@Autowired
 	PaypalService paypalService;
@@ -34,7 +37,26 @@ public class PayPalController {
 
 	@Autowired
 	ResidenceService residenceService; 
-
+//=======
+	
+	private final PaypalService paypalService;
+	
+	private final ClinicService clinicService;
+	
+	private final RequestService requestService;
+	
+	private final ResidenceService residenceService; 
+	
+	@Autowired
+	public PayPalController(PaypalService paypalService, ClinicService clinicService, 
+			RequestService requestService, ResidenceService residenceService) {
+		this.clinicService = clinicService;
+		this.residenceService = residenceService;
+		this.paypalService = paypalService;
+		this.requestService = requestService;
+	}
+	
+//>>>>>>> origin/branch-daniel-tests
 	public static final String SUCCESS_URL = "pay/success";
 	public static final String CANCEL_URL = "pay/cancel";
 	public static Request request;

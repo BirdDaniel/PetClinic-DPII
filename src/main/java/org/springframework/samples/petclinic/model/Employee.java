@@ -42,7 +42,7 @@ public class Employee extends Person {
 	@NotEmpty
 	protected String dni;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "employee")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "employee")
 	private Set<Request> requests;
 
 
