@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -137,6 +138,13 @@ public class Service extends NamedEntity {
 		this.price = price;
 	}
 
+	protected Set<Request> getRequestsInternal(){
+		if (this.requests == null) {
+			this.requests = new HashSet<>();
+		}
+		return this.requests;
+	}
+
 	public Set<Request> getRequests() {
 		return requests;
 	}
@@ -154,7 +162,7 @@ public class Service extends NamedEntity {
 	}
 	
 	public void addRequest(Request request) {
-		this.requests.add(request);
+		getRequestsInternal().add(request);
 	}
 	
 	public void removeRequest(Request request) {

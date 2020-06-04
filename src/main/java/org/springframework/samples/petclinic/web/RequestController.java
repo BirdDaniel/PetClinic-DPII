@@ -62,10 +62,6 @@ public class RequestController {
 
     }
 	
-	@ModelAttribute("pets")
-	public Collection<Pet> populatePets() {
-		return loggedUser().getPets();
-	}
 	
 //	@InitBinder("request")
 //	public void initPetBinder(WebDataBinder dataBinder) {
@@ -84,7 +80,7 @@ public class RequestController {
             Request request = new Request();
 
             model.addAttribute("loggedUser", userLogged.getId());
-            
+            model.addAttribute("pets", userLogged.getPets());
             //ASIGNAR OWNER A LA REQUEST
             request.setOwner(userLogged);
 
@@ -127,7 +123,8 @@ public class RequestController {
             if(result.hasErrors()){
                 model.addAttribute("service", serviceName);
                 model.addAttribute("request",request);
-                model.addAttribute("loggedUser", loggedUser().getId());
+                model.addAttribute("pets",owner.getPets());
+                model.addAttribute("loggedUser", owner.getId());
                 return VIEW_CREATE_REQUEST;
             }
 

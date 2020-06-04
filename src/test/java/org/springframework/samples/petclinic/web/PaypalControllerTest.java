@@ -69,7 +69,7 @@ public class PaypalControllerTest {
 		.with()	    
 		.body(payment).*/
 		 when()
-			.get("http://www.dp2.com/pay/1")
+			.get("http://127.0.0.1/pay/1")
 		.then()
 			.statusCode(200);
 	}
@@ -77,7 +77,7 @@ public class PaypalControllerTest {
 	@Test
 	public void paypalSuccessTest() {
 		when()
-			.get("http://www.dp2.com/pay/success")
+			.get("http://127.0.0.1/pay/success")
 		.then()
 			.statusCode(200);
 	}

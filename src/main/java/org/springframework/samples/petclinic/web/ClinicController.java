@@ -15,9 +15,9 @@
  */
 package org.springframework.samples.petclinic.web;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,22 +46,22 @@ public class ClinicController{
 					
 	}
 
-	private Integer isAuth(){
+	private Owner isAuth(){
 
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Integer ownerId = this.ownerService.findIdByUsername(user.getUsername());
+		Owner owner = this.ownerService.findOwnerByUsername(user.getUsername());
 
-		return ownerId==null ? 0:ownerId;
+		return owner;
 
 	}
 
 	@GetMapping(value = "/findAll")
 	public String clinics(Model model) {
 
-		Integer ownerId = isAuth();
-		if(ownerId!=0){
+		Owner owner = isAuth();
+		if(owner.getId()!=0){
 			Iterable<Clinic> clinics= this.clinicService.findAll();
-			model.addAttribute("loggedUser", ownerId);
+			model.addAttribute("loggedUser", owner.getId());
 			model.addAttribute("clinics", clinics);
 			return "services/clinics";
 		}
@@ -71,14 +71,14 @@ public class ClinicController{
 	@GetMapping("/{clinicId}")
 	public String showClinic(@PathVariable("clinicId") int clinicId,Model model) {
 		
-		Integer ownerId = isAuth();
-		if(ownerId!=0){
-		Clinic clinic=this.clinicService.findClinicById(clinicId);
-		if(clinic!=null) {
-		model.addAttribute("loggedUser", ownerId);
-		model.addAttribute("clinic",clinic);
-		return "services/clinicServiceDetails";
-		}
+		Owner owner = isAuth();
+		if(owner.getId()!=0){
+			Clinic clinic=this.clinicService.findClinicById(clinicId);
+			if(clinic!=null) {
+				model.addAttribute("loggedUser", owner.getId());
+				model.addAttribute("clinic",clinic);
+				return "services/clinicServiceDetails";
+			}
 		}
 		return "redirect:/oups";
 	

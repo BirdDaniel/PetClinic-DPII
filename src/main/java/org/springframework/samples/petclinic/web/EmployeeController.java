@@ -216,10 +216,12 @@ public class EmployeeController {
 			if (this.clinicService.findByEmployee(employee) != null) {
 				Clinic clinic = this.clinicService.findByEmployee(employee);
 				Collection<Employee> colleagues = this.employeeService.findEmployeeByClinicId(clinic.getId());
-				if (colleagues.contains(this.employeeService.findEmployeeById(colleagueId))) {
+				Employee colleague = this.employeeService.findEmployeeById(colleagueId);
+				
+				if (colleagues.contains(colleague)) {
+
 					model.put("loggedUser", employee.getId());
 					Request request = this.requestService.findById(id);
-					Employee colleague = this.employeeService.findEmployeeById(colleagueId);
 					model.put("assign", false);
 					if (request != null) {
 

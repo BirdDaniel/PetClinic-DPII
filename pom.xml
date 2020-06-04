@@ -34,7 +34,11 @@
 		 <selenium.version>3.141.59</selenium.version> 
 		 <!-- Cucumber version -->
 		 <cucumber.version>5.5.0</cucumber.version>
-		 
+
+        <sonar.projectKey>G1-12_PetClinic-DPII</sonar.projectKey>
+        <sonar.organization>g1-12</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <!-- <sonar.login>NO SUBIR A GITHUB</sonar.login> -->
 
     </properties>
 

@@ -69,6 +69,13 @@ public class Owner extends Person {
 		return this.pets;
 	}
 
+	protected Set<Request> getRequestsInternal() {
+		if (this.requests == null) {
+			this.requests = new HashSet<>();
+		}
+		return this.requests;
+	}
+
 	protected void setPetsInternal(Set<Pet> pets) {
 		this.pets = pets;
 	}
@@ -146,7 +153,7 @@ public class Owner extends Person {
 
 	public void addRequest(Request request){
 		
-		this.requests.add(request);
+		getRequestsInternal().add(request);
 
 		request.setOwner(this);
 

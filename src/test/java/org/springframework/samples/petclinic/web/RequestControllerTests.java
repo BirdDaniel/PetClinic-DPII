@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Employee;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
@@ -76,6 +77,10 @@ public class RequestControllerTests {
         residence.setId(1);
         residence.setEmployees(employees);
 
+        Clinic clinic = new Clinic();
+        clinic.setId(1);
+        clinic.setEmployees(employees);
+
         pet = new Pet();
         pet.setId(1);
         pet.setName("Mimi");
@@ -89,6 +94,7 @@ public class RequestControllerTests {
 		given(this.ownerService.findIdByUsername("owner2")).willReturn(2);
         given(this.ownerService.findOwnerById(1)).willReturn(owner);
         given(this.residenceService.findResidenceById(1)).willReturn(residence);
+        given(this.clinicService.findClinicById(1)).willReturn(clinic);
         
     }
     
@@ -119,10 +125,10 @@ public class RequestControllerTests {
         mockMvc.perform(post("/createRequest/{serviceName}/{serviceId}", 
                         TEST_SERVICE_NAME, TEST_SERVICE_ID).with(csrf())
                         .param("serviceDate", "2020/08/15 12:00")
-                        // .param("pet", )
+                        .param("requestDate", "2020/04/22 11:00")
+                        .param("finishDate", "2020/09/21 12:00")
                         )
-        //.andExpect(status().is3xxRedirection())
-        .andExpect(status().isOk())
+        .andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/owners/"+TEST_OWNER_ID+"/myRequestList"));
     }
 
@@ -134,12 +140,9 @@ public class RequestControllerTests {
                         .param("serviceDate", "2020/08/15 12:00")
                         .param("pet","Mimi" )
                         )
+        .andExpect(status().isOk())
         .andExpect(model().attributeExists("pets"))
         .andExpect(model().attributeExists("service"))
-        .andExpect(model().attributeExists("residence"))
-//      .andExpect(status().is3xxRedirection())
-//		.andExpect(view().name("redirect:/owners/"+TEST_OWNER_ID+"/myRequestList"));
-        .andExpect(status().isOk())
 		.andExpect(view().name("requests/createRequest"));
     }
 

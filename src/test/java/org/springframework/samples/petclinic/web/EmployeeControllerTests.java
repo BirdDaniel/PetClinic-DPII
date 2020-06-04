@@ -26,6 +26,7 @@ import org.springframework.samples.petclinic.model.Residence;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.EmployeeService;
 import org.springframework.samples.petclinic.service.ItemService;
+import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.RequestService;
 import org.springframework.samples.petclinic.service.ResidenceService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -61,6 +62,9 @@ public	class EmployeeControllerTests {
 	@MockBean
 	private RequestService requestService;
 	
+	@MockBean
+	private PetService petService;
+
 	@Autowired
 	private MockMvc mockMvc;
 
