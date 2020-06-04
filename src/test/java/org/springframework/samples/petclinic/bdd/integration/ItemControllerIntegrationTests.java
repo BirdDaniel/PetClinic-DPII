@@ -121,7 +121,6 @@ public class ItemControllerIntegrationTests {
 			assertEquals(view, "redirect:/employees/{employeeId}/itemsList");
 			
 			
-			
 		}
 		
 		@WithMockUser(username="emp2",authorities= {"employee"})

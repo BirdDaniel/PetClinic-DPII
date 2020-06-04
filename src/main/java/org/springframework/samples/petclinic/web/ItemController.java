@@ -100,8 +100,8 @@ public class ItemController {
 		}
 		Item item = new Item();
 		
-		Clinic clinic = this.clinicService.findByEmployee(employee);
-		Residence residence = this.residenceService.findByEmployee(employee);
+		Clinic clinic = this.clinicService.findWithItemsByEmployee(employee);
+		Residence residence = this.residenceService.findWithItemsByEmployee(employee);
 		
 		if(clinic!= null) {
 			clinic.addItems(item);
@@ -124,8 +124,8 @@ public class ItemController {
 		}
 		else {
 			try{
-				Clinic clinic = this.clinicService.findByEmployee(employee);
-				Residence residence = this.residenceService.findByEmployee(employee);
+				Clinic clinic = this.clinicService.findWithItemsByEmployee(employee);
+				Residence residence = this.residenceService.findWithItemsByEmployee(employee);
 					if(clinic!= null) {
 						clinic.addItems(item);
                 		this.itemService.saveItem(item);

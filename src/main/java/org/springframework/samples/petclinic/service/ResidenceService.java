@@ -67,6 +67,10 @@ public class ResidenceService {
 		return this.residenceRepository.findByEmployee(employee);
 	}
 
+	public Residence findWithItemsByEmployee(Employee employee) throws DataAccessException{
+		return this.residenceRepository.findWithItemsByEmployee(employee);
+	}
+
 	@Transactional
 	public Residence findByItem(Item item) throws DataAccessException{
 		return this.residenceRepository.findByItem(item);

@@ -35,6 +35,8 @@ public interface SpringDataClinicRepository extends ClinicRepository, Repository
 	@Query("select c from Clinic c WHERE :request in elements(c.requests)")
 	public Clinic findByRequest(@Param("request") Request request);
 	
+	@Query("select DISTINCT c from Clinic c LEFT JOIN FETCH c.items WHERE :employee in elements(c.employees)")
+	public Clinic findWithItemsByEmployee(@Param("employee") Employee employee);
 	
 	@Query("select c from Clinic c WHERE :employee in elements(c.employees)")
 	public Clinic findByEmployee(@Param("employee") Employee employee);

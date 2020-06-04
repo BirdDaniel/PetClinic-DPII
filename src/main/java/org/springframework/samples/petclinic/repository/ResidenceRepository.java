@@ -48,6 +48,8 @@ public interface ResidenceRepository {
 	
 	Residence findByRequest(Request request) throws DataAccessException;
 
+	Residence findWithItemsByEmployee(Employee employee) throws DataAccessException;
+
 	Collection<Request> findReqsResidence() throws DataAccessException;
 	
 	Residence findByEmployee(Employee employee) throws DataAccessException;

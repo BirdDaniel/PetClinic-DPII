@@ -64,6 +64,11 @@ public class ClinicService {
 	}
 
 	@Transactional(readOnly = true)
+	public Clinic findWithItemsByEmployee(Employee employee)  throws DataAccessException{
+		return this.clinicRepository.findWithItemsByEmployee(employee);
+	}
+
+	@Transactional(readOnly = true)
 	public Clinic findByItem(Item item) throws DataAccessException{
 		return this.clinicRepository.findByItem(item);
 	}

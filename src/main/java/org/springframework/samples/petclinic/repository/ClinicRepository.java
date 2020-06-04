@@ -48,6 +48,8 @@ public interface ClinicRepository {
 
 	Clinic findByRequest(Request request) throws DataAccessException;
 	
+	Clinic findWithItemsByEmployee(Employee employee) throws DataAccessException;
+
 	Clinic findByEmployee(Employee employee) throws DataAccessException;
 
 	

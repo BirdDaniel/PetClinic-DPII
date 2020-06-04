@@ -39,6 +39,9 @@ public interface SpringDataResidenceRepository extends ResidenceRepository, Repo
 	@Query("SELECT resi.requests FROM Residence resi")
 	public Collection<Request> findReqsResidence();
 	
+	@Query("select DISTINCT r from Residence r LEFT JOIN FETCH r.items WHERE :employee in elements(r.employees)")
+	public Residence findWithItemsByEmployee(@Param("employee") Employee employee);
+
 	@Query("select r from Residence r WHERE :request in elements(r.requests)")
 	public Residence findByRequest(@Param("request") Request request);
 	
