@@ -38,10 +38,10 @@ public class Service extends NamedEntity {
 
 	private String address;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	protected Set<Employee> employees;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Payment> payments;
 	
 	/*private DateFormat format = new SimpleDateFormat("HH:mm");
@@ -58,14 +58,14 @@ public class Service extends NamedEntity {
 	@Range(min = (long)0.1)
 	private double price;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Request> requests;
 	
 	@NotEmpty
 	@Column(length = 1024)
 	private String description;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Item> items;
 
 	

@@ -54,6 +54,7 @@ public class ResidenceService {
 	}
 	
 	@Transactional
+	//@Cacheable("GetAllResidences")
 	public Iterable<Residence> findAll(){
 		return residenceRepository.findAll();
 	}

@@ -54,6 +54,7 @@ public class ClinicService {
 	}
 	
 	@Transactional
+	//@Cacheable("GetAllClinics")
 	public Iterable<Clinic> findAll(){
 		return clinicRepository.findAll();
 	}
